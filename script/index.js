@@ -18,6 +18,7 @@ var IMAGE_LIST=[
 ];
 
 simpleAnimation({
+	mode: 'dom',
 	imagesList: IMAGE_LIST,
 	onstart: function() {
 		console.log('starting');
