@@ -68,14 +68,16 @@ function simpleAnimation( options ) {
 		canvas.setAttribute('height', options.height );
 		container = getElement( container );
 		container.appendChild(canvas);
+		return canvas;
 	}
 	
 	function createDom( container , options ) {
-		var div = document.createElement('div');
-		div.style.width = options.width + 'px';
-		div.style.height = options.height + 'px';
+		var element = document.createElement('div');
+		element.style.width = options.width + 'px';
+		element.style.height = options.height + 'px';
 		container = getElement( container );
-		container.appendChild(div);
+		container.appendChild(element);
+		return element;
 	}
 
 	SA.Timer = {
@@ -119,6 +121,7 @@ function simpleAnimation( options ) {
 	*    图层管理
 	********************************************/
 	function Layer( options ) {
+		this.container = null;
 		this.id = options.id || ( 'wangxiao' + new Date().getTime() );
 		this.x = options.x || 0;
 		this.y = options.y || 0;
@@ -132,15 +135,15 @@ function simpleAnimation( options ) {
 	Layer.prototype = {
 		zIndex: function( zIndex ) {
 			var me = this;
-			setTimeout(function() {
-				if ( typeof zIndex === 'undefined' ) {
-					return me.zIndex;
-				} else {
+			if ( typeof zIndex === 'undefined' ) {
+				return me.zIndex;
+			} else {
+				setTimeout(function() {
 					me.zIndex = zIndex;
-				}
-			}, me.delayTime);
+				}, me.delayTime);
+				return me;
+			}
 		},
-
 		// 按照 zIndex 索引
 		add: function ( sprite ) {
 			var me = this;
@@ -150,8 +153,8 @@ function simpleAnimation( options ) {
 				}
 				spriteList[ 'zIndex' + sprite.zIndex ].push( sprite );
 			}, me.delayTime);
+			return this;
 		},
-
 		remove: function ( sprite ) {
 			var me = this;
 			setTimeout(function() {
@@ -161,19 +164,24 @@ function simpleAnimation( options ) {
 					}
 				});
 			}, me.delayTime);
+			return this;
 		},
 		delay: function ( delayTime ) {
 			this.delayTime += delayTime;
+			return this;
 		},
 		clearDelay: function() {
 			this.delayTime = 0;
-		}
+			return this;
+		},
 		loop: function ( fun, FPS ) {
 			var me = this;
 			setInterval(fun.apply(me), 1000/FPS );
+			return this;
 		},
 		move: function( x, y, delayTime ) {
 
+			return this;
 		},
 	};
 
@@ -185,6 +193,7 @@ function simpleAnimation( options ) {
 	*    元素管理
 	********************************************/
 	function Sprite( img, options ) {
+		this.container = null;
 		this.id = options.id || img.id || ( 'wangxiao' + new Date().getTime() );
 		this.x = options.x || 0;
 		this.y = options.y || 0;
@@ -214,7 +223,6 @@ function simpleAnimation( options ) {
 		delay: function( delayTime ) {
 			this.delayTime += delayTime;
 		},
-
 		loop: function( fun, FPS ) {
 			var me = this;
 			setInterval(fun.apply(me), 1000/FPS );
@@ -229,6 +237,7 @@ function simpleAnimation( options ) {
 	*    舞台方法
 	********************************************/
 	var Stage = {
+		container: getElement( options.container ),
 		delayTime: 0,
 		create: function( mode ) {
 			switch ( mode) {
@@ -240,21 +249,28 @@ function simpleAnimation( options ) {
 				break;
 			}
 		},
-
 		// 按照 zIndex 索引
 		add: function ( layer ) {
 			if ( !layerList[ 'zIndex' + layer.zIndex ] ) {
 				layerList[ 'zIndex' + layer.zIndex ] = [];
 			}
+			if ( options.mode === 'dom' ) {
+				layer.container = createDom( this.container, {
+					width: layer.width,
+					height: layer.height
+				});
+			}
 			layerList[ 'zIndex' + layer.zIndex ].push( layer );
 		},
-
 		remove: function ( layer ) {
 			layerList[ 'zIndex' + layer.zIndex ].forEach(function ( value , index ) {
 				if ( value.id === layer.id ) {
 					layerList[ 'zIndex' + layer.zIndex ].splice( index, 1 );
 				}
 			});
+			if( options.mode === 'dom' ) {
+				this.container.removeChild( layer.container );
+			}
 		},
 		delay: function ( delayTime ) {
 			this.delayTime += delayTime;
@@ -280,7 +296,7 @@ function simpleAnimation( options ) {
 		clearDelay: function() {
 			Stage.clearDelay();
 		}
-	}
+	};
 	/*******************************************
 	*    框架自身逻辑
 	********************************************/
