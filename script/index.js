@@ -17,13 +17,28 @@ var IMAGE_LIST=[
 	}
 ];
 
-simpleAnimation({
+//初始化
+var sa = simpleAnimation({
 	mode: 'dom',
 	imagesList: IMAGE_LIST,
 	onstart: function() {
-		console.log('starting');
+		console.log('loading');
 	},
 	onready: function() {
-		console.log('ready');
-	}
+		console.log('onready');
+		main();
+	},
+	width: 1500,
+	height: 800
 });
+
+function main() {
+	var stage = sa.Stage;
+	var bgLayer = sa.Layer();
+	window.bgSprite = sa.Sprite('background');
+	stage.add( bgLayer );
+	bgLayer.add( bgSprite ).remove(bgSprite);
+}
+
+
+
