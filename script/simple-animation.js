@@ -36,21 +36,30 @@ function simpleAnimation( options ) {
 	*    全部变量
 	********************************************/
 
+	//对象
 	//将会暴露出去的对象，上面绑定方法。
 	var SA = {};
 
 	//全部图层，按照 zIndex 索引
 	var layerList = {};
 
-	//存储全局计时器
-	var timer;
-
 	//加载的图片资源对象
 	var loadImagesList = {};
+
+	//数组
+	//存储全局计时器
+	var timer = [];
+
+	//全局动画队列
+	var animationList = [];
 
 	/*******************************************
 	*    基本方法
 	********************************************/
+	function createId() {
+		return 'wangxiao' + new Date().getTime();
+	}
+
 	function getElement( container ) {
 		if( typeof container === 'string' ) {
 			container = document.getElementById( container );
@@ -84,12 +93,17 @@ function simpleAnimation( options ) {
 		opts = opts || {};
 		opts = {
 			width: opts.width || 0,
-			height: options.height || 0,
+			height: opts.height || 0,
+			x: opts.x || 0,
+			y: opts.y || 0,
 			container: opts.container || null 
 		};
 		var element = document.createElement('div');
 		element.style.width = opts.width + 'px';
 		element.style.height = opts.height + 'px';
+		element.style.top = opts.y + 'px';
+		element.style.left = opts.x + 'px';
+
 		if( opts.container ) {
 			opts.container = getElement( opts.container );
 			opts.container.appendChild(element);
@@ -97,18 +111,14 @@ function simpleAnimation( options ) {
 		return element;
 	}
 
-	SA.Timer = {
-		start: function () {
-			timer = setInterval( function() {
-				// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
-				// TODO: 绘制一切
-				
-			}, 1000/options.FPS ); 
-		},
-		pause: function () {
-			clearInterval(timer);
+	function delFromListById( id, list ) {
+		for( var i = 0 , l = list.length ; i < l ; i += 1 ) {
+			if( list[i][id] === id ) {
+				list.splice( i, 1 );
+			}
 		}
-	};
+		return list;
+	}
 
 	//图片加载函数,  callback为当所有图片加载完毕后的回调函数。
 	SA.loadImage = function( imagesList, callback ) {
@@ -133,6 +143,31 @@ function simpleAnimation( options ) {
 		}
 		return images;
 	};
+
+	/*******************************************
+	*    全局计时器
+	********************************************/
+	SA.Timer = {
+		play: function () {
+			var t = setInterval( function() {
+				// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+				// TODO: 绘制一切
+				for( var i in animationList ) {
+					animationList[i].element[ animationList[i].fun ]();
+				}
+			}, 1000/options.FPS );
+		},
+		pause: function () {
+			// clearInterval(timer);
+		},
+		loop: function( fun, FPS ) {
+			var t = setInterval( fun, 1000/FPS );
+			return t;
+		}
+	};
+
+	SA.play = SA.Timer.play;
+	SA.pause = SA.Timer.pause;
 
 	/*******************************************
 	*    舞台方法
@@ -193,31 +228,28 @@ function simpleAnimation( options ) {
 				return this;
 			}		
 		},
+
 		// 按照 zIndex 索引
 		add: function ( layer ) {
 			var me = this;
 			setTimeout(function() {
-				if ( !layerList[ 'zIndex' + layer.zIndex ] ) {
-					layerList[ 'zIndex' + layer.zIndex ] = [];
+				if ( !layerList[ 'zIndex' + layer.zIndex() ] ) {
+					layerList[ 'zIndex' + layer.zIndex() ] = [];
 				}
 				if ( options.mode === 'dom' ) {
 					layer.container.style.position = 'relative';
-					layer.container.style.top = layer.y;
-					layer.container.style.left = layer.x;
+					layer.container.style.top = layer.position().x;
+					layer.container.style.left = layer.position().y;
 					layer.container.style.overflow = 'hidden';
 					me.container.appendChild( layer.container );
 				}
-				layerList[ 'zIndex' + layer.zIndex ].push( layer );
+				layerList[ 'zIndex' + layer.zIndex() ].push( layer );
 			}, me.delayTime);
 			return this;
 		},
 		remove: function ( layer ) {
 			setTimeout(function() {
-				layerList[ 'zIndex' + layer.zIndex ].forEach(function ( value , index ) {
-					if ( value.id === layer.id ) {
-						layerList[ 'zIndex' + layer.zIndex ].splice( index, 1 );
-					}
-				});
+				delFromListById( layer.id, layerList[ 'zIndex' + layer.zIndex() ] );
 				if( options.mode === 'dom' ) {
 					this.container.removeChild( layer.container );
 				}
@@ -225,7 +257,9 @@ function simpleAnimation( options ) {
 			return this;
 		},
 		delay: function ( delayTime ) {
-			this.delayTime += delayTime;
+			setTimeout(function(){
+				this.delayTime += delayTime;
+			}, this.delayTime);
 			return this;
 		},
 		clearDelay: function() {
@@ -236,154 +270,208 @@ function simpleAnimation( options ) {
 	/*******************************************
 	*    图层管理
 	********************************************/
-	function Layer( opts ) {
-		this.id = 'wangxiao' + new Date().getTime();
-		opts = opts || {};
-		this.width = opts.width || options.width;
-		this.height = opts.height || options.height;
-		this.x = opts.x || 0;
-		this.y = opts.y || 0;
-		this.zIndex = opts.zIndex || 0;
-		this.spriteList = {};
-		this.delayTime = 0;
-		switch( options.mode ) {
-			case 'canvas':
-				this.container = null;
-			break;
-			case 'dom':
-				this.container = createDom({
-					width: this.width,
-					height: this.height
-				});
-			break;
-		}
-	}
-
-	Layer.prototype = {
-		zIndex: function( zIndex ) {
-			var me = this;
-			if ( typeof zIndex === 'undefined' ) {
-				return me.zIndex;
-			} else {
-				setTimeout(function() {
-					me.zIndex = zIndex;
-				}, me.delayTime);
-				return me;
-			}
-		},
-		// 按照 zIndex 索引
-		add: function ( sprite ) {
-			var me = this;
-			setTimeout(function() {
-				if ( !me.spriteList[ 'zIndex' + sprite.zIndex ] ) {
-					me.spriteList[ 'zIndex' + sprite.zIndex ] = [];
-				}
-				if ( options.mode === 'dom' ) {
-					sprite.container.style.background = 'url(' + sprite.img.src + ') no-repeat 0px 0px';
-					sprite.container.style.position = 'absolute';
-					sprite.container.style.overflow = 'hidden';
-					me.container.appendChild( sprite.container );
-				}
-				me.spriteList[ 'zIndex' + sprite.zIndex ].push( sprite );
-			}, me.delayTime);
-			return this;
-		},
-		remove: function ( sprite ) {
-			var me = this;
-			setTimeout(function() {
-				me.spriteList[ 'zIndex' + sprite.zIndex ].forEach(function ( value , index ) {
-					if ( value.id === sprite.id ) {
-						me.spriteList[ 'zIndex' + sprite.zIndex ].splice( index, 1 );
-					}
-				});
-				if( options.mode === 'dom' ) {
-					me.container.removeChild( sprite.container );
-				}
-			}, me.delayTime);
-			return this;
-		},
-		delay: function ( delayTime ) {
-			this.delayTime += delayTime;
-			return this;
-		},
-		clearDelay: function() {
-			this.delayTime = 0;
-			return this;
-		},
-		loop: function ( fun, FPS ) {
-			var me = this;
-			setInterval(fun.apply(me), 1000/FPS );
-			return this;
-		},
-		move: function( x, y, delayTime ) {
-
-			return this;
-		},
-		width: function ( width ) {
-			var me = this;
-			if( typeof width === 'undefined' ) {
-				return me.width;
-			}else{
-				setTimeout(function() {
-					me.width = width;
-					switch( options.mode ) {
-						case 'canvas':
-						break;
-						case 'dom':
-							me.container.style.width = width + 'px';
-						break;
-					}
-				}, me.delayTime );
-				return this;
-			}
-		},
-		height: function ( height ) {
-			var me = this;
-			if( typeof height === 'undefined' ) {
-				return me.height;
-			}else{
-				setTimeout(function() {
-					me.height = height;
-					switch( options.mode ) {
-						case 'canvas':
-						break;
-						case 'dom':
-							me.container.style.height = height + 'px';
-						break;
-					}
-				}, me.delayTime );
-				return this;
-			}		
-		}
-	};
-
 	SA.Layer = function( opts ) {
-		return new Layer( opts );
-	};
+		var thisWidth;
+		var thisHeight;
+		var thisX;
+		var thisY;
+		var thisZIndex;
+		var allDelayTime;
 
-	/*******************************************
-	*    元素管理
-	********************************************/
-	SA.Sprite = function ( opts ) {
-
-		function Sprite( imgId, opts ) {
-			this.id = imgId;
-			this.img = loadImagesList[ imgId ];
+		function Layer( opts ) {
+			this.id = createId();
 			opts = opts || {};
-			this.x = opts.x || 0;
-			this.y = opts.y || 0;
-			this.width = opts.width || this.img.width;
-			this.height = opts.height || this.img.height;
-			this.zIndex = opts.zIndex || 0;
-			this.delayTime = 0;
+			thisWidth = opts.width || options.width;
+			thisHeight = opts.height || options.height;
+			thisX = opts.x || 0;
+			thisY = opts.y || 0;
+			thisZIndex = opts.zIndex || 0;
+			this.spriteList = {};
+			allDelayTime = 0;
 			switch( options.mode ) {
 				case 'canvas':
 					this.container = null;
 				break;
 				case 'dom':
 					this.container = createDom({
-						width: this.width,
-						height: this.height
+						width: thisWidth,
+						height: thisHeight,
+						x: thisX,
+						y: thisY
+					});
+				break;
+			}
+		}
+
+		Layer.prototype = {
+			zIndex: function( zIndex ) {
+				var me = this;
+				if ( arguments.length === 0 ) {
+					return thisZIndex;
+				} else {
+					setTimeout(function() {
+						thisZIndex = zIndex;
+					}, allDelayTime );
+					return me;
+				}
+			},
+			// 按照 zIndex 索引
+			add: function ( sprite ) {
+				var me = this;
+				setTimeout(function() {
+					if ( !me.spriteList[ 'zIndex' + sprite.zIndex() ] ) {
+						me.spriteList[ 'zIndex' + sprite.zIndex() ] = [];
+					}
+					if ( options.mode === 'dom' ) {
+						sprite.container.style.background = 'url(' + loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px';
+						sprite.container.style.position = 'absolute';
+						sprite.container.style.overflow = 'hidden';
+						me.container.appendChild( sprite.container );
+					}
+					me.spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );
+				}, allDelayTime );
+				return this;
+			},
+			remove: function ( sprite ) {
+				var me = this;
+				setTimeout(function() {
+					delFromListById( sprite.id, me.spriteList[ 'zIndex' + sprite.zIndex() ] );
+					if( options.mode === 'dom' ) {
+						me.container.removeChild( sprite.container );
+					}
+				}, allDelayTime );
+				return this;
+			},
+			delay: function ( delayTime ) {
+				setTimeout(function() {
+					allDelayTime += delayTime;
+				}, allDelayTime );
+				return this;
+			},
+			clearDelay: function() {
+				allDelayTime = 0;
+				return this;
+			},
+			loop: function ( fun, FPS ) {
+				var me = this;
+				var t;
+				setTimeout(function(){
+					t = setInterval(fun.apply(me), 1000/FPS );
+				}, allDelayTime );
+				return t;
+			},
+			move: function( x, y, delayTime ) {
+
+				return this;
+			},
+			//传入 action ，想停止的动作
+			pause: function( action ) {
+				if( action ){
+
+				} else {
+
+				}
+			},
+			play: function( action ) {
+
+			},
+			width: function ( width ) {
+				var me = this;
+				if( typeof width === 'undefined' ) {
+					return thisWidth;
+				}else{
+					setTimeout(function() {
+						thisWidth = width;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								me.container.style.width = width + 'px';
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}
+			},
+			height: function ( height ) {
+				var me = this;
+				if( typeof height === 'undefined' ) {
+					return thisHeight;
+				}else{
+					setTimeout(function() {
+						thisHeight = height;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								me.container.style.height = height + 'px';
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}		
+			},
+			position: function( opts ) {
+				if( opts ) {
+					var me = this;
+					setTimeout(function(){
+						thisX = opts.x || thisX;
+						thisY = opts.y || thisY;
+						if( options.mode === 'dom' ) {
+							me.container.style.top = thisY;
+							me.container.style.left = thisX;
+							//TODO: 提出所有 css 方法，方便以后替换。
+						}
+					}, allDelayTime );
+					return this;
+				} else {
+					return { x: thisX, y: thisY };
+				}
+			},
+			destory: function() {
+
+			}
+		};
+
+		return new Layer( opts );
+	};
+
+	/*******************************************
+	*    元素管理
+	********************************************/
+	SA.Sprite = function ( imgId, opts ) {
+		
+		//目标位置
+		var destinationX;
+		var destinationY;
+		var moveSpeedX;
+		var moveSpeedY;
+		var thisWidth;
+		var thisHeight;
+		var thisX;
+		var thisY;
+		var thisZIndex;
+		var allDelayTime;
+
+		function Sprite( imgId, opts ) {
+			this.id = imgId;
+			opts = opts || {};
+			thisX = opts.x || 0;
+			thisY = opts.y || 0;
+			thisWidth = opts.width || loadImagesList[imgId].width;
+			thisHeight = opts.height || loadImagesList[imgId].height;
+			thisZIndex = opts.zIndex || 0;
+			allDelayTime = 0;
+			switch( options.mode ) {
+				case 'canvas':
+					this.container = null;
+				break;
+				case 'dom':
+					this.container = createDom({
+						width: thisWidth,
+						height: thisHeight,
+						x: thisX,
+						y: thisY
 					});
 				break;
 			}
@@ -392,51 +480,150 @@ function simpleAnimation( options ) {
 		Sprite.prototype = {
 			zIndex: function( zIndex ) {
 				var me = this;
-				if ( typeof zIndex === 'undefined' ) {
-					return me.zIndex;
+				if ( arguments.length === 0 ) {
+					return thisZIndex;
 				} else {
 					setTimeout(function() {
-						me.zIndex = zIndex;
-					}, me.delayTime);
+						thisZIndex = zIndex;
+					}, allDelayTime );
 					return this;
 				}
 			},
-			//spead 定义为每次刷新的步长
-			move: function( x, y, speed ) {
+			width: function ( width ) {
 				var me = this;
-				setTimeout(function() {
-					switch( options.mode ) {
-						case 'canvas':
-						break;
-						case 'dom':
-							if( x > me.x ) {
-								me.x += speed;
-							} else if( x < me.x ) {
-								me.x -= speed;
-							}
-						break;
+				if( typeof width === 'undefined' ) {
+					return thisWidth;
+				}else{
+					setTimeout(function() {
+						thisWidth = width;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								me.container.style.width = width + 'px';
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}
+			},
+			height: function ( height ) {
+				var me = this;
+				if( typeof height === 'undefined' ) {
+					return thisHeight;
+				}else{
+					setTimeout(function() {
+						thisHeight = height;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								me.container.style.height = height + 'px';
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}		
+			},
+			
+			//speed 定义为每次刷新的步长
+			move: function( x, y, speedX, speedY ) {
+				var me = this;
+				
+				//此时内部调用
+				if( arguments.length === 0 ) {
+					//修正x
+					if( Math.abs( destinationX - thisX ) < moveSpeedX ){
+						thisX = destinationX;
+					} else if( thisX < destinationX ) {
+						thisX += moveSpeedX;
+					} else if( thisX > destinationX ) {
+						thisX -= moveSpeedX;
 					}
-				}, me.delayTime);	
+
+					//修正y
+					if( Math.abs( destinationY - thisY ) < moveSpeedY ){
+						thisY = destinationY;
+					} else if( thisY < destinationY ) {
+						thisY += moveSpeedY;
+					} else if( thisY > destinationY ) {
+						thisY -= moveSpeedY;
+					}
+					if( options.mode === 'dom' ){
+						me.container.style.left = thisX + 'px';
+						me.container.style.top = thisY + 'px';
+					}
+
+				} else {
+
+					//外部调用
+					setTimeout(function() {
+						if( !speedY ) {
+							speedY = speedX;
+						}
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								destinationX = x;
+								destinationY = y;
+								moveSpeedX = Math.abs( speedX );
+								moveSpeedY = Math.abs( speedY );
+							break;
+						}
+						animationList.push({
+							id: createId(),
+							element: me,
+							fun: 'move'
+						});
+
+					}, allDelayTime );
+				}
+
+				return this;
+			},
+			//传入 action ，想停止的动作
+			pause: function( action ) {
+				if( action ){
+
+				} else {
+
+				}
+			},
+			position: function() {
+
+			},
+			play: function( action ) {
+
 			},
 			delay: function( delayTime ) {
-				this.delayTime += delayTime;
+				setTimeout(function(){
+					this.delayTime += delayTime;
+				}, allDelayTime );
+				return this;
 			},
-			loop: function( fun, FPS ) {
+			loop: function ( fun, FPS ) {
 				var me = this;
-				setInterval(fun.apply(me), 1000/FPS );
+				var t = setInterval(fun.apply(me), 1000/FPS );
+				return t;
 			},
 			destory: function(){
-				
+				for( var i in this ) {
+					this[ i ] = null;
+				}
+				this.destory = true;
+				return this;
 			}
 		};
 
-		//目标位置
-		var destinationX;
-		var destinationY;
-		
-		return new Sprite( opts );
+		return new Sprite( imgId, opts );
 	};
+	/*******************************************
+	*    框架析构
+	********************************************/
+	SA.destory = function() {
 
+	};
 
 	/*******************************************
 	*    框架自身逻辑

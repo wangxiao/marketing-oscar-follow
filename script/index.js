@@ -18,6 +18,7 @@ var IMAGE_LIST=[
 ];
 
 //初始化
+var winWidth = $(document).width();
 var sa = simpleAnimation({
 	mode: 'dom',
 	imagesList: IMAGE_LIST,
@@ -28,17 +29,19 @@ var sa = simpleAnimation({
 		console.log('onready');
 		main();
 	},
-	width: 1500,
-	height: 800
+	width: winWidth
 });
 
 function main() {
 	var stage = sa.Stage;
-	var bgLayer = sa.Layer();
-	window.bgSprite = sa.Sprite('background');
+	var bgSprite = sa.Sprite( 'background', {x:-70} );
+	stage.height( bgSprite.height() );
+	var bgLayer = sa.Layer({ height: bgSprite.height() });
+	bgLayer.add( bgSprite );
 	stage.add( bgLayer );
-	bgLayer.add( bgSprite ).remove(bgSprite);
+	bgSprite.move( -(bgSprite.width() - 70 - winWidth), 0, 3);
+	sa.play();
+
+
+	window.bgSprite = bgSprite;
 }
-
-
-
