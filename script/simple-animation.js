@@ -48,7 +48,9 @@ function simpleAnimation( options ) {
 
 	//数组
 	//存储全局计时器
-	var timer = [];
+	var timer;
+	//所有计时器的队列
+	var timerList = [];
 
 	//全局动画队列
 	var animationList = [];
@@ -149,23 +151,23 @@ function simpleAnimation( options ) {
 	********************************************/
 	SA.Timer = {
 		play: function () {
-			var t = setInterval( function() {
+			timer = setInterval( function() {
 				// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
 				// TODO: 绘制一切
-				for( var i in animationList ) {
-					animationList[i].element[ animationList[i].fun ]();
-				}
+				animationList.forEach(function( value, index ){
+					value.element[ value.fun ]();
+				});
+
 			}, 1000/options.FPS );
 		},
 		pause: function () {
-			// clearInterval(timer);
+			clearInterval(timer);
 		},
 		loop: function( fun, FPS ) {
 			var t = setInterval( fun, 1000/FPS );
 			return t;
 		}
 	};
-
 	SA.play = SA.Timer.play;
 	SA.pause = SA.Timer.pause;
 
@@ -228,7 +230,6 @@ function simpleAnimation( options ) {
 				return this;
 			}		
 		},
-
 		// 按照 zIndex 索引
 		add: function ( layer ) {
 			var me = this;
@@ -257,9 +258,7 @@ function simpleAnimation( options ) {
 			return this;
 		},
 		delay: function ( delayTime ) {
-			setTimeout(function(){
-				this.delayTime += delayTime;
-			}, this.delayTime);
+			this.delayTime += delayTime;
 			return this;
 		},
 		clearDelay: function() {
@@ -525,9 +524,32 @@ function simpleAnimation( options ) {
 					return this;
 				}		
 			},
-			
+			position: function( opts ) {
+				if( arguments.length === 0 ) {
+					return { x: thisX, y: thisY };
+				} else {
+					var me = this;
+					setTimeout(function(){
+						thisX = opts.x || thisX;
+						thisY = opts.y || thisY;
+						if( options.mode === 'dom' ) {
+							me.container.style.top = thisY;
+							me.container.style.left = thisX;
+							//TODO: 提出所有 css 方法，方便以后替换。
+						}
+					}, allDelayTime );
+					return this;
+				}
+			},
+			move: function( xLength, yLength, speedX, speedY ) {
+				var me = this;
+				setTimeout(function() {
+					me.moveTo( thisX + xLength, thisY + yLength, speedX, speedY );
+				}, allDelayTime );
+				return this;
+			},
 			//speed 定义为每次刷新的步长
-			move: function( x, y, speedX, speedY ) {
+			moveTo: function( x, y, speedX, speedY ) {
 				var me = this;
 				
 				//此时内部调用
@@ -549,9 +571,15 @@ function simpleAnimation( options ) {
 					} else if( thisY > destinationY ) {
 						thisY -= moveSpeedY;
 					}
+
 					if( options.mode === 'dom' ){
 						me.container.style.left = thisX + 'px';
 						me.container.style.top = thisY + 'px';
+					}
+
+					//move动作结束
+					if( (thisX === destinationX) && (thisY === destinationY) ) {
+
 					}
 
 				} else {
@@ -571,10 +599,14 @@ function simpleAnimation( options ) {
 								moveSpeedY = Math.abs( speedY );
 							break;
 						}
+						//存储当前动画信息
 						animationList.push({
 							id: createId(),
 							element: me,
-							fun: 'move'
+							//标示动作
+							fun: 'moveTo',
+							//标示动画状态
+							isStop: false
 						});
 
 					}, allDelayTime );
@@ -582,6 +614,7 @@ function simpleAnimation( options ) {
 
 				return this;
 			},
+
 			//传入 action ，想停止的动作
 			pause: function( action ) {
 				if( action ){
@@ -590,16 +623,15 @@ function simpleAnimation( options ) {
 
 				}
 			},
-			position: function() {
-
-			},
 			play: function( action ) {
 
 			},
 			delay: function( delayTime ) {
-				setTimeout(function(){
-					this.delayTime += delayTime;
-				}, allDelayTime );
+				allDelayTime += delayTime;
+				return this;
+			},
+			clearDelay: function() {
+				allDelayTime = 0;
 				return this;
 			},
 			loop: function ( fun, FPS ) {

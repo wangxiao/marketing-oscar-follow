@@ -34,14 +34,12 @@ var sa = simpleAnimation({
 
 function main() {
 	var stage = sa.Stage;
-	var bgSprite = sa.Sprite( 'background', {x:-70} );
+	var bgSprite = sa.Sprite( 'background' );
 	stage.height( bgSprite.height() );
-	var bgLayer = sa.Layer({ height: bgSprite.height() });
+	var bgLayer = sa.Layer().height( bgSprite.height() );
 	bgLayer.add( bgSprite );
 	stage.add( bgLayer );
-	bgSprite.move( -(bgSprite.width() - 70 - winWidth), 0, 3);
+	bgSprite.delay( 2000 ).moveTo( -(bgSprite.width() - winWidth ), 0, 3);
 	sa.play();
-
-
 	window.bgSprite = bgSprite;
 }
