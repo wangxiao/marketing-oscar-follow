@@ -8,10 +8,6 @@ function simpleAnimation( options ) {
 		//容器，可以是id，element 或者 jquery选择的元素，但是只会取出第一个
 		container: options.container || document.body,
 
-		//canvas默认宽、高
-		width: options.width || 300,
-		height: options.height || 150,
-
 		//模式选择 dom 或者 canvas
 		mode: options.mode || 'canvas',
 
@@ -39,6 +35,9 @@ function simpleAnimation( options ) {
 	//对象
 	//将会暴露出去的对象，上面绑定方法。
 	var SA = {};
+
+	//全局唯一的舞台，只能被生成一次
+	var Stage;
 
 	//全部图层，按照 zIndex 索引
 	var layerList = {};
@@ -74,11 +73,15 @@ function simpleAnimation( options ) {
 		return container;
 	}
 
+	function changeStyle( element, name, value ) {
+		element.style[ name ] = value;
+	}
+
 	function createCanvas( opts ) {
 		opts = opts || {};
 		opts = {
 			width: opts.width || 0,
-			height: options.height || 0,
+			height: opts.height || 0,
 			container: opts.container || null 
 		};
 		var canvas = document.createElement('canvas');
@@ -92,7 +95,6 @@ function simpleAnimation( options ) {
 	}
 	
 	function createDom( opts ) {
-		opts = opts || {};
 		opts = {
 			width: opts.width || 0,
 			height: opts.height || 0,
@@ -101,10 +103,10 @@ function simpleAnimation( options ) {
 			container: opts.container || null 
 		};
 		var element = document.createElement('div');
-		element.style.width = opts.width + 'px';
-		element.style.height = opts.height + 'px';
-		element.style.top = opts.y + 'px';
-		element.style.left = opts.x + 'px';
+		changeStyle( element, 'width', opts.width + 'px' );
+		changeStyle( element, 'height', opts.height + 'px' );
+		changeStyle( element, 'top', opts.y + 'px' );
+		changeStyle( element, 'left', opts.x + 'px' );
 
 		if( opts.container ) {
 			opts.container = getElement( opts.container );
@@ -174,97 +176,117 @@ function simpleAnimation( options ) {
 	/*******************************************
 	*    舞台方法
 	********************************************/
-	SA.Stage = {
-		container: getElement( options.container ),
-		delayTime: 0,
-		layerList: layerList,
-		create: function( mode ) {
-			var me = this;
-			setTimeout(function() {
-				switch ( mode) {
-					case 'canvas':
-						createCanvas( options );
-					break;
-					case 'dom':
-						me.container = createDom( options );
-						me.container.style.position = 'relative';
-						me.container.style.overflow = 'hidden';
-					break;
+	SA.Stage = function( opts ) {
+		
+		//舞台只能被生成一次
+		if ( Stage ) {
+			return Stage;
+		}
+
+		var allDelayTime = 0;
+		opts = {
+
+			//canvas默认宽、高
+			width: opts.width || 300,
+			height: opts.height || 150,
+			x: opts.x || 0,
+			y: opts.y || 0,
+			container: getElement( options.container )
+		};
+
+		Stage = {
+			id: 'wangxiao',
+			container: opts.container,
+			width: function ( width ) {
+				var me = this;
+				if( typeof width === 'undefined' ) {
+					return opts.width;
+				}else{
+					setTimeout(function() {
+						opts.width = width;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								changeStyle( me.container, 'width', width + 'px');
+							break;
+						}
+					}, allDelayTime );
+					return this;
 				}
-			}, me.delayTime);
-			return this;
-		},
-		width: function ( width ) {
-			var me = this;
-			if( typeof width === 'undefined' ) {
-				return options.width;
-			}else{
+			},
+			height: function ( height ) {
+				var me = this;
+				if( typeof height === 'undefined' ) {
+					return opts.height;
+				}else{
+					setTimeout(function() {
+						opts.height = height;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								changeStyle( me.container, 'height', height + 'px' );
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}		
+			},
+			// 按照 zIndex 索引
+			add: function ( layer ) {
+				var me = this;
 				setTimeout(function() {
-					options.width = width;
-					switch( options.mode ) {
-						case 'canvas':
-						break;
-						case 'dom':
-							me.container.style.width = width + 'px';
-						break;
+					if ( !layerList[ 'zIndex' + layer.zIndex() ] ) {
+						layerList[ 'zIndex' + layer.zIndex() ] = [];
 					}
-				}, me.delayTime );
+					if ( options.mode === 'dom' ) {
+						changeStyle( layer.container, 'position', 'relative' );
+						changeStyle( layer.container, 'left', layer.position().x + 'px' );
+						changeStyle( layer.container, 'top', layer.position().y + 'px' );
+						changeStyle( layer.container, 'overflow', 'hidden' );
+						me.container.appendChild( layer.container );
+					}
+					layerList[ 'zIndex' + layer.zIndex() ].push( layer );
+				}, allDelayTime );
+				return this;
+			},
+			remove: function ( layer ) {
+				setTimeout(function() {
+					delFromListById( layer.id, layerList[ 'zIndex' + layer.zIndex() ] );
+					if( options.mode === 'dom' ) {
+						this.container.removeChild( layer.container );
+					}
+				}, allDelayTime );
+				return this;
+			},
+			delay: function ( delayTime ) {
+				allDelayTime += delayTime;
+				return this;
+			},
+			clearDelay: function() {
+				allDelayTime = 0;
 				return this;
 			}
-		},
-		height: function ( height ) {
-			var me = this;
-			if( typeof height === 'undefined' ) {
-				return options.height;
-			}else{
-				setTimeout(function() {
-					options.height = height;
-					switch( options.mode ) {
-						case 'canvas':
-						break;
-						case 'dom':
-							me.container.style.height = height + 'px';
-						break;
-					}
-				}, me.delayTime );
-				return this;
-			}		
-		},
-		// 按照 zIndex 索引
-		add: function ( layer ) {
-			var me = this;
-			setTimeout(function() {
-				if ( !layerList[ 'zIndex' + layer.zIndex() ] ) {
-					layerList[ 'zIndex' + layer.zIndex() ] = [];
-				}
-				if ( options.mode === 'dom' ) {
-					layer.container.style.position = 'relative';
-					layer.container.style.top = layer.position().x;
-					layer.container.style.left = layer.position().y;
-					layer.container.style.overflow = 'hidden';
-					me.container.appendChild( layer.container );
-				}
-				layerList[ 'zIndex' + layer.zIndex() ].push( layer );
-			}, me.delayTime);
-			return this;
-		},
-		remove: function ( layer ) {
-			setTimeout(function() {
-				delFromListById( layer.id, layerList[ 'zIndex' + layer.zIndex() ] );
-				if( options.mode === 'dom' ) {
-					this.container.removeChild( layer.container );
-				}
-			}, me.delayTime);
-			return this;
-		},
-		delay: function ( delayTime ) {
-			this.delayTime += delayTime;
-			return this;
-		},
-		clearDelay: function() {
-			this.delayTime = 0;
-			return this;
-		}
+		};
+
+		var createStage = function( mode ) {
+			switch ( mode) {
+				case 'canvas':
+					createCanvas( opts );
+				break;
+				case 'dom':
+					Stage.container = createDom( opts );
+					changeStyle( Stage.container, 'position', 'relative');
+					changeStyle( Stage.container, 'overflow', 'hidden');
+				break;
+			}
+		};
+
+		createStage( options.mode );
+		Stage.play = SA.Timer.play;
+		Stage.pause = SA.Timer.pause;
+		return Stage;
 	};
 	/*******************************************
 	*    图层管理
@@ -280,8 +302,8 @@ function simpleAnimation( options ) {
 		function Layer( opts ) {
 			this.id = createId();
 			opts = opts || {};
-			thisWidth = opts.width || options.width;
-			thisHeight = opts.height || options.height;
+			thisWidth = opts.width || Stage.width;
+			thisHeight = opts.height || Stage.height;
 			thisX = opts.x || 0;
 			thisY = opts.y || 0;
 			thisZIndex = opts.zIndex || 0;
@@ -322,9 +344,9 @@ function simpleAnimation( options ) {
 						me.spriteList[ 'zIndex' + sprite.zIndex() ] = [];
 					}
 					if ( options.mode === 'dom' ) {
-						sprite.container.style.background = 'url(' + loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px';
-						sprite.container.style.position = 'absolute';
-						sprite.container.style.overflow = 'hidden';
+						changeStyle( sprite.container, 'background', 'url(' + loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
+						changeStyle( sprite.container, 'position', 'absolute' );
+						changeStyle( sprite.container, 'overflow', 'hidden' );
 						me.container.appendChild( sprite.container );
 					}
 					me.spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );
@@ -385,7 +407,7 @@ function simpleAnimation( options ) {
 							case 'canvas':
 							break;
 							case 'dom':
-								me.container.style.width = width + 'px';
+								changeStyle( me.container, 'width', width + 'px' );
 							break;
 						}
 					}, allDelayTime );
@@ -403,7 +425,7 @@ function simpleAnimation( options ) {
 							case 'canvas':
 							break;
 							case 'dom':
-								me.container.style.height = height + 'px';
+								changeStyle( me.container, 'height', height + 'px' );
 							break;
 						}
 					}, allDelayTime );
@@ -417,8 +439,8 @@ function simpleAnimation( options ) {
 						thisX = opts.x || thisX;
 						thisY = opts.y || thisY;
 						if( options.mode === 'dom' ) {
-							me.container.style.top = thisY;
-							me.container.style.left = thisX;
+							changeStyle( me.container, 'top', thisY );
+							changeStyle( me.container, 'left', thisX );
 							//TODO: 提出所有 css 方法，方便以后替换。
 						}
 					}, allDelayTime );
@@ -451,6 +473,7 @@ function simpleAnimation( options ) {
 		var thisY;
 		var thisZIndex;
 		var allDelayTime;
+		var spriteAnimationList;
 
 		function Sprite( imgId, opts ) {
 			this.id = imgId;
@@ -461,6 +484,8 @@ function simpleAnimation( options ) {
 			thisHeight = opts.height || loadImagesList[imgId].height;
 			thisZIndex = opts.zIndex || 0;
 			allDelayTime = 0;
+			animationIdList = [];
+			spriteAnimationList = [];
 			switch( options.mode ) {
 				case 'canvas':
 					this.container = null;
@@ -499,7 +524,7 @@ function simpleAnimation( options ) {
 							case 'canvas':
 							break;
 							case 'dom':
-								me.container.style.width = width + 'px';
+								changeStyle( me.container, 'width', width + 'px' );
 							break;
 						}
 					}, allDelayTime );
@@ -517,7 +542,7 @@ function simpleAnimation( options ) {
 							case 'canvas':
 							break;
 							case 'dom':
-								me.container.style.height = height + 'px';
+								changeStyle( me.container, 'height', height + 'px' );
 							break;
 						}
 					}, allDelayTime );
@@ -533,8 +558,8 @@ function simpleAnimation( options ) {
 						thisX = opts.x || thisX;
 						thisY = opts.y || thisY;
 						if( options.mode === 'dom' ) {
-							me.container.style.top = thisY;
-							me.container.style.left = thisX;
+							changeStyle( me.container, 'top', thisY );
+							changeStyle( me.container, 'left', thisX );
 							//TODO: 提出所有 css 方法，方便以后替换。
 						}
 					}, allDelayTime );
@@ -573,8 +598,8 @@ function simpleAnimation( options ) {
 					}
 
 					if( options.mode === 'dom' ){
-						me.container.style.left = thisX + 'px';
-						me.container.style.top = thisY + 'px';
+						changeStyle( me.container, 'left', thisX + 'px');
+						changeStyle( me.container, 'top', thisY + 'px');
 					}
 
 					//move动作结束
@@ -599,15 +624,20 @@ function simpleAnimation( options ) {
 								moveSpeedY = Math.abs( speedY );
 							break;
 						}
-						//存储当前动画信息
-						animationList.push({
+						var animationObject = {
 							id: createId(),
 							element: me,
 							//标示动作
 							fun: 'moveTo',
 							//标示动画状态
 							isStop: false
-						});
+						};
+
+						//存储当前动画信息到全局
+						animationList.push( animationObject );
+
+						//类中的动画信息记录
+						spriteAnimationList.push( animationObject );
 
 					}, allDelayTime );
 				}
@@ -654,6 +684,7 @@ function simpleAnimation( options ) {
 	*    框架析构
 	********************************************/
 	SA.destory = function() {
+		//TODO:调用所有的 destory
 
 	};
 
@@ -661,7 +692,6 @@ function simpleAnimation( options ) {
 	*    框架自身逻辑
 	********************************************/
 	options.onstart();
-	SA.Stage.create( options.mode );
 	loadImagesList = SA.loadImage( options.imagesList, options.onready );
 
 	return SA;

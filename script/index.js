@@ -18,7 +18,6 @@ var IMAGE_LIST=[
 ];
 
 //初始化
-var winWidth = $(document).width();
 var sa = simpleAnimation({
 	mode: 'dom',
 	imagesList: IMAGE_LIST,
@@ -28,12 +27,12 @@ var sa = simpleAnimation({
 	onready: function() {
 		console.log('onready');
 		main();
-	},
-	width: winWidth
+	}
 });
 
 function main() {
-	var stage = sa.Stage;
+	var winWidth = $(document).width();
+	var stage = sa.Stage({width: winWidth});
 	var bgSprite = sa.Sprite( 'background' );
 	stage.height( bgSprite.height() );
 	var bgLayer = sa.Layer().height( bgSprite.height() );
