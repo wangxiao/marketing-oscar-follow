@@ -117,8 +117,26 @@ function simpleAnimation( options ) {
 
 	function delFromListById( id, list ) {
 		for( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-			if( list[i][id] === id ) {
+			if( list[i].id === id ) {
 				list.splice( i, 1 );
+			}
+		}
+		return list;
+	}
+
+	function pauseAnimationById( id, list ) {
+		for( var i = 0 , l = list.length ; i < l ; i += 1 ) {
+			if( list[i].id === id ) {
+				list[i].isPause = true;
+			}
+		}
+		return list;
+	}
+
+	function playAnimationById( id, list ) {
+		for( var i = 0 , l = list.length ; i < l ; i += 1 ) {
+			if( list[i].id === id ) {
+				list[i].isPause = false;
 			}
 		}
 		return list;
@@ -154,10 +172,12 @@ function simpleAnimation( options ) {
 	SA.Timer = {
 		play: function () {
 			timer = setInterval( function() {
-				// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
 				// TODO: 绘制一切
+				// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
 				animationList.forEach(function( value, index ){
-					value.element[ value.fun ]();
+					if( !value.isPause ) {
+						value.element[ value.fun ]();
+					}
 				});
 
 			}, 1000/options.FPS );
@@ -292,22 +312,36 @@ function simpleAnimation( options ) {
 	*    图层管理
 	********************************************/
 	SA.Layer = function( opts ) {
+		//目标位置
+		var destinationX;
+		var destinationY;
+		//移动速度
+		var moveSpeedX;
+		var moveSpeedY;
+		//当前的宽和高
 		var thisWidth;
 		var thisHeight;
+		//当前的位置
 		var thisX;
 		var thisY;
+		//当前的 z-index
 		var thisZIndex;
+		//当前的延时动画时间
 		var allDelayTime;
+		//该sprite本身的动画队列
+		var spriteAnimationList;
+		//添加在该 sprite 上面的 sprite 队列
+		var spriteList;
 
 		function Layer( opts ) {
 			this.id = createId();
 			opts = opts || {};
-			thisWidth = opts.width || Stage.width;
-			thisHeight = opts.height || Stage.height;
+			thisWidth = opts.width || Stage.width() ;
+			thisHeight = opts.height || Stage.height();
 			thisX = opts.x || 0;
 			thisY = opts.y || 0;
 			thisZIndex = opts.zIndex || 0;
-			this.spriteList = {};
+			spriteList = {};
 			allDelayTime = 0;
 			switch( options.mode ) {
 				case 'canvas':
@@ -325,23 +359,12 @@ function simpleAnimation( options ) {
 		}
 
 		Layer.prototype = {
-			zIndex: function( zIndex ) {
-				var me = this;
-				if ( arguments.length === 0 ) {
-					return thisZIndex;
-				} else {
-					setTimeout(function() {
-						thisZIndex = zIndex;
-					}, allDelayTime );
-					return me;
-				}
-			},
 			// 按照 zIndex 索引
 			add: function ( sprite ) {
 				var me = this;
 				setTimeout(function() {
-					if ( !me.spriteList[ 'zIndex' + sprite.zIndex() ] ) {
-						me.spriteList[ 'zIndex' + sprite.zIndex() ] = [];
+					if ( !spriteList[ 'zIndex' + sprite.zIndex() ] ) {
+						spriteList[ 'zIndex' + sprite.zIndex() ] = [];
 					}
 					if ( options.mode === 'dom' ) {
 						changeStyle( sprite.container, 'background', 'url(' + loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
@@ -349,159 +372,20 @@ function simpleAnimation( options ) {
 						changeStyle( sprite.container, 'overflow', 'hidden' );
 						me.container.appendChild( sprite.container );
 					}
-					me.spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );
+					spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );
 				}, allDelayTime );
 				return this;
 			},
 			remove: function ( sprite ) {
 				var me = this;
 				setTimeout(function() {
-					delFromListById( sprite.id, me.spriteList[ 'zIndex' + sprite.zIndex() ] );
+					delFromListById( sprite.id, spriteList[ 'zIndex' + sprite.zIndex() ] );
 					if( options.mode === 'dom' ) {
 						me.container.removeChild( sprite.container );
 					}
 				}, allDelayTime );
 				return this;
 			},
-			delay: function ( delayTime ) {
-				setTimeout(function() {
-					allDelayTime += delayTime;
-				}, allDelayTime );
-				return this;
-			},
-			clearDelay: function() {
-				allDelayTime = 0;
-				return this;
-			},
-			loop: function ( fun, FPS ) {
-				var me = this;
-				var t;
-				setTimeout(function(){
-					t = setInterval(fun.apply(me), 1000/FPS );
-				}, allDelayTime );
-				return t;
-			},
-			move: function( x, y, delayTime ) {
-
-				return this;
-			},
-			//传入 action ，想停止的动作
-			pause: function( action ) {
-				if( action ){
-
-				} else {
-
-				}
-			},
-			play: function( action ) {
-
-			},
-			width: function ( width ) {
-				var me = this;
-				if( typeof width === 'undefined' ) {
-					return thisWidth;
-				}else{
-					setTimeout(function() {
-						thisWidth = width;
-						switch( options.mode ) {
-							case 'canvas':
-							break;
-							case 'dom':
-								changeStyle( me.container, 'width', width + 'px' );
-							break;
-						}
-					}, allDelayTime );
-					return this;
-				}
-			},
-			height: function ( height ) {
-				var me = this;
-				if( typeof height === 'undefined' ) {
-					return thisHeight;
-				}else{
-					setTimeout(function() {
-						thisHeight = height;
-						switch( options.mode ) {
-							case 'canvas':
-							break;
-							case 'dom':
-								changeStyle( me.container, 'height', height + 'px' );
-							break;
-						}
-					}, allDelayTime );
-					return this;
-				}		
-			},
-			position: function( opts ) {
-				if( opts ) {
-					var me = this;
-					setTimeout(function(){
-						thisX = opts.x || thisX;
-						thisY = opts.y || thisY;
-						if( options.mode === 'dom' ) {
-							changeStyle( me.container, 'top', thisY );
-							changeStyle( me.container, 'left', thisX );
-							//TODO: 提出所有 css 方法，方便以后替换。
-						}
-					}, allDelayTime );
-					return this;
-				} else {
-					return { x: thisX, y: thisY };
-				}
-			},
-			destory: function() {
-
-			}
-		};
-
-		return new Layer( opts );
-	};
-
-	/*******************************************
-	*    元素管理
-	********************************************/
-	SA.Sprite = function ( imgId, opts ) {
-		
-		//目标位置
-		var destinationX;
-		var destinationY;
-		var moveSpeedX;
-		var moveSpeedY;
-		var thisWidth;
-		var thisHeight;
-		var thisX;
-		var thisY;
-		var thisZIndex;
-		var allDelayTime;
-		var spriteAnimationList;
-
-		function Sprite( imgId, opts ) {
-			this.id = imgId;
-			opts = opts || {};
-			thisX = opts.x || 0;
-			thisY = opts.y || 0;
-			thisWidth = opts.width || loadImagesList[imgId].width;
-			thisHeight = opts.height || loadImagesList[imgId].height;
-			thisZIndex = opts.zIndex || 0;
-			allDelayTime = 0;
-			animationIdList = [];
-			spriteAnimationList = [];
-			switch( options.mode ) {
-				case 'canvas':
-					this.container = null;
-				break;
-				case 'dom':
-					this.container = createDom({
-						width: thisWidth,
-						height: thisHeight,
-						x: thisX,
-						y: thisY
-					});
-				break;
-			}
-		}
-
-		Sprite.prototype = {
 			zIndex: function( zIndex ) {
 				var me = this;
 				if ( arguments.length === 0 ) {
@@ -558,9 +442,8 @@ function simpleAnimation( options ) {
 						thisX = opts.x || thisX;
 						thisY = opts.y || thisY;
 						if( options.mode === 'dom' ) {
-							changeStyle( me.container, 'top', thisY );
-							changeStyle( me.container, 'left', thisX );
-							//TODO: 提出所有 css 方法，方便以后替换。
+							changeStyle( me.container, 'top', thisY + 'px' );
+							changeStyle( me.container, 'left', thisX + 'px' );
 						}
 					}, allDelayTime );
 					return this;
@@ -604,7 +487,7 @@ function simpleAnimation( options ) {
 
 					//move动作结束
 					if( (thisX === destinationX) && (thisY === destinationY) ) {
-
+						animationList
 					}
 
 				} else {
@@ -630,14 +513,14 @@ function simpleAnimation( options ) {
 							//标示动作
 							fun: 'moveTo',
 							//标示动画状态
-							isStop: false
+							isPause: false
 						};
 
 						//存储当前动画信息到全局
 						animationList.push( animationObject );
 
 						//类中的动画信息记录
-						spriteAnimationList.push( animationObject );
+						// spriteAnimationList.push( animationObject );
 
 					}, allDelayTime );
 				}
@@ -664,10 +547,293 @@ function simpleAnimation( options ) {
 				allDelayTime = 0;
 				return this;
 			},
-			loop: function ( fun, FPS ) {
+			interval: function ( fun, FPS ) {
 				var me = this;
 				var t = setInterval(fun.apply(me), 1000/FPS );
 				return t;
+			},
+			timeout: function ( fun, delayTime ) {
+
+			},
+			destory: function(){
+				for( var i in this ) {
+					this[ i ] = null;
+				}
+				this.destory = true;
+				return this;
+			}
+		};
+
+		return new Layer( opts );
+	};
+
+	/*******************************************
+	*    元素管理
+	********************************************/
+	SA.Sprite = function ( imgId, opts ) {
+		
+		//目标位置
+		var destinationX;
+		var destinationY;
+		//移动速度
+		var moveSpeedX;
+		var moveSpeedY;
+		//当前的宽和高
+		var thisWidth;
+		var thisHeight;
+		//当前的位置
+		var thisX;
+		var thisY;
+		//当前的 z-index
+		var thisZIndex;
+		//当前的延时动画时间
+		var allDelayTime;
+		//该sprite本身的动画队列，根据动画名称做索引
+		var animationIdList;
+		//添加在该 sprite 上面的 sprite 队列
+		var spriteList;
+
+		function Sprite( imgId, opts ) {
+			this.id = imgId;
+			opts = opts || {};
+			thisX = opts.x || 0;
+			thisY = opts.y || 0;
+			thisWidth = opts.width || loadImagesList[imgId].width;
+			thisHeight = opts.height || loadImagesList[imgId].height;
+			thisZIndex = opts.zIndex || 0;
+			allDelayTime = 0;
+			spriteList = {};
+			animationIdList = {};
+			spriteAnimationList = [];
+			switch( options.mode ) {
+				case 'canvas':
+					this.container = null;
+				break;
+				case 'dom':
+					this.container = createDom({
+						width: thisWidth,
+						height: thisHeight,
+						x: thisX,
+						y: thisY
+					});
+				break;
+			}
+		}
+
+		Sprite.prototype = {
+			// 按照 zIndex 索引
+			add: function ( sprite ) {
+				var me = this;
+				setTimeout(function() {
+					if ( !spriteList[ 'zIndex' + sprite.zIndex() ] ) {
+						spriteList[ 'zIndex' + sprite.zIndex() ] = [];
+					}
+					if ( options.mode === 'dom' ) {
+						changeStyle( sprite.container, 'background', 'url(' + loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
+						changeStyle( sprite.container, 'position', 'absolute' );
+						changeStyle( sprite.container, 'overflow', 'hidden' );
+						me.container.appendChild( sprite.container );
+					}
+					spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );
+				}, allDelayTime );
+				return this;
+			},
+			remove: function ( sprite ) {
+				var me = this;
+				setTimeout(function() {
+					delFromListById( sprite.id, spriteList[ 'zIndex' + sprite.zIndex() ] );
+					if( options.mode === 'dom' ) {
+						me.container.removeChild( sprite.container );
+					}
+				}, allDelayTime );
+				return this;
+			},
+			zIndex: function( zIndex ) {
+				var me = this;
+				if ( arguments.length === 0 ) {
+					return thisZIndex;
+				} else {
+					setTimeout(function() {
+						thisZIndex = zIndex;
+					}, allDelayTime );
+					return this;
+				}
+			},
+			width: function ( width ) {
+				var me = this;
+				if( typeof width === 'undefined' ) {
+					return thisWidth;
+				}else{
+					setTimeout(function() {
+						thisWidth = width;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								changeStyle( me.container, 'width', width + 'px' );
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}
+			},
+			height: function ( height ) {
+				var me = this;
+				if( typeof height === 'undefined' ) {
+					return thisHeight;
+				}else{
+					setTimeout(function() {
+						thisHeight = height;
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								changeStyle( me.container, 'height', height + 'px' );
+							break;
+						}
+					}, allDelayTime );
+					return this;
+				}		
+			},
+			position: function( opts ) {
+				if( arguments.length === 0 ) {
+					return { x: thisX, y: thisY };
+				} else {
+					var me = this;
+					setTimeout(function(){
+						thisX = opts.x || thisX;
+						thisY = opts.y || thisY;
+						if( options.mode === 'dom' ) {
+							changeStyle( me.container, 'top', thisY + 'px' );
+							changeStyle( me.container, 'left', thisX + 'px');
+						}
+					}, allDelayTime );
+					return this;
+				}
+			},
+			move: function( xLength, yLength, speedX, speedY ) {
+				var me = this;
+				setTimeout(function() {
+					me.moveTo( thisX + xLength, thisY + yLength, speedX, speedY );
+				}, allDelayTime );
+				return this;
+			},
+			//speed 定义为每次刷新的步长
+			moveTo: function( x, y, speedX, speedY ) {
+				var me = this;
+				
+				//此时内部调用
+				if( arguments.length === 0 ) {
+					//修正x
+					if( Math.abs( destinationX - thisX ) < moveSpeedX ){
+						thisX = destinationX;
+					} else if( thisX < destinationX ) {
+						thisX += moveSpeedX;
+					} else if( thisX > destinationX ) {
+						thisX -= moveSpeedX;
+					}
+
+					//修正y
+					if( Math.abs( destinationY - thisY ) < moveSpeedY ){
+						thisY = destinationY;
+					} else if( thisY < destinationY ) {
+						thisY += moveSpeedY;
+					} else if( thisY > destinationY ) {
+						thisY -= moveSpeedY;
+					}
+
+					if( options.mode === 'dom' ){
+						changeStyle( me.container, 'left', thisX + 'px');
+						changeStyle( me.container, 'top', thisY + 'px');
+					}
+
+					//move动作结束
+					if( (thisX === destinationX) && (thisY === destinationY) ) {
+						delFromListById( animationIdList.moveTo, animationList );
+					}
+
+				} else {
+
+					//外部调用
+					setTimeout(function() {
+						if( !speedY ) {
+							speedY = speedX;
+						}
+						switch( options.mode ) {
+							case 'canvas':
+							break;
+							case 'dom':
+								destinationX = x;
+								destinationY = y;
+								moveSpeedX = Math.abs( speedX );
+								moveSpeedY = Math.abs( speedY );
+							break;
+						}
+						var animationObject = {
+							id: createId(),
+							element: me,
+							//标示动作
+							fun: 'moveTo',
+							//标示动画状态
+							isPause: false
+						};
+						//存储当前动画信息到全局
+						animationList.push( animationObject );
+						//类中的动画信息记录
+						animationIdList.moveTo = animationObject.id;
+
+					}, allDelayTime );
+				}
+
+				return this;
+			},
+
+			//传入 action ，想停止的动作
+			pause: function( action ) {
+				if( action ){
+					if( action === 'move' ){
+						action = 'moveTo';
+					}
+					var id = animationIdList[action];
+					pauseAnimationById( id, animationList );
+				} else {
+					for( var i in animationIdList ) {
+						pauseAnimationById( animationIdList[i], animationList );
+					}
+				}
+			},
+			play: function( action ) {
+				if( action ){
+					if( action === 'move' ){
+						action = 'moveTo';
+					}
+					var id = animationIdList[action];
+					playAnimationById( id, animationList );
+				} else {
+					for( var i in animationIdList ) {
+						playAnimationById( animationIdList[i], animationList );
+					}
+				}
+			},
+			delay: function( delayTime ) {
+				allDelayTime += delayTime;
+				return this;
+			},
+			clearDelay: function() {
+				allDelayTime = 0;
+				return this;
+			},
+			changeImage: function ( fun, FPS ) {
+				var me = this;
+				
+				return t;
+			},
+			do: function ( fun ) {
+				var me = this;
+				setTimeout(function(){
+					fun.apply(me);	
+				}, allDelayTime );
+				return this;
 			},
 			destory: function(){
 				for( var i in this ) {
