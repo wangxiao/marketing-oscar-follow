@@ -205,17 +205,60 @@ var sa = simpleAnimation({
 	}
 });
 
+function getImageUrlById( id ) {
+	for( var i = 0, l = IMAGE_LIST.length; i < l; i += 1 ) {
+		if( IMAGE_LIST[i].id === id ) {
+			return IMAGE_LIST[i].url;
+		}
+	}
+}
+
+function changeFace( container, url ) {
+	$( container).css('background-image','url("'+ url +'")');
+}
+
+function intervalChangeFace( container, imagesIdList ) {
+	var l = imagesIdList.length;
+	var num = 0;
+	setInterval(function(){
+		num += 1;
+		if( num > l ) {
+			num = 1;
+		}
+		changeFace( container, getImageUrlById( imagesIdList[num -1] ) );
+	},100);
+}
+
 function main() {
 	var winWidth = $(document).width();
+
 	var bgSprite = sa.Sprite( 'background' );
 	var stage = sa.Stage({width: winWidth}).height( bgSprite.height() );
-	bgSprite.delay( 2000 ).moveTo( -(bgSprite.width() - winWidth ), 0, 3);
+
 	var bgLayer = sa.Layer().height( bgSprite.height() );
-	stage.add( bgLayer );
 	bgLayer.add( bgSprite );
-	var train = sa.Sprite( 'train' ).position({x:200,y:200});
+
+	stage.add( bgLayer );
+
+	var player = sa.Sprite( 'player2' ,{  x:650, y:410 } )
+				.do(function(){
+					intervalChangeFace( this.container, ['player1','player2','player3']);
+				});
+
+	bgLayer.add( player );
+
+	//动画开始
+	bgSprite.delay( 2000 ).moveTo( -480, 0, 3, function(){
+		player.moveTo( 650, 530 ,3 );
+	});
+
+
+
+
+
+	// var train = sa.Sprite( 'train' ).position({x:200,y:200});
 	// train.delay(10000).do(function(){console.log(this);});
-	bgLayer.add( train );
-	window.bgSprite = bgSprite;
+	// bgLayer.add( train );
+
 	sa.play();
 }

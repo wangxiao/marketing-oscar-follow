@@ -487,7 +487,7 @@ function simpleAnimation( options ) {
 
 					//move动作结束
 					if( (thisX === destinationX) && (thisY === destinationY) ) {
-						animationList
+						
 					}
 
 				} else {
@@ -655,6 +655,9 @@ function simpleAnimation( options ) {
 				} else {
 					setTimeout(function() {
 						thisZIndex = zIndex;
+						if( options.mode === 'dom' ) {
+							me.container.style['z-index'] = zIndex;
+						}
 					}, allDelayTime );
 					return this;
 				}
@@ -711,7 +714,7 @@ function simpleAnimation( options ) {
 					return this;
 				}
 			},
-			move: function( xLength, yLength, speedX, speedY ) {
+			move: function( xLength, yLength, speedX, speedY, fun ) {
 				var me = this;
 				setTimeout(function() {
 					me.moveTo( thisX + xLength, thisY + yLength, speedX, speedY );
@@ -719,11 +722,12 @@ function simpleAnimation( options ) {
 				return this;
 			},
 			//speed 定义为每次刷新的步长
-			moveTo: function( x, y, speedX, speedY ) {
+			moveTo: function( x, y, speedX, speedY, fun ) {
 				var me = this;
 				
 				//此时内部调用
 				if( arguments.length === 0 ) {
+					
 					//修正x
 					if( Math.abs( destinationX - thisX ) < moveSpeedX ){
 						thisX = destinationX;
@@ -732,7 +736,6 @@ function simpleAnimation( options ) {
 					} else if( thisX > destinationX ) {
 						thisX -= moveSpeedX;
 					}
-
 					//修正y
 					if( Math.abs( destinationY - thisY ) < moveSpeedY ){
 						thisY = destinationY;
@@ -741,24 +744,31 @@ function simpleAnimation( options ) {
 					} else if( thisY > destinationY ) {
 						thisY -= moveSpeedY;
 					}
-
 					if( options.mode === 'dom' ){
 						changeStyle( me.container, 'left', thisX + 'px');
 						changeStyle( me.container, 'top', thisY + 'px');
 					}
-
 					//move动作结束
 					if( (thisX === destinationX) && (thisY === destinationY) ) {
-						delFromListById( animationIdList.moveTo, animationList );
+						if(animationIdList.moveTo.callback) {
+							animationIdList.moveTo.callback();
+						}
+						delFromListById( animationIdList.moveTo.id, animationList );
+						animationIdList.moveTo = null;
 					}
 
 				} else {
 
+					if(arguments.length === 3) {
+						speedY = speedX;
+					}
+					if(arguments.length === 4) {
+						if( typeof speedY !== 'number' ) {
+							fun = speedY;
+						}
+					}
 					//外部调用
 					setTimeout(function() {
-						if( !speedY ) {
-							speedY = speedX;
-						}
 						switch( options.mode ) {
 							case 'canvas':
 							break;
@@ -780,8 +790,10 @@ function simpleAnimation( options ) {
 						//存储当前动画信息到全局
 						animationList.push( animationObject );
 						//类中的动画信息记录
-						animationIdList.moveTo = animationObject.id;
-
+						animationIdList.moveTo = {
+							id: animationObject.id,
+							callback: fun
+						};
 					}, allDelayTime );
 				}
 
@@ -794,26 +806,32 @@ function simpleAnimation( options ) {
 					if( action === 'move' ){
 						action = 'moveTo';
 					}
-					var id = animationIdList[action];
-					pauseAnimationById( id, animationList );
+					if(animationIdList[action]) {
+						var id = animationIdList[action].id;
+						pauseAnimationById( id, animationList );
+					}
 				} else {
 					for( var i in animationIdList ) {
-						pauseAnimationById( animationIdList[i], animationList );
+						pauseAnimationById( animationIdList[i].id, animationList );
 					}
 				}
+				return this;
 			},
 			play: function( action ) {
 				if( action ){
 					if( action === 'move' ){
 						action = 'moveTo';
 					}
-					var id = animationIdList[action];
-					playAnimationById( id, animationList );
+					if(animationIdList[action]) {
+						var id = animationIdList[action].id;
+						playAnimationById( id, animationList );
+					}
 				} else {
 					for( var i in animationIdList ) {
-						playAnimationById( animationIdList[i], animationList );
+						playAnimationById( animationIdList[i].id, animationList );
 					}
 				}
+				return this;
 			},
 			delay: function( delayTime ) {
 				allDelayTime += delayTime;
@@ -823,16 +841,13 @@ function simpleAnimation( options ) {
 				allDelayTime = 0;
 				return this;
 			},
-			changeImage: function ( fun, FPS ) {
-				var me = this;
-				
-				return t;
-			},
 			do: function ( fun ) {
-				var me = this;
-				setTimeout(function(){
-					fun.apply(me);	
-				}, allDelayTime );
+				if( fun ) {
+					var me = this;
+					setTimeout(function(){
+						fun.apply(me);	
+					}, allDelayTime );
+				}
 				return this;
 			},
 			destory: function(){
