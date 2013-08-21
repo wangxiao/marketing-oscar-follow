@@ -119,9 +119,9 @@ function simpleAnimation( options ) {
 		for( var i = 0 , l = list.length ; i < l ; i += 1 ) {
 			if( list[i].id === id ) {
 				list.splice( i, 1 );
+				return list;
 			}
 		}
-		return list;
 	}
 
 	function pauseAnimationById( id, list ) {
@@ -750,7 +750,7 @@ function simpleAnimation( options ) {
 					}
 					//move动作结束
 					if( (thisX === destinationX) && (thisY === destinationY) ) {
-						if(animationIdList.moveTo.callback) {
+						if( animationIdList.moveTo && animationIdList.moveTo.callback ) {
 							animationIdList.moveTo.callback();
 						}
 						delFromListById( animationIdList.moveTo.id, animationList );
@@ -780,7 +780,7 @@ function simpleAnimation( options ) {
 							break;
 						}
 						var animationObject = {
-							id: createId(),
+							id: createId() + me.id,
 							element: me,
 							//标示动作
 							fun: 'moveTo',

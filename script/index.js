@@ -236,8 +236,6 @@ function main() {
 	var stage = sa.Stage({width: winWidth}).height( bgSprite.height() );
 
 	var bgLayer = sa.Layer().height( bgSprite.height() );
-	bgLayer.add( bgSprite );
-
 	stage.add( bgLayer );
 
 	var player = sa.Sprite( 'player2' ,{  x:650, y:410 } )
@@ -245,20 +243,32 @@ function main() {
 					intervalChangeFace( this.container, ['player1','player2','player3']);
 				});
 
+	var train = sa.Sprite( 'train' ).position({x:1350,y:523});
+
+	bgLayer.add( bgSprite );
 	bgLayer.add( player );
+	bgLayer.add( train );
+
+
 
 	//动画开始
-	bgSprite.delay( 2000 ).moveTo( -480, 0, 3, function(){
-		player.moveTo( 650, 530 ,3 );
-	});
+	var startDelayTime = 2000;
+	bgSprite.delay( startDelayTime )
+			.moveTo(-480, 0, 3)
+			.delay(4000)
+			.moveTo(-1020, 0, 3)
+			.delay(2000)
+			.moveTo(-3150, 0, 5);
+	
+	player.delay( startDelayTime + 3000 )
+			.moveTo(650, 530, 3);
+
+	train.delay( startDelayTime )
+			.moveTo(883, 523, 3)
+			.delay(4000)
+			.moveTo(340, 523, 3);
 
 
-
-
-
-	// var train = sa.Sprite( 'train' ).position({x:200,y:200});
-	// train.delay(10000).do(function(){console.log(this);});
-	// bgLayer.add( train );
 
 	sa.play();
 }
