@@ -245,29 +245,57 @@ function main() {
 
 	var train = sa.Sprite( 'train' ).position({x:1350,y:523});
 
-	bgLayer.add( bgSprite );
-	bgLayer.add( player );
-	bgLayer.add( train );
+	var peopleOld = sa.Sprite('people-old').position({x:3700,y:320});
+	var peopleWoman = sa.Sprite('people-woman1').position({x:3840,y:348});
+	var peopleBoy1 = sa.Sprite('people-boy1').position({x:4000,y:336});
+	var peopleBoy2 = sa.Sprite('people-boy2').position({x:4080,y:320});
 
+	bgSprite.add(peopleOld)
+			.add(peopleWoman)
+			.add(peopleBoy1)
+			.add(peopleBoy2);
 
+	bgLayer.add( bgSprite )
+			.add( player )
+			.add( train );
 
 	//动画开始
-	var startDelayTime = 2000;
-	bgSprite.delay( startDelayTime )
-			.moveTo(-480, 0, 3)
-			.delay(4000)
-			.moveTo(-1020, 0, 3)
-			.delay(2000)
-			.moveTo(-3150, 0, 5);
+	// var startDelayTime = 2000;
+	sa.speed(1)
+		.timeline({
+			2000: function() {
+				bgSprite.moveTo(-480, 0, 6, function(){
+					console.log(sa.time());
+				});
+			},
+			3240: function() {
+				player.moveTo(650, 530, 8);
+			}
+		});
+
+
+
+
+	// bgSprite.delay( startDelayTime )
+	// 		.moveTo(-480, 0, 8)
+	// 		.delay(4000)
+	// 		.moveTo(-1020, 0, 8)
+	// 		.delay(2000)
+	// 		.moveTo(-3150, 0, 24);
 	
-	player.delay( startDelayTime + 3000 )
-			.moveTo(650, 530, 3);
+	// player.delay( startDelayTime + 3000 )
+	// 		.moveTo(650, 530, 8);
 
-	train.delay( startDelayTime )
-			.moveTo(883, 523, 3)
-			.delay(4000)
-			.moveTo(340, 523, 3);
+	// train.delay( startDelayTime )
+	// 		.moveTo(873, 523, 8)
+	// 		.delay(4000)
+	// 		.moveTo(340, 523, 8);
 
+	// peopleOld.delay( startDelayTime + 10000)
+	// 		.moveTo(3700, 450, 8);
+
+	// peopleWoman.delay( startDelayTime + 10000)
+	// 		.moveTo(3840, 488, 8);
 
 
 	sa.play();
