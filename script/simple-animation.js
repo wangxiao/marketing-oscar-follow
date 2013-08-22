@@ -176,7 +176,8 @@ function simpleAnimation( options ) {
 		if( arguments.length === 0) {
 			return G_timeNow;
 		} else {
-
+			G_speed = 1000;
+			return this;
 		}
 	};
 
@@ -197,7 +198,7 @@ function simpleAnimation( options ) {
 	SA.play = function () {
 		var interval = Math.floor(1000 / G_options.FPS);
 		G_timer = setInterval( function() {
-			G_timeNow += interval;
+			G_timeNow += (interval * G_speed);
 			// TODO: 绘制一切
 			// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
 			G_animationList.forEach(function( value, index ){
@@ -206,7 +207,7 @@ function simpleAnimation( options ) {
 				}
 			});
 
-			for(var t = G_timeNow - interval, l = G_timeNow; t < l; t += 1 ) {
+			for(var t = G_timeNow - (interval * G_speed), l = G_timeNow; t < l; t += 1 ) {
 				if(G_timelineList[t]) {
 					G_timelineList[t].call(SA);
 				}

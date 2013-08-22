@@ -164,7 +164,10 @@ var IMAGE_LIST=[
 		id: 'people-boy2',
 		url: 'images/people/people-boy2.png'
 	},
-
+	{
+		id: 'people-boy3',
+		url: 'images/people/people-boy3.png'
+	},
 	{
 		id: 'people-man1',
 		url: 'images/people/people-man1.png'
@@ -244,59 +247,84 @@ function main() {
 				});
 
 	var train = sa.Sprite( 'train' ).position({x:1350,y:523});
-
+	//地铁第一个场景元素
 	var peopleOld = sa.Sprite('people-old').position({x:3700,y:320});
 	var peopleWoman = sa.Sprite('people-woman1').position({x:3840,y:348});
 	var peopleBoy1 = sa.Sprite('people-boy1').position({x:4000,y:336});
 	var peopleBoy2 = sa.Sprite('people-boy2').position({x:4080,y:320});
+	//地铁第二个场景元素
+	var cat1 = sa.Sprite('cat1').position({x:6700,y:440});
+	var peopleAnger = sa.Sprite('people-anger3').position({x:7100,y:0});
+	// var peopleAnger = sa.Sprite('people-anger3').position({x:6100,y:0});
 
-	bgSprite.add(peopleOld)
-			.add(peopleWoman)
-			.add(peopleBoy1)
-			.add(peopleBoy2);
+	bgSprite.add( peopleOld )
+			.add( peopleWoman )
+			.add( peopleBoy1 )
+			.add( peopleBoy2 )
+			.add( cat1 )
+			.add( peopleAnger );
 
 	bgLayer.add( bgSprite )
 			.add( player )
 			.add( train );
 
 	//动画开始
-	// var startDelayTime = 2000;
 	sa.speed(1)
 		.timeline({
+			//豆子横着走
 			2000: function() {
 				bgSprite.moveTo(-480, 0, 6, function(){
 					console.log(sa.time());
 				});
+				train.moveTo(873, 523, 6);
+			},			
+			//豆子向下走
+			3400: function() {
+				player.moveTo(650, 530, 6, function(){
+					console.log(sa.time());
+				});
 			},
-			3240: function() {
-				player.moveTo(650, 530, 8);
+			//豆子走向火车
+			3950: function() {
+				bgSprite.moveTo(-1020, 0, 6, function(){
+					console.log(sa.time());
+				});
+				train.moveTo(340, 523, 6);
+			},
+			5440: function() {
+				bgSprite.moveTo(-3150, 0, 18, function(){
+					console.log(sa.time());
+				});
+			},
+			7560: function() {
+				peopleOld.moveTo(3700, 450, 8, function(){
+					bgSprite.remove(peopleOld);
+					console.log(sa.time());
+				});
+			},
+			7850: function() {
+				peopleWoman.moveTo(3840, 488, 8, function(){
+					bgSprite.remove(peopleWoman);
+					console.log(sa.time());
+				});
+			},
+			8144: function() {
+				peopleBoy1.moveTo(4000, 476, 8, function(){
+					bgSprite.remove(peopleBoy1);
+					console.log(sa.time());
+				});
+			},
+			8448: function() {
+				peopleBoy2.moveTo(4080, 460, 8, function(){
+					bgSprite.remove(peopleBoy2);
+					console.log(sa.time());
+				});
+			},
+			9448: function() {
+				bgSprite.moveTo(-6150, 0, 18, function(){
+					console.log(sa.time());
+				});
 			}
-		});
-
-
-
-
-	// bgSprite.delay( startDelayTime )
-	// 		.moveTo(-480, 0, 8)
-	// 		.delay(4000)
-	// 		.moveTo(-1020, 0, 8)
-	// 		.delay(2000)
-	// 		.moveTo(-3150, 0, 24);
-	
-	// player.delay( startDelayTime + 3000 )
-	// 		.moveTo(650, 530, 8);
-
-	// train.delay( startDelayTime )
-	// 		.moveTo(873, 523, 8)
-	// 		.delay(4000)
-	// 		.moveTo(340, 523, 8);
-
-	// peopleOld.delay( startDelayTime + 10000)
-	// 		.moveTo(3700, 450, 8);
-
-	// peopleWoman.delay( startDelayTime + 10000)
-	// 		.moveTo(3840, 488, 8);
-
-
-	sa.play();
+		})
+		.play();
 }
