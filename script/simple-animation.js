@@ -49,6 +49,8 @@ function simpleAnimation( options ) {
 	var G_speed = 1;
 	//记录当前时间
 	var G_timeNow = 0;
+	//想要去的时间
+	var G_timeEnd;
 	//存储全局计时器
 	var G_timer;
 	//所有计时器的队列
@@ -178,7 +180,9 @@ function simpleAnimation( options ) {
 		if( arguments.length === 0) {
 			return G_timeNow;
 		} else {
+			SA.play();
 			G_speed = 1000;
+			G_timeEnd = time;
 			return this;
 		}
 	};
@@ -200,6 +204,12 @@ function simpleAnimation( options ) {
 	SA.play = function () {
 		var interval = Math.floor(1000 / G_options.FPS);
 		G_timer = setInterval( function() {
+
+			//如果到了想要去的时间
+			if( (typeof G_timeEnd !== 'undefined') && (G_timeEnd === G_timeNow) ) {
+				SA.pause();
+			}
+
 			G_timeNow += (interval * G_speed);
 			// TODO: 绘制一切
 			// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
@@ -318,7 +328,7 @@ function simpleAnimation( options ) {
 			remove: function ( layer ) {
 				setTimeout(function() {
 					delFromListById( layer.id, G_layerList[ 'zIndex' + layer.zIndex() ] );
-					if( G_options.mode === 'dom' ) {
+					if( G_options.mode === 'dom' && layer.container ) {
 						this.container.removeChild( layer.container );
 					}
 				}, allDelayTime );
@@ -711,7 +721,6 @@ function simpleAnimation( options ) {
 		}
 
 		Layer.prototype = G_Sprite.prototype;
-
 		return new Layer( opts );
 	};
 
@@ -723,4 +732,3 @@ function simpleAnimation( options ) {
 
 	return SA;
 }
-

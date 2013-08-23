@@ -253,7 +253,17 @@ function main() {
 	var winWidth = $(document).width();
 
 	var bgSprite = sa.Sprite( 'background' );
-	var stage = sa.Stage({width: winWidth}).height( bgSprite.height() );
+
+	var stageX = 0;
+	var stageWidth = 0;
+	if(winWidth < 1400) {
+		stageX = (winWidth - 1400)/2;
+		stageWidth = winWidth + Math.abs(stageX);
+	} else {
+		stageWidth = winWidth;
+	}
+
+	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() );
 
 	var bgLayer = sa.Layer().height( bgSprite.height() );
 	stage.add( bgLayer );
@@ -281,10 +291,29 @@ function main() {
 	var iconRound = sa.Sprite('icon-round').position({x:-25,y:-20});
 	var icon3dots = sa.Sprite('icon-3dots').position({x:50,y:-20});
 	var iconHeart = sa.Sprite('icon-heart').position({x:50,y:-30});
-	//地铁第四个场景元素
-	var peopleMan5 = sa.Sprite('people-man5').position({x:11070,y:313});
 
 	var boat = sa.Sprite('boat').position({x:8066,y:408});
+
+	//地铁第四个场景元素
+	var peopleMan5 = sa.Sprite('people-man5').position({x:11070,y:313});
+	var peopleMan4 = sa.Sprite('people-man4').position({x:11170,y:324});
+	var peopleWoman2 = sa.Sprite('people-woman3').position({x:11411,y:377});
+	var desk = sa.Sprite('desk').position({x:11378,y:448});
+	var cat2 = sa.Sprite('cat4').position({x:11492,y:238});
+
+	var car1 = sa.Sprite('car-yellow').position({x:6446,y:477});
+	var car2 = sa.Sprite('car-red').position({x:8500,y:470});
+	var car3 = sa.Sprite('car-blue').position({x:12911,y:580});
+
+	for(var i = 2, l = 50; i < l ; i += 1) {
+		var cloud = sa.Sprite('cloud-white1')
+						.position({x: i * 550 + Math.floor( Math.random() * 400 ), y:70 * Math.floor( Math.random() * 3 + 1 ) })
+						.do(function() {
+							this.move(-300, 0, 1);
+						});
+
+		bgSprite.add( cloud );
+	}
 
 	bgSprite.add( peopleOld )
 			.add( peopleWoman )
@@ -296,8 +325,15 @@ function main() {
 			.add( peopleMan1 )
 			.add( peopleGirl)
 			.add( peopleMan3 )
+			.add( boat )
 			.add( peopleMan5 )
-			.add( boat );
+			.add( peopleMan4 )
+			.add( peopleWoman2 )
+			.add( desk )
+			.add( cat2 )
+			.add( car1 )
+			.add( car2 )
+			.add( car3 );
 
 	bgLayer.add( bgSprite )
 			.add( player )
@@ -315,8 +351,7 @@ function main() {
 			$(this.container).css('overflow','visible');
 		});
 
-	peopleGirl.add( iconHeart )
-		.do(function(){
+	peopleGirl.do(function(){
 			$(this.container).css('overflow','visible');
 		});
 
@@ -348,14 +383,14 @@ function main() {
 						console.log(sa.time());
 					});
 			},
-			//第二个地铁站场景
-			8960: function() {
+			//第二个场景
+			8860: function() {
 				player.moveTo(650, 450, 2);
 				peopleOld.moveTo(3700, 450, 2, function(){
 							bgSprite.remove(peopleOld);
 							console.log(sa.time());
 						});
-				peopleWoman.delay(2000)
+				peopleWoman.delay(1500)
 						.moveTo(3812, 488, 4, function(){
 							bgSprite.remove(peopleWoman);
 							console.log(sa.time());
@@ -365,23 +400,28 @@ function main() {
 							bgSprite.remove(peopleBoy1);
 							console.log(sa.time());
 						});
-				peopleBoy2.delay(2500)
+				peopleBoy2.delay(2200)
 					.moveTo(4080, 460, 4, function(){
 						bgSprite.remove(peopleBoy2);
 						console.log(sa.time());
 					});
 			},
-			12352: function() {
-				bgSprite.moveTo(-6300, 0, 9, function(){
+			11604: function() {
+				bgSprite.moveTo(-6300, 0, 6, function(){
 					console.log(sa.time());
 				});
-				train.moveTo(-1000, 523, 9, function(){
+				train.moveTo(-1000, 523, 6, function(){
 					bgLayer.remove(train);
 				});
-				player.moveTo(650, 543, 1);
+				player.delay(1200)
+					.moveTo(650, 543, 4);
+				car1.delay(3500).
+					moveTo(0, 477, 8 ,function(){
+						bgSprite.remove(car1);
+					});
 			},
-			//第三个地铁场景
-			17792: function() {
+			//第三个场景
+			19760: function() {
 				cat1.delay(2000)
 					.do(function(){
 						changeFace(this.container,'cat2');
@@ -402,7 +442,7 @@ function main() {
 						changeFace(this.container,'people-anger2');
 					});
 				
-				peopleBoy3.delay(2000)
+				peopleBoy3.delay(2500)
 					.add( iconRound );
 
 				peopleMan1.delay(1500)
@@ -411,34 +451,76 @@ function main() {
 						intervalChangeFace(this.container, ['people-man1', 'people-man2'], 500);
 					});
 
-				peopleGirl.delay(2500)
+				peopleGirl.delay(2800)
 					.add( iconHeart );
 			},
-			21136: function() {
-				bgSprite.moveTo(-7333, 0, 9, function(){
+			//离开
+			22544: function() {
+				bgSprite.moveTo(-7333, 0, 6, function(){
 					console.log(sa.time());
 				});
 				boat.moveTo(8336, 408, 1);
 			},
-			22992: function() {
-				player.moveTo(650, 643, 5, function(){
-					console.log(sa.time());
-				});
-				bgSprite.moveTo(-7593, 0, 9, function(){
+			25328: function() {
+				player.clearDelay()
+					.moveTo(650, 643, 5, function(){
+						console.log(sa.time());
+					});
+				bgSprite.moveTo(-7593, 0, 6, function(){
 					console.log(sa.time());
 				});
 			},
-			23488: function() {
-				player.moveTo(650, 543, 5, function(){
+			26064: function() {
+				player.delay(100)
+					.moveTo(650, 573, 2, function(){
+						console.log(sa.time());
+					});
+
+				car2.moveTo(30000, 470, 8, function(){
+					bgSprite.remove(car2);
+				});
+
+				bgSprite.moveTo(-7813, 0, 6, function(){
 					console.log(sa.time());
 				});
-				bgSprite.moveTo(-7813, 0, 9, function(){
+			},
+			26736: function() {
+				bgSprite.moveTo(-10663, 0, 6, function(){
 					console.log(sa.time());
+				});
+			},
+			//第四个场景
+			34352: function() {
+				peopleWoman2.delay(3000)
+					.do(function() {
+						changeFace(this.container, 'people-woman2');
+					});
+
+				cat2.delay(1000).
+					moveTo(11432, 450, 6)
+					.delay(1000)
+					.do(function() {
+						changeFace(this.container, 'cat5');
+					})
+					.delay(2000)
+					.moveTo(11292, 510, 3, function(){
+						console.log(sa.time());
+					});
+			},
+			//主人公离开场景
+			38832: function() {
+				bgSprite.moveTo(-11343, 0, 6, function(){
+					console.log(sa.time());
+				});
+				car3.moveTo(1000, 480, 6, function(){
+					bgSprite.remove(car3);
+				});
+			},
+			40672: function() {
+				player.moveTo(2000, 573, 6, function(){
+					bgLayer.remove(player);
 				});
 			}
-			// 21136: function() {
-			// 	bgSprite.moveTo(-10743, 0, 9);
-			// }
 		})
 		.play();
 }
