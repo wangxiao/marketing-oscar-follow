@@ -37,6 +37,8 @@ function simpleAnimation( options ) {
 	var SA = SA || {};
 	//全局唯一的舞台，只能被生成一次
 	var G_Stage;
+	//全局的Sprite类
+	var G_Sprite;
 	//全部图层，按照 zIndex 索引
 	var G_layerList = {};
 	//加载的图片资源对象
@@ -350,304 +352,6 @@ function simpleAnimation( options ) {
 		G_Stage.pause = SA.pause;
 		return G_Stage;
 	};
-	/*******************************************
-	*    图层管理
-	********************************************/
-	SA.Layer = function( opts ) {
-		//目标位置
-		var destinationX;
-		var destinationY;
-		//移动速度
-		var moveSpeedX;
-		var moveSpeedY;
-		//当前的宽和高
-		var thisWidth;
-		var thisHeight;
-		//当前的位置
-		var thisX;
-		var thisY;
-		//当前的 z-index
-		var thisZIndex;
-		//当前的延时动画时间
-		var allDelayTime;
-		//该sprite本身的动画队列
-		var spriteG_animationList;
-		//添加在该 sprite 上面的 sprite 队列
-		var spriteList;
-
-		function Layer( opts ) {
-			this.id = createId();
-			opts = opts || {};
-			thisWidth = opts.width || G_Stage.width() ;
-			thisHeight = opts.height || G_Stage.height();
-			thisX = opts.x || 0;
-			thisY = opts.y || 0;
-			thisZIndex = opts.zIndex || 0;
-			spriteList = {};
-			allDelayTime = 0;
-			switch( G_options.mode ) {
-				case 'canvas':
-					this.container = null;
-				break;
-				case 'dom':
-					this.container = createDom({
-						width: thisWidth,
-						height: thisHeight,
-						x: thisX,
-						y: thisY
-					});
-				break;
-			}
-		}
-
-		Layer.prototype = {
-			// 按照 zIndex 索引
-			add: function ( sprite ) {
-				var me = this;
-				setTimeout(function() {
-					if ( !spriteList[ 'zIndex' + sprite.zIndex() ] ) {
-						spriteList[ 'zIndex' + sprite.zIndex() ] = [];
-					}
-					if ( G_options.mode === 'dom' ) {
-						changeStyle( sprite.container, 'background', 'url(' + G_loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
-						changeStyle( sprite.container, 'position', 'absolute' );
-						changeStyle( sprite.container, 'overflow', 'hidden' );
-						me.container.appendChild( sprite.container );
-					}
-					spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );
-				}, allDelayTime );
-				return this;
-			},
-			remove: function ( sprite ) {
-				var me = this;
-				setTimeout(function() {
-					delFromListById( sprite.id, spriteList[ 'zIndex' + sprite.zIndex() ] );
-					if( G_options.mode === 'dom' ) {
-						me.container.removeChild( sprite.container );
-					}
-				}, allDelayTime );
-				return this;
-			},
-			zIndex: function( zIndex ) {
-				var me = this;
-				if ( arguments.length === 0 ) {
-					return thisZIndex;
-				} else {
-					setTimeout(function() {
-						thisZIndex = zIndex;
-						if( G_options.mode === 'dom' ) {
-							me.container.style['z-index'] = zIndex;
-						}
-					}, allDelayTime );
-					return this;
-				}
-			},
-			width: function ( width ) {
-				var me = this;
-				if( typeof width === 'undefined' ) {
-					return thisWidth;
-				}else{
-					setTimeout(function() {
-						thisWidth = width;
-						switch( G_options.mode ) {
-							case 'canvas':
-							break;
-							case 'dom':
-								changeStyle( me.container, 'width', width + 'px' );
-							break;
-						}
-					}, allDelayTime );
-					return this;
-				}
-			},
-			height: function ( height ) {
-				var me = this;
-				if( typeof height === 'undefined' ) {
-					return thisHeight;
-				}else{
-					setTimeout(function() {
-						thisHeight = height;
-						switch( G_options.mode ) {
-							case 'canvas':
-							break;
-							case 'dom':
-								changeStyle( me.container, 'height', height + 'px' );
-							break;
-						}
-					}, allDelayTime );
-					return this;
-				}		
-			},
-			position: function( opts ) {
-				if( arguments.length === 0 ) {
-					return { x: thisX, y: thisY };
-				} else {
-					var me = this;
-					setTimeout(function(){
-						thisX = opts.x || thisX;
-						thisY = opts.y || thisY;
-						if( G_options.mode === 'dom' ) {
-							changeStyle( me.container, 'top', thisY + 'px' );
-							changeStyle( me.container, 'left', thisX + 'px');
-						}
-					}, allDelayTime );
-					return this;
-				}
-			},
-			move: function( xLength, yLength, speedX, speedY, fun ) {
-				var me = this;
-				setTimeout(function() {
-					me.moveTo( thisX + xLength, thisY + yLength, speedX, speedY );
-				}, allDelayTime );
-				return this;
-			},
-			//speed 定义为每次刷新的步长
-			moveTo: function( x, y, speedX, speedY, fun ) {
-				var me = this;
-				
-				//此时内部调用
-				if( arguments.length === 0 ) {
-					
-					//修正x
-					if( Math.abs( destinationX - thisX ) < moveSpeedX ){
-						thisX = destinationX;
-					} else if( thisX < destinationX ) {
-						thisX += moveSpeedX;
-					} else if( thisX > destinationX ) {
-						thisX -= moveSpeedX;
-					}
-					//修正y
-					if( Math.abs( destinationY - thisY ) < moveSpeedY ){
-						thisY = destinationY;
-					} else if( thisY < destinationY ) {
-						thisY += moveSpeedY;
-					} else if( thisY > destinationY ) {
-						thisY -= moveSpeedY;
-					}
-					if( G_options.mode === 'dom' ){
-						changeStyle( me.container, 'left', thisX + 'px');
-						changeStyle( me.container, 'top', thisY + 'px');
-					}
-					//move动作结束
-					if( (thisX === destinationX) && (thisY === destinationY) ) {
-						if( animationIdList.moveTo && animationIdList.moveTo.callback ) {
-							animationIdList.moveTo.callback();
-						}
-						delFromListById( animationIdList.moveTo.id, G_animationList );
-						// TODO：这里有个bug，同一个动画可能会有多个。
-						// animationIdList.moveTo = null;
-					}
-
-				} else {
-
-					if(arguments.length === 3) {
-						speedY = speedX;
-					}
-					if(arguments.length === 4) {
-						if( typeof speedY !== 'number' ) {
-							fun = speedY;
-						}
-					}
-
-					//增加全局速度
-					speedX *= G_speed;
-					speedY *= G_speed;
-
-					//外部调用
-					setTimeout(function() {
-						switch( G_options.mode ) {
-							case 'canvas':
-							break;
-							case 'dom':
-								destinationX = x;
-								destinationY = y;
-								moveSpeedX = Math.abs( speedX );
-								moveSpeedY = Math.abs( speedY );
-							break;
-						}
-						var animationObject = {
-							id: createId() + me.id,
-							element: me,
-							//标示动作
-							fun: 'moveTo',
-							//标示动画状态
-							isPause: false
-						};
-						//存储当前动画信息到全局
-						G_animationList.push( animationObject );
-						//类中的动画信息记录
-						animationIdList.moveTo = {
-							id: animationObject.id,
-							callback: fun
-						};
-					}, allDelayTime );
-				}
-
-				return this;
-			},
-
-			//传入 action ，想停止的动作
-			pause: function( action ) {
-				if( action ){
-					if( action === 'move' ){
-						action = 'moveTo';
-					}
-					if(animationIdList[action]) {
-						var id = animationIdList[action].id;
-						pauseAnimationById( id, G_animationList );
-					}
-				} else {
-					for( var i in animationIdList ) {
-						pauseAnimationById( animationIdList[i].id, G_animationList );
-					}
-				}
-				return this;
-			},
-			play: function( action ) {
-				if( action ){
-					if( action === 'move' ){
-						action = 'moveTo';
-					}
-					if(animationIdList[action]) {
-						var id = animationIdList[action].id;
-						playAnimationById( id, G_animationList );
-					}
-				} else {
-					for( var i in animationIdList ) {
-						playAnimationById( animationIdList[i].id, G_animationList );
-					}
-				}
-				return this;
-			},
-			delay: function( delayTime ) {
-				allDelayTime += ( delayTime / G_speed );
-				return this;
-			},
-			clearDelay: function() {
-				allDelayTime = 0;
-				return this;
-			},
-			do: function ( fun ) {
-				if( fun ) {
-					var me = this;
-					setTimeout(function(){
-						fun.apply(me);	
-					}, allDelayTime );
-				}
-				return this;
-			},
-			destory: function(){
-				for( var i in this ) {
-					this[ i ] = null;
-				}
-				this.destory = true;
-				return this;
-			}
-		};
-
-
-		return new Layer( opts );
-	};
 
 	/*******************************************
 	*    元素管理
@@ -675,7 +379,7 @@ function simpleAnimation( options ) {
 		//添加在该 sprite 上面的 sprite 队列
 		var spriteList;
 
-		function Sprite( imgId, opts ) {
+		G_Sprite = function ( imgId, opts ) {
 			this.id = imgId;
 			opts = opts || {};
 			thisX = opts.x || 0;
@@ -700,9 +404,9 @@ function simpleAnimation( options ) {
 					});
 				break;
 			}
-		}
+		};
 
-		Sprite.prototype = {
+		G_Sprite.prototype = {
 			// 按照 zIndex 索引
 			add: function ( sprite ) {
 				var me = this;
@@ -954,9 +658,62 @@ function simpleAnimation( options ) {
 			}
 		};
 
-		return new Sprite( imgId, opts );
+		return new G_Sprite( imgId, opts );
 	};
+	/*******************************************
+	*    图层管理
+	********************************************/
+	SA.Layer = function( opts ) {
+		//目标位置
+		var destinationX;
+		var destinationY;
+		//移动速度
+		var moveSpeedX;
+		var moveSpeedY;
+		//当前的宽和高
+		var thisWidth;
+		var thisHeight;
+		//当前的位置
+		var thisX;
+		var thisY;
+		//当前的 z-index
+		var thisZIndex;
+		//当前的延时动画时间
+		var allDelayTime;
+		//该sprite本身的动画队列
+		var spriteG_animationList;
+		//添加在该 sprite 上面的 sprite 队列
+		var spriteList;
 
+		function Layer( opts ) {
+			this.id = createId();
+			opts = opts || {};
+			thisWidth = opts.width || G_Stage.width() ;
+			thisHeight = opts.height || G_Stage.height();
+			thisX = opts.x || 0;
+			thisY = opts.y || 0;
+			thisZIndex = opts.zIndex || 0;
+			spriteList = {};
+			allDelayTime = 0;
+			switch( G_options.mode ) {
+				case 'canvas':
+					this.container = null;
+				break;
+				case 'dom':
+					this.container = createDom({
+						width: thisWidth,
+						height: thisHeight,
+						x: thisX,
+						y: thisY
+					});
+				break;
+			}
+		}
+
+		Layer.prototype = G_Sprite.prototype;
+
+		return new Layer( opts );
+	};
 
 	/*******************************************
 	*    框架自身逻辑
