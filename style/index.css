@@ -2,3 +2,69 @@
 	margin: 0px;
 	padding: 0px;
 }
+
+#mask0{
+	width: 540px;
+	height: 350px;
+	position: absolute;
+	top: 148px;
+	left: 402px;
+	cursor: pointer;
+}
+#mask1{
+	width: 360px;
+	height: 210px;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	opacity: 0;
+	display: none;
+}
+#mask1 .context{
+	position: absolute;
+	top: 40px;
+	left: 43px;
+	width: 310px;
+	color: #939393;
+	line-height: 25px;
+}
+#mask1 .context .btns{
+}
+#mask1 .context .btns .select{
+	background-image: url('../images/button/select.png');
+	width: 64px;
+	height: 20px;
+	position: absolute;
+	top: 53px;
+	left: 160px;
+}	
+#mask1 .context .btns button{
+	height: 33px;
+	cursor: pointer;
+	border-radius: 11px;
+	cursor: pointer;
+}
+#mask1 .context .btns .btn0-15{
+	width: 63px;
+	background-image: url('../images/button/0-15.png');
+}
+#mask1 .context .btns .btn15-30{
+	width: 72px;
+	background-image: url('../images/button/15-30.png');
+}
+#mask1 .context .btns .btn30-60{
+	width: 72px;
+	background-image: url('../images/button/30-60.png');
+}
+#mask1 .context .btns .btn60-90{
+	width: 72px;
+	background-image: url('../images/button/60-90.png');
+}
+#mask1 .bg{
+	background-color: #eee;
+	opacity: 0.8;
+	width: 100%;
+	height: 100%;
+	border:10px solid #FFF;
+	border-radius: 100px;
+}

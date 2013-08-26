@@ -7,10 +7,28 @@ var IMAGE_LIST=[
 		id: 'boat',
 		url: 'images/boat.png'
 	},
+
 	{
-		id: 'desk',
-		url: 'images/desk.png'
+		id: 'desk1',
+		url: 'images/desk/desk1.png'
 	},
+	{
+		id: 'desk2',
+		url: 'images/desk/desk2.png'
+	},
+	{
+		id: 'desk3',
+		url: 'images/desk/desk3.png'
+	},
+	{
+		id: 'desk4',
+		url: 'images/desk/desk4.png'
+	},
+	{
+		id: 'desk5',
+		url: 'images/desk/desk5.png'
+	},
+
 	{
 		id: 'train',
 		url: 'images/train.png'
@@ -95,10 +113,6 @@ var IMAGE_LIST=[
 	{
 		id: 'cloud-white1',
 		url: 'images/cloud/cloud-white1.png'
-	},
-	{
-		id: 'cloud-white2',
-		url: 'images/cloud/cloud-white2.png'
 	},
 	{
 		id: 'cloud-white2',
@@ -208,11 +222,25 @@ var IMAGE_LIST=[
 	{
 		id: 'people-girl',
 		url: 'images/people/people-girl.png'
+	},
+
+	{
+		id: 'click-me',
+		url: 'images/button/click-me.png'
+	},
+	{
+		id: 'mouse1',
+		url: 'images/button/mouse1.png'
+	},
+	{
+		id: 'mouse2',
+		url: 'images/button/mouse2.png'
 	}
 ];
 
 //初始化
 var sa = simpleAnimation({
+	container:'film',
 	mode: 'dom',
 	imagesList: IMAGE_LIST,
 	onstart: function() {
@@ -249,6 +277,26 @@ function intervalChangeFace( container, imagesIdList, interval) {
 	}, interval);
 }
 
+function creatCloud(x, y) {
+	var idList = ['cloud-white1', 'cloud-white2', 'cloud-blue1', 'cloud-blue2'];
+	return sa.Sprite(idList[ Math.floor( Math.random() * 4 ) ])
+			.position({x:x, y:y })
+			.do(function() {
+				var me = this;
+				var w = Math.floor(Math.random()*2+1);
+				if(w === 1) {
+					w = -1;
+				} else {
+					w = 1;
+				}
+				var p = me.position();
+				me.moveTo(p.x + 1000 * w, p.y+0, 1, function() {
+					me.moveTo(p.x+1500 * ( - w ), p.y+0, 1,function(){
+					});
+				});
+			});
+}
+
 function main() {
 	var winWidth = $(document).width();
 
@@ -273,47 +321,51 @@ function main() {
 					intervalChangeFace( this.container, ['player1','player2','player3'], 100);
 				});
 
+	for(var i = 2, l = 17; i < l ; i += 1) {
+		var x = i * 650 + Math.floor( Math.random() * 400 );
+		var y = 70 * Math.floor( Math.random() * 3 + 1 );
+		bgSprite.add( creatCloud(x, y) );
+	}
+
 	var train = sa.Sprite( 'train' ).position({x:1350,y:523});
 	//地铁第二个场景元素
-	var peopleOld = sa.Sprite('people-old').position({x:3700,y:320});
-	var peopleWoman = sa.Sprite('people-woman1').position({x:3812,y:348});
-	var peopleBoy1 = sa.Sprite('people-boy1').position({x:4000,y:336});
-	var peopleBoy2 = sa.Sprite('people-boy2').position({x:4080,y:320});
+	var peopleOld = sa.Sprite('people-old').position({x:4100,y:320});
+	var peopleWoman = sa.Sprite('people-woman1').position({x:4212,y:348});
+	var peopleBoy1 = sa.Sprite('people-boy1').position({x:4400,y:336});
+	var peopleBoy2 = sa.Sprite('people-boy2').position({x:4480,y:320});
 	//地铁第三个场景元素
-	var cat1 = sa.Sprite('cat1').position({x:6726,y:444});
-	var peopleAnger = sa.Sprite('people-anger3').position({x:6780,y:321});
-	var peopleBoy3 = sa.Sprite('people-boy3').position({x:6871,y:341});
-	var peopleMan1 = sa.Sprite('people-man1').position({x:6950,y:335});
-	var peopleGirl = sa.Sprite('people-girl').position({x:7035,y:364});
-	var peopleMan3 = sa.Sprite('people-man3').position({x:7206,y:320});
+	var cat1 = sa.Sprite('cat1').position({x:7126,y:444});
+	var peopleAnger = sa.Sprite('people-anger3').position({x:7180,y:321});
+	var peopleBoy3 = sa.Sprite('people-boy3').position({x:7271,y:341});
+	var peopleMan1 = sa.Sprite('people-man1').position({x:7350,y:335});
+	var peopleGirl = sa.Sprite('people-girl').position({x:7435,y:364});
+	var peopleMan3 = sa.Sprite('people-man3').position({x:7606,y:320});
 
 	var iconFire = sa.Sprite('icon-fire').position({x:-20,y:-20});
 	var iconRound = sa.Sprite('icon-round').position({x:-25,y:-20});
 	var icon3dots = sa.Sprite('icon-3dots').position({x:50,y:-20});
 	var iconHeart = sa.Sprite('icon-heart').position({x:50,y:-30});
 
-	var boat = sa.Sprite('boat').position({x:8066,y:408});
+	var boat = sa.Sprite('boat').position({x:8442,y:408});
 
 	//地铁第四个场景元素
-	var peopleMan5 = sa.Sprite('people-man5').position({x:11070,y:313});
-	var peopleMan4 = sa.Sprite('people-man4').position({x:11170,y:324});
-	var peopleWoman2 = sa.Sprite('people-woman3').position({x:11411,y:377});
-	var desk = sa.Sprite('desk').position({x:11378,y:448});
-	var cat2 = sa.Sprite('cat4').position({x:11492,y:238});
+	var peopleMan5 = sa.Sprite('people-man5').position({x:11446,y:313});
+	var peopleMan4 = sa.Sprite('people-man4').position({x:11546,y:324});
+	var peopleWoman2 = sa.Sprite('people-woman3').position({x:11787,y:377});
+	var desk = sa.Sprite('desk1').position({x:11754, y:448});
+	var cat2 = sa.Sprite('cat4').position({x:11948, y:238});
 
 	var car1 = sa.Sprite('car-yellow').position({x:6446,y:477});
-	var car2 = sa.Sprite('car-red').position({x:8500,y:470});
+	var car2 = sa.Sprite('car-red').position({x:8840,y:470});
 	var car3 = sa.Sprite('car-blue').position({x:12911,y:580});
 
-	for(var i = 2, l = 50; i < l ; i += 1) {
-		var cloud = sa.Sprite('cloud-white1')
-						.position({x: i * 550 + Math.floor( Math.random() * 400 ), y:70 * Math.floor( Math.random() * 3 + 1 ) })
-						.do(function() {
-							this.move(-300, 0, 1);
-						});
-
-		bgSprite.add( cloud );
-	}
+	var clickMe = sa.Sprite('click-me').position({x:760, y:440});
+	var mouse = sa.Sprite('mouse1')
+					.width(65)
+					.position({x:730, y:440})
+					.do(function(){
+						intervalChangeFace( this.container, ['mouse1', 'mouse2'],300);
+					});
 
 	bgSprite.add( peopleOld )
 			.add( peopleWoman )
@@ -333,7 +385,9 @@ function main() {
 			.add( cat2 )
 			.add( car1 )
 			.add( car2 )
-			.add( car3 );
+			.add( car3 )
+			.add( clickMe )
+			.add( mouse );
 
 	bgLayer.add( bgSprite )
 			.add( player )
@@ -359,69 +413,71 @@ function main() {
 	sa.speed(1)
 		.timeline({
 			//豆子横着走
-			2000: function() {
-				bgSprite.moveTo(-480, 0, 6, function(){
+			100: function() {
+				bgSprite.moveTo(-850, 0, 6, function(){
 						console.log(sa.time());
 					});
-				train.moveTo(873, 523, 6);
+				train.moveTo(509, 523, 6);
 			},			
 			//豆子向下走
-			3400: function() {
+			2384: function() {
 				player.moveTo(650, 530, 6, function(){
 						console.log(sa.time());
 					});
 			},
 			//豆子走向火车
-			3950: function() {
+			2720: function() {
 				bgSprite.moveTo(-1068, 0, 6, function(){
 						console.log(sa.time());
 					});
-				train.moveTo(285, 523, 6);
+				train.moveTo(295, 523, 6);
 			},
-			5840: function() {
-				bgSprite.moveTo(-3250, 0, 18, function(){
+			3728: function() {
+				bgSprite.moveTo(-3650, 0, 18, function(){
 						console.log(sa.time());
 					});
 			},
 			//第二个场景
-			8860: function() {
-				player.moveTo(650, 450, 2);
-				peopleOld.moveTo(3700, 450, 2, function(){
+			6248: function() {
+				$('#mask1').show().animate({opacity:1},500);
+				sa.pause();
+				player.moveTo(650, 450, 5);
+				peopleOld.moveTo(4100, 450, 2, function(){
 							bgSprite.remove(peopleOld);
 							console.log(sa.time());
 						});
 				peopleWoman.delay(1500)
-						.moveTo(3812, 488, 4, function(){
+						.moveTo(4212, 488, 4, function(){
 							bgSprite.remove(peopleWoman);
 							console.log(sa.time());
 						});
 				peopleBoy1.delay(1000)
-						.moveTo(4000, 476, 4, function(){
+						.moveTo(4400, 476, 4, function(){
 							bgSprite.remove(peopleBoy1);
 							console.log(sa.time());
 						});
 				peopleBoy2.delay(2200)
-					.moveTo(4080, 460, 4, function(){
+					.moveTo(4480, 460, 4, function(){
 						bgSprite.remove(peopleBoy2);
 						console.log(sa.time());
 					});
 			},
-			11604: function() {
-				bgSprite.moveTo(-6300, 0, 6, function(){
+			8688: function() {
+				bgSprite.moveTo(-6700, 0, 9, function(){
 					console.log(sa.time());
 				});
-				train.moveTo(-1000, 523, 6, function(){
+				train.moveTo(-1000, 523, 9, function(){
 					bgLayer.remove(train);
 				});
-				player.delay(1200)
+				player.delay(800)
 					.moveTo(650, 543, 4);
-				car1.delay(3500).
+				car1.delay(3000).
 					moveTo(0, 477, 8 ,function(){
 						bgSprite.remove(car1);
 					});
 			},
 			//第三个场景
-			19760: function() {
+			14128: function() {
 				cat1.delay(2000)
 					.do(function(){
 						changeFace(this.container,'cat2');
@@ -429,6 +485,10 @@ function main() {
 					.delay(1000)
 					.do(function(){
 						changeFace(this.container,'cat3');
+					})
+					.moveTo(7106, 384, 8)
+					.delay(300)
+					.moveTo(7086, 445, 8, function(){
 						console.log(sa.time());
 					});
 
@@ -454,73 +514,105 @@ function main() {
 				peopleGirl.delay(2800)
 					.add( iconHeart );
 			},
-			//离开
-			22544: function() {
-				bgSprite.moveTo(-7333, 0, 6, function(){
+			// 离开
+			19344: function() {
+				bgSprite.moveTo(-7723, 0, 6, function(){
 					console.log(sa.time());
 				});
-				boat.moveTo(8336, 408, 1);
+				boat.moveTo(8713, 408, 1);
 			},
-			25328: function() {
+			22096: function() {
 				player.clearDelay()
 					.moveTo(650, 643, 5, function(){
 						console.log(sa.time());
 					});
-				bgSprite.moveTo(-7593, 0, 6, function(){
+				bgSprite.moveTo(-7953, 0, 6, function(){
 					console.log(sa.time());
 				});
 			},
-			26064: function() {
+			22752: function() {
 				player.delay(100)
 					.moveTo(650, 573, 2, function(){
 						console.log(sa.time());
 					});
 
-				car2.moveTo(30000, 470, 8, function(){
+				car2.moveTo(30000, 470, 10, function(){
 					bgSprite.remove(car2);
 				});
 
-				bgSprite.moveTo(-7813, 0, 6, function(){
+				bgSprite.moveTo(-8200, 0, 6, function(){
 					console.log(sa.time());
 				});
 			},
-			26736: function() {
-				bgSprite.moveTo(-10663, 0, 6, function(){
+			23440: function() {
+				bgSprite.moveTo(-11153, 0, 14, function(){
 					console.log(sa.time());
 				});
 			},
 			//第四个场景
-			34352: function() {
+			28720: function() {
 				peopleWoman2.delay(3000)
 					.do(function() {
 						changeFace(this.container, 'people-woman2');
 					});
+				desk.delay(2000)
+					.do(function(){
+						changeFace(this.container, 'desk2');
+					}).delay(1500)
+					.do(function(){
+						changeFace(this.container, 'desk3');
+					}).delay(1500)
+					.do(function(){
+						changeFace(this.container, 'desk4');
+					}).delay(1500)
+					.do(function(){
+						changeFace(this.container, 'desk5');
+						cat2.clearDelay()
+							.delay(200)
+							.moveTo(11668, 518, 6, function(){
+								console.log(sa.time());
+							});
+					});
 
-				cat2.delay(1000).
-					moveTo(11432, 450, 6)
+				cat2.delay(300)
+					.moveTo(11868, 428, 6)
 					.delay(1000)
 					.do(function() {
 						changeFace(this.container, 'cat5');
-					})
-					.delay(2000)
-					.moveTo(11292, 510, 3, function(){
-						console.log(sa.time());
 					});
 			},
 			//主人公离开场景
-			38832: function() {
-				bgSprite.moveTo(-11343, 0, 6, function(){
+			35472: function() {
+				bgSprite.moveTo(-12943, 0, 6, function(){
 					console.log(sa.time());
 				});
 				car3.moveTo(1000, 480, 6, function(){
 					bgSprite.remove(car3);
 				});
 			},
-			40672: function() {
+			40288: function() {
 				player.moveTo(2000, 573, 6, function(){
 					bgLayer.remove(player);
 				});
 			}
-		})
-		.play();
+		});
+	
+	// 用户能节省的时长
+	var userTimeLength = 0;
+ 
+	//dom操作部分
+	var mask0 = $('#mask0');
+	mask0.on('click', function(){
+		sa.play();
+		mask0.hide();
+		bgSprite.remove(clickMe);
+		bgSprite.remove(mouse);
+	});
+
+	var mask1 = $('#mask1');
+	mask1.find('button').on('click', function(){
+		userTimeLength += Number($(this).attr('data-time'));
+		mask1.hide();
+		sa.play();
+	});
 }

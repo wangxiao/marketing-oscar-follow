@@ -512,9 +512,7 @@ function simpleAnimation( options ) {
 			},
 			move: function( xLength, yLength, speedX, speedY, fun ) {
 				var me = this;
-				setTimeout(function() {
-					me.moveTo( thisX + xLength, thisY + yLength, speedX, speedY );
-				}, allDelayTime );
+				me.moveTo( thisX + xLength, thisY + yLength, speedX, speedY, fun );
 				return this;
 			},
 			//speed 定义为每次刷新的步长
