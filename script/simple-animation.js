@@ -245,7 +245,8 @@ function simpleAnimation( options ) {
 
 	SA.destory = function() {
 		//TODO:调用所有的 destory
-
+		var container = getElement( G_options.container );
+		container.removeChild( G_Stage.container );
 	};
 	/*******************************************
 	*    舞台方法

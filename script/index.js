@@ -435,12 +435,12 @@ function main() {
 			3728: function() {
 				bgSprite.moveTo(-3650, 0, 18, function(){
 						console.log(sa.time());
+						sa.pause();
+						$('#mask1').show().animate({opacity:1},500);
 					});
 			},
 			//第二个场景
 			6248: function() {
-				$('#mask1').show().animate({opacity:1},500);
-				sa.pause();
 				player.moveTo(650, 450, 5);
 				peopleOld.moveTo(4100, 450, 2, function(){
 							bgSprite.remove(peopleOld);
@@ -465,6 +465,8 @@ function main() {
 			8688: function() {
 				bgSprite.moveTo(-6700, 0, 9, function(){
 					console.log(sa.time());
+					sa.pause();
+					$('#mask2').show().animate({opacity:1},500);
 				});
 				train.moveTo(-1000, 523, 9, function(){
 					bgLayer.remove(train);
@@ -477,7 +479,7 @@ function main() {
 					});
 			},
 			//第三个场景
-			14128: function() {
+			14150: function() {
 				cat1.delay(2000)
 					.do(function(){
 						changeFace(this.container,'cat2');
@@ -515,13 +517,13 @@ function main() {
 					.add( iconHeart );
 			},
 			// 离开
-			19344: function() {
+			18344: function() {
 				bgSprite.moveTo(-7723, 0, 6, function(){
 					console.log(sa.time());
 				});
 				boat.moveTo(8713, 408, 1);
 			},
-			22096: function() {
+			21100: function() {
 				player.clearDelay()
 					.moveTo(650, 643, 5, function(){
 						console.log(sa.time());
@@ -530,8 +532,8 @@ function main() {
 					console.log(sa.time());
 				});
 			},
-			22752: function() {
-				player.delay(100)
+			21744: function() {
+				player.clearDelay().delay(100)
 					.moveTo(650, 573, 2, function(){
 						console.log(sa.time());
 					});
@@ -544,9 +546,11 @@ function main() {
 					console.log(sa.time());
 				});
 			},
-			23440: function() {
+			22432: function() {
 				bgSprite.moveTo(-11153, 0, 14, function(){
 					console.log(sa.time());
+					sa.pause();
+					$('#mask3').show().animate({opacity:1},500);
 				});
 			},
 			//第四个场景
@@ -583,16 +587,20 @@ function main() {
 			},
 			//主人公离开场景
 			35472: function() {
-				bgSprite.moveTo(-12943, 0, 6, function(){
+				bgSprite.moveTo(-12943, 0, 12, function(){
 					console.log(sa.time());
 				});
 				car3.moveTo(1000, 480, 6, function(){
 					bgSprite.remove(car3);
 				});
 			},
-			40288: function() {
-				player.moveTo(2000, 573, 6, function(){
+			37904: function() {
+				player.moveTo(2000, 573, 12, function(){
 					bgLayer.remove(player);
+				});
+				$('#film').animate({opacity:0.5},2000,function() {
+					$('#film').hide();
+					$('#subscibe').show().animate({opacity:1},1000);
 				});
 			}
 		});
@@ -614,5 +622,53 @@ function main() {
 		userTimeLength += Number($(this).attr('data-time'));
 		mask1.hide();
 		sa.play();
+	});
+
+	var mask2 = $('#mask2');
+	mask2.find('button').on('click', function(){
+		userTimeLength += Number($(this).attr('data-time'));
+		mask2.hide();
+		sa.play();
+	});
+
+	var mask3 = $('#mask3');
+	mask3.find('button').on('click', function(){
+		userTimeLength += Number($(this).attr('data-time'));
+		$('#userTimeLength').text(userTimeLength);
+		mask3.hide();
+		sa.play();
+	});
+
+	var subscibeEle = $('#subscibe');
+	var videosList = [];
+	subscibeEle.find('.videos button').on('click',function(){
+		var id = $(this).attr('data-id');
+		var value = 'video/http://oscar.wandoujia.com/api/v1/feeds/' + id;
+		for( var i = 0 , l = videosList.length; i < l ; i += 1 ) {
+			if( videosList[i] !== value ) {
+				videosList.push( value );
+			}
+		}
+	});
+}
+
+function subscibe( list ) {
+	var data = {
+		data: JSON.stringify(list),
+		type: 'test'
+	};
+	$.ajax({
+		type: 'post',
+		url: 'http://feed.wandoujia.com/api/v1/deposit/add',
+		async: false,
+		contentType: 'application/json',
+		dataType: 'jsonp',
+		data: data,
+		timeout: 10000
+	}).done(function( data ) {
+		alert('订阅成功');
+	}).fail(function( xhr ) {
+		// xhr.status
+		alert('订阅失败');
 	});
 }
