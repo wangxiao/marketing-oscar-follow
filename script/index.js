@@ -235,6 +235,18 @@ var IMAGE_LIST=[
 	{
 		id: 'mouse2',
 		url: 'images/button/mouse2.png'
+	},
+	{
+		id: 'player-big1',
+		url: 'images/weibo/player1.png'
+	},
+	{
+		id: 'player-big2',
+		url: 'images/weibo/player2.png'
+	},
+	{
+		id: 'player-big3',
+		url: 'images/weibo/player3.png'
 	}
 ];
 
@@ -268,7 +280,7 @@ function changeFace( container, id ) {
 function intervalChangeFace( container, imagesIdList, interval) {
 	var l = imagesIdList.length;
 	var num = 0;
-	setInterval(function(){
+	return setInterval(function(){
 		num += 1;
 		if( num > l ) {
 			num = 1;
@@ -316,10 +328,7 @@ function main() {
 	var bgLayer = sa.Layer().height( bgSprite.height() );
 	stage.add( bgLayer );
 
-	var player = sa.Sprite( 'player2' ,{  x:650, y:410 } )
-				.do(function(){
-					intervalChangeFace( this.container, ['player1','player2','player3'], 100);
-				});
+	var player = sa.Sprite( 'player1' ,{ width:68, height: 68, x:650, y:410 } );
 
 	for(var i = 2, l = 17; i < l ; i += 1) {
 		var x = i * 650 + Math.floor( Math.random() * 400 );
@@ -412,6 +421,11 @@ function main() {
 	//动画开始
 	sa.speed(1)
 		.timeline({
+			1:function() {
+				player.do(function() {
+					intervalChangeFace( this.container, ['player2','player3','player1'], 100);
+				});
+			},
 			//豆子横着走
 			100: function() {
 				bgSprite.moveTo(-850, 0, 6, function(){
@@ -600,7 +614,9 @@ function main() {
 				});
 				$('#film').animate({opacity:0.5},2000,function() {
 					$('#film').hide();
-					$('#subscibe').show().animate({opacity:1},1000);
+					$('#subscibe').show().animate({opacity:1},1000,function(){
+						sa.destory();
+					});
 				});
 			}
 		});
@@ -634,7 +650,7 @@ function main() {
 	var mask3 = $('#mask3');
 	mask3.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
-		$('#userTimeLength').text(userTimeLength);
+		$('.userTimeLength').text(userTimeLength);
 		mask3.hide();
 		sa.play();
 	});
@@ -649,9 +665,40 @@ function main() {
 				videosList.push( value );
 			}
 		}
+		//临时测试
+		showWeibo();
+	});
+// main 函数结束的最后一个括号
+}
+
+//显示微博分享那个页面
+function showWeibo() {
+	$('#subscibe').animate({opacity:0.5}, 500, function() {
+		$('#subscibe').hide();
+		var container = $('#weibo');
+		container.show().animate({opacity:1},1000);
+		var ele = container.find('.player');
+		var timer = intervalChangeFace( ele, ['player-big1','player-big2','player-big3'],100 );
+		ele.animate({left:'-15%'},3500);
+
+		container.find('.btn').on('click',function() {
+			showEndPage();
+		});
+
 	});
 }
 
+//显示结束页
+function showEndPage() {
+	$('#weibo').animate({opacity:0.5}, 500,function() {
+		$('#weibo').hide();
+		var container = $('#end');
+		container.show().animate({opacity:1},1000);
+	});
+}
+
+
+// 提交预订阅
 function subscibe( list ) {
 	var data = {
 		data: JSON.stringify(list),
