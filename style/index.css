@@ -6,6 +6,13 @@ body{
 	font: 12px arial;
 	font-weight: 300;
 }
+.big-word{
+	font-size: 30px;
+	line-height: 35px;
+}
+.bold-word{
+	font-weight: bold;
+}
 .btns button{
 	height: 33px;
 	cursor: pointer;
@@ -44,6 +51,16 @@ body{
 	border: 7px solid #FFF;
 	border-radius: 50px;
 }
+#loading{
+	position: fixed;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: ;
+	background:#F3F3F3 url('../images/loading.gif') 50% 50% no-repeat;
+	text-align: center;
+}
 #mask0{
 	width: 540px;
 	height: 350px;
@@ -63,12 +80,15 @@ body{
 }
 #mask1 .content{
 	position: absolute;
-	top: 40px;
+	top: 25px;
 	left: 43px;
 	width: 310px;
-	color: #939393;
+	color: #666;
 	line-height: 25px;
 	font-size: 18px;
+}
+#mask1 .content .btns{
+	margin: 4px 0px;
 }
 #mask1 .content .btns .select{
 	background-image: url('../images/button/select.png');
@@ -89,12 +109,15 @@ body{
 }
 #mask2 .content{
 	position: absolute;
-	top: 40px;
+	top: 25px;
 	left: 43px;
 	width: 310px;
-	color: #939393;
+	color: #666;
 	line-height: 25px;
 	font-size: 18px;
+}
+#mask2 .content .btns{
+	margin: 4px 0px;
 }
 #mask3{
 	width: 360px;
@@ -107,12 +130,15 @@ body{
 }
 #mask3 .content{
 	position: absolute;
-	top: 40px;
+	top: 25px;
 	left: 43px;
 	width: 310px;
-	color: #939393;
+	color: #666;
 	line-height: 25px;
 	font-size: 18px;
+}
+#mask3 .content .btns{
+	margin: 4px 0px;
 }
 #mask3 .content .btns .select{
 	left:200px;
@@ -123,7 +149,6 @@ body{
 	bottom: 0px;
 	background-color: #F9F9FB;
 	width: 100%;
-	overflow: hidden;
 	display: none;
 	opacity: 0;
 }
@@ -132,12 +157,12 @@ body{
 	left: -44px;
 	top: 0px;
 	width: 100%;
-	height: 153px;
+	height: 135px;
 	background-image: url('../images/subscibe/bg-2.png');
 }
 #subscibe .header .left{
 	width: 600px;
-	height: 153px;
+	height: 135px;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -147,7 +172,7 @@ body{
 }
 #subscibe .header .right{
 	width: 200px;
-	height: 153px;
+	height: 135px;
 	position: fixed;
 	top: 0px;
 	right: 0px;
@@ -155,7 +180,7 @@ body{
 }
 #subscibe .content{
 	width: 790px;
-	margin: 180px auto 0px auto;
+	margin: 139px auto 0px auto;
 	height: 100%;
 }
 #subscibe .content .word{
@@ -184,6 +209,19 @@ body{
 	width: 100%;
 	margin-top: 20px;
 }
+#subscibe .content .videos .video-photo{
+	width: 122px;
+	float: left;
+	margin-right: 15px;
+	margin-left: 15px;
+	cursor: pointer;
+}
+#subscibe .content .ok{
+	position: absolute;
+	top: 715px;
+	left: 50%;
+	margin-left: -60px;
+}
 #subscibe .content button{
 	width: 150px;
 	height: 50px;
@@ -206,6 +244,24 @@ body{
 }
 #subscibe .content button.green{
 	background-image: url('../images/subscibe/btn-green.png');
+}
+#subscibe .btn-left{
+	background-image: url('../images/subscibe/left.png');
+	width: 27px;
+	height: 55px;
+	position: absolute;
+	left: 200px;
+	top: 400px;
+	cursor: pointer;
+}
+#subscibe .btn-right{
+	background-image: url('../images/subscibe/right.png');
+	width: 28px;
+	height: 55px;
+	position: absolute;
+	right: 230px;
+	top: 400px;
+	cursor: pointer;
 }
 #weibo{
 	position: fixed;
