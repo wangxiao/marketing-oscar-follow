@@ -1,0 +1,384 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	font: 12px arial;
+	font-weight: 300;
+}
+.big-word{
+	font-size: 30px;
+	line-height: 35px;
+}
+.bold-word{
+	font-weight: bold;
+}
+.btns button{
+	height: 33px;
+	cursor: pointer;
+	border-radius: 11px;
+	cursor: pointer;
+}
+.btns .btn0-15{
+	width: 63px;
+	background-image: url('../images/button/0-15.png');
+}
+.btns .btn15-30{
+	width: 72px;
+	background-image: url('../images/button/15-30.png');
+}
+.btns .btn30-60{
+	width: 72px;
+	background-image: url('../images/button/30-60.png');
+}
+.btns .btn60-90{
+	width: 72px;
+	background-image: url('../images/button/60-90.png');
+}
+.btns .select{
+	background-image: url('../images/button/select.png');
+	width: 64px;
+	height: 20px;
+	position: absolute;
+	top: 53px;
+	left: 170px;
+}
+.bg{
+	background-color: #eee;
+	opacity: 0.4;
+	width: 100%;
+	height: 100%;
+	border: 7px solid #FFF;
+	border-radius: 50px;
+}
+#loading{
+	position: fixed;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: ;
+	background:#F3F3F3 url('../images/loading.gif') 50% 50% no-repeat;
+	text-align: center;
+}
+#mask0{
+	width: 540px;
+	height: 350px;
+	position: absolute;
+	top: 148px;
+	left: 402px;
+	cursor: pointer;
+}
+#mask1{
+	width: 360px;
+	height: 210px;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	opacity: 0;
+	display: none;
+}
+#mask1 .content{
+	position: absolute;
+	top: 25px;
+	left: 43px;
+	width: 310px;
+	color: #666;
+	line-height: 25px;
+	font-size: 18px;
+}
+#mask1 .content .btns{
+	margin: 4px 0px;
+}
+#mask1 .content .btns .select{
+	background-image: url('../images/button/select.png');
+	width: 64px;
+	height: 20px;
+	position: absolute;
+	top: 53px;
+	left: 160px;
+}	
+#mask2{
+	width: 360px;
+	height: 210px;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	opacity: 0;
+	display: none;
+}
+#mask2 .content{
+	position: absolute;
+	top: 25px;
+	left: 43px;
+	width: 310px;
+	color: #666;
+	line-height: 25px;
+	font-size: 18px;
+}
+#mask2 .content .btns{
+	margin: 4px 0px;
+}
+#mask3{
+	width: 360px;
+	height: 210px;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	opacity: 0;
+	display: none;
+}
+#mask3 .content{
+	position: absolute;
+	top: 25px;
+	left: 43px;
+	width: 310px;
+	color: #666;
+	line-height: 25px;
+	font-size: 18px;
+}
+#mask3 .content .btns{
+	margin: 4px 0px;
+}
+#mask3 .content .btns .select{
+	left:200px;
+}
+#subscibe{
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	background-color: #F9F9FB;
+	width: 100%;
+	display: none;
+	opacity: 0;
+}
+#subscibe .header{
+	position: absolute;
+	left: -44px;
+	top: 0px;
+	width: 100%;
+	height: 135px;
+	background-image: url('../images/subscibe/bg-2.png');
+}
+#subscibe .header .left{
+	width: 600px;
+	height: 135px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background-image: url('../images/subscibe/bg-1.png');
+	background-repeat: no-repeat;
+	background-color: #F9F9FB;
+}
+#subscibe .header .right{
+	width: 200px;
+	height: 135px;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	background-image: url('../images/subscibe/bg-3.png');
+}
+#subscibe .content{
+	width: 790px;
+	margin: 139px auto 0px auto;
+	height: 100%;
+}
+#subscibe .content .word{
+	position: absolute;
+	font-size: 50px;
+	width: 790px;
+	text-align: center;
+	top: 50px;
+}
+#subscibe .content .TV{
+	width: 90px;
+	height: 104px;
+	margin-left: 130px;
+	background-image: url('../images/subscibe/TV.png');
+	float: left;
+}
+#subscibe .content .title{
+	float: left;
+	margin-top: 26px;
+	margin-left: 15px;
+	font-size: 30px;
+	line-height: 37px;
+}
+#subscibe .content .videos{
+	float: left;
+	width: 100%;
+	margin-top: 20px;
+}
+#subscibe .content .videos .video-photo{
+	width: 122px;
+	float: left;
+	margin-right: 15px;
+	margin-left: 15px;
+	cursor: pointer;
+}
+#subscibe .content .ok{
+	position: absolute;
+	top: 715px;
+	left: 50%;
+	margin-left: -60px;
+}
+#subscibe .content button{
+	width: 150px;
+	height: 50px;
+	font-size: 22px;
+	color: #FFF;
+	border-radius: 15px;
+	font-weight: 300;
+	margin-right: 3px;
+	margin-bottom: 15px;
+	cursor: pointer;
+}
+#subscibe .content button.red{
+	background-image: url('../images/subscibe/btn-red.png');
+}
+#subscibe .content button.blue{
+	background-image: url('../images/subscibe/btn-blue.png');
+}
+#subscibe .content button.yellow{
+	background-image: url('../images/subscibe/btn-yellow.png');
+}
+#subscibe .content button.green{
+	background-image: url('../images/subscibe/btn-green.png');
+}
+#subscibe .btn-left{
+	background-image: url('../images/subscibe/left.png');
+	width: 27px;
+	height: 55px;
+	position: absolute;
+	left: 200px;
+	top: 400px;
+	cursor: pointer;
+}
+#subscibe .btn-right{
+	background-image: url('../images/subscibe/right.png');
+	width: 28px;
+	height: 55px;
+	position: absolute;
+	right: 230px;
+	top: 400px;
+	cursor: pointer;
+}
+#weibo{
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	width: 100%;
+	overflow: hidden;
+	background:url('../images/weibo/bg.png');
+	display: none;
+	opacity: 0;
+}
+#weibo .content{
+	width: 790px;
+	height: 100%;
+	margin: 0px auto;
+	position: relative;
+}
+#weibo .content .TV{
+	background-image: url('../images/weibo/computer.png');
+	width: 540px;
+	height: 465px;
+	position: absolute;
+	left: 200px;
+	top: 110px;
+}
+#weibo .content .TV p{
+	line-height: 32px;
+	font-size: 20px;
+	margin: 70px 40px 0px 55px;
+	color: #fefefe;
+}
+#weibo .content .btn{
+	background-image: url('../images/weibo/btn.png');
+	width: 237px;
+	height: 90px;
+	position: absolute;
+	left: 10px;
+	top: 280px;
+	border-radius: 22px;
+	cursor: pointer;
+}
+#weibo .content .player{
+	background-image: url('../images/weibo/player2.png');
+	background-repeat: no-repeat;
+	width: 205px;
+	height: 206px;
+	position: absolute;
+	top: 380px;
+	left: -530px;
+}
+#end{
+	width: 1365px;
+	height: 772px;
+	background:url('../images/end/bg.png');
+	overflow: hidden;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -682px;
+	margin-top: -386px;
+	display: none;
+	opacity: 0;
+}
+#end .content{
+	width: 790px;
+	height: 100%;
+	margin: 0px auto;
+	position: relative;	
+}
+#end .content .books{
+	background-image: url('../images/end/book.png');
+	position: absolute;
+	width: 402px;
+	height: 249px;
+	top: 320px;
+	left: 320px;
+}
+#end .content .TV{
+	background-image: url('../images/end/TV.png');
+	position: absolute;
+	width: 174px;
+	height: 187px;
+	top: 135px;
+	left: 420px;
+}
+#end .content .tip{
+	background-image: url('../images/end/tip.png');
+	position: absolute;
+	right: -140px;
+	top: 70px;
+	width: 194px;
+	height: 194px;
+}
+#end .content .btn-back{
+	position: absolute;
+	bottom: 80px;
+	left: 190px;
+}
+#end .content .btn-back button{
+	background-image: url('../images/end/btn-back.png');
+	cursor: pointer;
+	width: 380px;
+	height: 93px;
+	border-radius: 24px;
+}
+#end .content .words{
+	width: 300px;
+	height: 160px;
+	position: relative;
+	top: 50px;
+}
+#end .content .words p{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	font-size: 17px;
+	color: #fefefe;
+	margin: 20px 15px 0px 25px;
+	line-height: 25px;
+}
