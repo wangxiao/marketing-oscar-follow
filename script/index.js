@@ -121,31 +121,31 @@ var IMAGE_LIST=[
 
 	{
 		id: 'icon-3dots',
-		url: 'images/icon/icon-3dots.png'
+		url: 'images/icons/icon-3dots.png'
 	},
 	{
 		id: 'icon-fire',
-		url: 'images/icon/icon-fire.png'
+		url: 'images/icons/icon-fire.png'
 	},
 	{
 		id: 'icon-heart',
-		url: 'images/icon/icon-heart.png'
+		url: 'images/icons/icon-heart.png'
 	},
 	{
 		id: 'icon-music',
-		url: 'images/icon/icon-music.png'
+		url: 'images/icons/icon-music.png'
 	},
 	{
 		id: 'icon-plane',
-		url: 'images/icon/icon-plane.png'
+		url: 'images/icons/icon-plane.png'
 	},
 	{
 		id: 'icon-round',
-		url: 'images/icon/icon-round.png'
+		url: 'images/icons/icon-round.png'
 	},
 	{
 		id: 'icon-star',
-		url: 'images/icon/icon-star.png'
+		url: 'images/icons/icon-star.png'
 	},
 
 	{
@@ -247,6 +247,22 @@ var IMAGE_LIST=[
 	{
 		id: 'player-big3',
 		url: 'images/weibo/player3.png'
+	},
+	{
+		id: 'btn15',
+		url:  'images/button/0-15.png'
+	},
+	{
+		id: 'btn30',
+		url:  'images/button/15-30.png'
+	},
+	{
+		id: 'btn60',
+		url:  'images/button/30-60.png'
+	},
+	{
+		id: 'btn90',
+		url:  'images/button/60-90.png'
 	}
 ];
 
