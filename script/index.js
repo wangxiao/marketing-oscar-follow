@@ -390,7 +390,7 @@ function main() {
 					.width(65)
 					.position({x:730, y:440})
 					.do(function(){
-						intervalChangeFace( this.container, ['mouse1', 'mouse2'],300);
+						intervalChangeFace( this.container, ['mouse1', 'mouse2'],500);
 					});
 
 	bgSprite.add( peopleOld )
