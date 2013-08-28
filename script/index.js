@@ -772,11 +772,15 @@ function subscibePage( num ){
 		});
 		container.find('.video-photo').on('click',function() {
 			var ele = $(this);
-			if( ele.css('opacity') !== 1 ) {
-				ele.css({opacity:0.5});
+			var mask = ele.find('.mask-sel');
+			if( ele.attr('data-selected') === 'false' ){
+				mask.show();
+				ele.attr('data-selected','true');
 			} else {
-				ele.css({opacity:1});
+				mask.hide();	
+				ele.attr('data-selected','false');
 			}
+			
 		});
 		container.find('.ok').on('click', function() {
 			showWeibo();
