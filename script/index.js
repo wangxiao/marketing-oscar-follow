@@ -588,12 +588,12 @@ function main() {
 				});
 			},
 			//第四个场景
-			25720: function() {
-				peopleWoman2.delay(3000)
+			25824: function() {
+				peopleWoman2.delay(1500)
 					.do(function() {
 						changeFace(this.container, 'people-woman2');
 					});
-				desk.delay(2000)
+				desk.delay(500)
 					.do(function(){
 						changeFace(this.container, 'desk2');
 					}).delay(1000)
@@ -612,8 +612,7 @@ function main() {
 							});
 					});
 
-				cat2.delay(300)
-					.moveTo(11868, 428, 6)
+				cat2.moveTo(11868, 428, 6)
 					.delay(1000)
 					.do(function() {
 						changeFace(this.container, 'cat5');
@@ -695,10 +694,10 @@ function main() {
 	//显示微博分享那个页面
 	function showWeibo() {
 		$('#weibo-content').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=我每天的碎片时间居然有 '+ userTimeLength +' 分钟！但@豌豆荚 说，绳命不能这样白白流失，这是我每天与谢耳朵（需根据用户选择的不同剧去替换）独处的好机会！萌戳链接，＃预测你与偶像的独处时光＃看看唯一的独处时间，是谁与你一起挽救流逝……下载豌豆荚，还有 100% 的惊喜在等你！&url=http://www.wandoujia.com&pic=http://wangxiao.github.io/marketing-oscar-follow/landingpage.gif');
-		$('#subscibe').animate({opacity:0.5}, 500, function() {
+		$('#subscibe').animate({opacity:0.5}, 300, function() {
 			$('#subscibe').hide();
 			var container = $('#weibo');
-			container.show().animate({opacity:1},500);
+			container.show().animate({opacity:1},300);
 			var ele = container.find('.player');
 			var timer = intervalChangeFace( ele, ['player-big1','player-big2','player-big3'],100 );
 			ele.animate({left:'-15%'},3500);
@@ -715,10 +714,10 @@ function main() {
 
 //显示结束页
 function showEndPage() {
-	$('#weibo').animate({opacity:0.5}, 500,function() {
+	$('#weibo').animate({opacity:0.5}, 300,function() {
 		$('#weibo').hide();
 		var container = $('#end');
-		container.show().animate({opacity:1},500);
+		container.show().animate({opacity:1},300);
 	});
 }
 
@@ -750,7 +749,7 @@ var subscibePageNum = -1;
 function subscibePage( num ){
 	var container = $('#subscibe');
 	var pages = container.find('.page').hide().css({opacity:0});
-	pages.eq(num).show().animate({opacity:1},500);
+	pages.eq(num).show().animate({opacity:1},300);
 	if( subscibePageNum === -1 ) {
 		var left = container.find('.btn-left');
 		var right = container.find('.btn-right');
@@ -790,7 +789,7 @@ function subscibePage( num ){
 
 //隐藏loading
 function hideLoading() {
-	$('#loading').animate({opacity:0}, 2000, function(){
+	$('#loading').animate({opacity:0.5}, 1000, function(){
 		$('#loading').hide();
 	});
 }

@@ -210,40 +210,32 @@ body{
 	margin-top: 90px;
 }
 #subscibe .content .videos .video-photo{
-	width: 122px;
+	width: 123px;
 	float: left;
 	margin-right: 15px;
 	margin-left: 15px;
 	cursor: pointer;
+	position: relative;
+}
+#subscibe .content .videos .video-photo .mask-sel{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	opacity: 0.5;
+	width: 100%;
+	cursor: default;
+	height: 100%;
+	background: #000 url('../images/subscibe/selected.png') 50% 50% no-repeat;
 }
 #subscibe .content .ok{
 	position: absolute;
 	top: 618px;
 	left: 50%;
-	margin-left: -100px;
-}
-#subscibe .content button{
-	width: 150px;
-	height: 50px;
-	font-size: 22px;
-	color: #FFF;
-	border-radius: 15px;
-	font-weight: 300;
-	margin-right: 3px;
-	margin-bottom: 15px;
-	cursor: pointer;
-}
-#subscibe .content button.red{
-	background-image: url('../images/subscibe/btn-red.png');
-}
-#subscibe .content button.blue{
-	background-image: url('../images/subscibe/btn-blue.png');
-}
-#subscibe .content button.yellow{
-	background-image: url('../images/subscibe/btn-yellow.png');
-}
-#subscibe .content button.green{
-	background-image: url('../images/subscibe/btn-green.png');
+	margin-left: -121px;
+	border-radius: 22px;
+	width: 242px;
+	height: 92px;
+	background-image: url('../images/subscibe/ok.png');	
 }
 #subscibe .btn-left{
 	background-image: url('../images/subscibe/left.png');
