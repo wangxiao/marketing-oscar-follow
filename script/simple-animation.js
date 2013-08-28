@@ -429,6 +429,7 @@ function simpleAnimation( options ) {
 						changeStyle( sprite.container, 'background', 'url(' + G_loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
 						changeStyle( sprite.container, 'position', 'absolute' );
 						changeStyle( sprite.container, 'overflow', 'hidden' );
+						changeStyle( sprite.container, '-webkit-transform', 'rotateZ(0deg)');
 						me.container.appendChild( sprite.container );
 					}
 					spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );

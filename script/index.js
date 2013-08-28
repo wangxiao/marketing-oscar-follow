@@ -263,6 +263,10 @@ var IMAGE_LIST=[
 	{
 		id: 'btn90',
 		url:  'images/button/60-90.png'
+	},
+	{
+		id: 'weibo-bg',
+		url: 'images/weibo/computer.png'
 	}
 ];
 
