@@ -242,7 +242,7 @@ body{
 	width: 27px;
 	height: 55px;
 	position: absolute;
-	left: 200px;
+	left: 130px;
 	top: 400px;
 	cursor: pointer;
 }
@@ -251,7 +251,7 @@ body{
 	width: 28px;
 	height: 55px;
 	position: absolute;
-	right: 230px;
+	right: 160px;
 	top: 400px;
 	cursor: pointer;
 }
