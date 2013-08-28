@@ -467,6 +467,7 @@ function main() {
 				bgSprite.moveTo(-3650, 0, 18, function(){
 						console.log(sa.time());
 						sa.pause();
+						$('#mask-all').show();
 						$('#mask1').show().animate({opacity:1},500);
 					});
 			},
@@ -497,6 +498,7 @@ function main() {
 				bgSprite.moveTo(-6700, 0, 9, function(){
 					console.log(sa.time());
 					sa.pause();
+					$('#mask-all').show();
 					$('#mask2').show().animate({opacity:1},500);
 				});
 				train.moveTo(-1000, 523, 9, function(){
@@ -581,11 +583,12 @@ function main() {
 				bgSprite.moveTo(-11153, 0, 14, function(){
 					console.log(sa.time());
 					sa.pause();
+					$('#mask-all').show();
 					$('#mask3').show().animate({opacity:1},500);
 				});
 			},
 			//第四个场景
-			28720: function() {
+			25720: function() {
 				peopleWoman2.delay(3000)
 					.do(function() {
 						changeFace(this.container, 'people-woman2');
@@ -593,13 +596,13 @@ function main() {
 				desk.delay(2000)
 					.do(function(){
 						changeFace(this.container, 'desk2');
-					}).delay(1500)
+					}).delay(1000)
 					.do(function(){
 						changeFace(this.container, 'desk3');
-					}).delay(1500)
+					}).delay(1000)
 					.do(function(){
 						changeFace(this.container, 'desk4');
-					}).delay(1500)
+					}).delay(1000)
 					.do(function(){
 						changeFace(this.container, 'desk5');
 						cat2.clearDelay()
@@ -617,7 +620,7 @@ function main() {
 					});
 			},
 			//主人公离开场景
-			35472: function() {
+			29064: function() {
 				bgSprite.moveTo(-12943, 0, 12, function(){
 					console.log(sa.time());
 				});
@@ -625,7 +628,7 @@ function main() {
 					bgSprite.remove(car3);
 				});
 			},
-			37904: function() {
+			31496: function() {
 				player.moveTo(2000, 573, 12, function(){
 					bgLayer.remove(player);
 				});
@@ -647,6 +650,7 @@ function main() {
 	mask0.on('click', function(){
 		sa.play();
 		mask0.hide();
+		$('#mask-all').hide();
 		bgSprite.remove(clickMe);
 		bgSprite.remove(mouse);
 	});
@@ -655,6 +659,7 @@ function main() {
 	mask1.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
 		mask1.hide();
+		$('#mask-all').hide();
 		sa.play();
 	});
 
@@ -662,6 +667,7 @@ function main() {
 	mask2.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
 		mask2.hide();
+		$('#mask-all').hide();
 		sa.play();
 	});
 
@@ -670,6 +676,7 @@ function main() {
 		userTimeLength += Number($(this).attr('data-time'));
 		$('.userTimeLength').text(userTimeLength);
 		mask3.hide();
+		$('#mask-all').hide();
 		sa.play();
 	});
 
