@@ -160,7 +160,7 @@ function simpleAnimation( options ) {
 				var img = imagesList[i];
 				images[ img.id ] = new Image();		
 				images[ img.id ].src = img.url;
-				images[ img.id ].onload = function( event ){
+				images[ img.id ].onload = images[ img.id ].onerror = function( event ){
 					i += 1;
 					setImage();
 				};
