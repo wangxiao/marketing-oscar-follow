@@ -668,32 +668,27 @@ function main() {
 			}
 		}
 	});
-// main 函数结束的最后一个括号
-}
 
-//隐藏loading
-function hideLoading() {
-	$('#loading').animate({opacity:0}, 2000, function(){
-		$('#loading').hide();
-	});
-}
-//显示微博分享那个页面
-function showWeibo() {
-	$('#weibo-content').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=%23%E7%99%BD%E7%99%BD%E4%BA%86%2C%E5%A4%8D%E6%9D%82%23%20%E5%84%BF%E7%AB%A5%E8%8A%82%E5%BF%AB%E4%B9%90%EF%BC%81%E6%88%91%E8%A6%81%E8%B7%9F%20%40%E8%B1%8C%E8%B1%86%E8%8D%9A%20%E4%B8%80%E8%B5%B7%E6%8A%8A%E9%82%A3%E4%BA%9B%E5%A4%8D%E6%9D%82%E7%9A%84%E4%BA%8B%E5%84%BF%E4%BA%A4%E7%BB%99%E7%A7%91%E6%8A%80%EF%BC%8C%E6%8E%A2%E7%B4%A2%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E7%AE%80%E5%8D%95%E4%B9%90%E8%B6%A3%EF%BC%81%40%E8%B1%8C%E8%B1%86%E8%8D%9A%20%E6%9C%89%E9%99%90%E9%87%8F%E7%89%88%20T%20%E6%81%A4%E4%BB%80%E4%B9%88%E7%9A%84%E6%89%8D%E4%B8%8D%E8%A6%81%E5%91%8A%E8%AF%89%E4%BD%A0%E5%91%A2%3A&url=http%3A%2F%2Fwww.wandoujia.com%2Fcampaign%2F2013children%3Futm_source%3Dweibo%26utm_medium%3Dshare%26utm_campaign%3D2013children&pic=http://img.wdjimg.com/image/campaign/weibo.png');
-	$('#subscibe').animate({opacity:0.5}, 500, function() {
-		$('#subscibe').hide();
-		var container = $('#weibo');
-		container.show().animate({opacity:1},500);
-		var ele = container.find('.player');
-		var timer = intervalChangeFace( ele, ['player-big1','player-big2','player-big3'],100 );
-		ele.animate({left:'-15%'},3500);
+	//显示微博分享那个页面
+	function showWeibo() {
+		$('#weibo-content').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=我每天的碎片时间居然有 '+ userTimeLength +' 分钟！但@豌豆荚 说，绳命不能这样白白流失，这是我每天与谢耳朵（需根据用户选择的不同剧去替换）独处的好机会！萌戳链接，＃预测你与偶像的独处时光＃看看唯一的独处时间，是谁与你一起挽救流逝……下载豌豆荚，还有 100% 的惊喜在等你！&url=http://www.wandoujia.com&pic=http://wangxiao.github.io/marketing-oscar-follow/landingpage.gif');
+		$('#subscibe').animate({opacity:0.5}, 500, function() {
+			$('#subscibe').hide();
+			var container = $('#weibo');
+			container.show().animate({opacity:1},500);
+			var ele = container.find('.player');
+			var timer = intervalChangeFace( ele, ['player-big1','player-big2','player-big3'],100 );
+			ele.animate({left:'-15%'},3500);
 
-		container.find('.btn').on('click',function() {
-			showEndPage();
+			container.find('.btn').on('click',function() {
+				showEndPage();
+			});
+
 		});
+	}
 
-	});
-}
+
+
 
 //显示结束页
 function showEndPage() {
@@ -734,22 +729,45 @@ function subscibePage( num ){
 	var pages = container.find('.page').hide().css({opacity:0});
 	pages.eq(num).show().animate({opacity:1},500);
 	if( subscibePageNum === -1 ) {
-		container.find('.btn-left').on('click', function() {
+		var left = container.find('.btn-left');
+		var right = container.find('.btn-right');
+
+		left.on('click', function() {
 			if( subscibePageNum !== 0 ) {
+				right.show();
 				subscibePage(subscibePageNum -= 1);
+			} else {
+				left.hide();
 			}
 		});
-		container.find('.btn-right').on('click', function() {
+		right.on('click', function() {
 			if( subscibePageNum !== (pages.length - 1) ) {
+				left.show();
 				subscibePage(subscibePageNum += 1);
+			} else {
+				right.hide();
 			}
 		});
 		container.find('.video-photo').on('click',function() {
-			$(this).css({opacity:0.5});
+			var ele = $(this);
+			if( ele.css('opacity') !== 1 ) {
+				ele.css({opacity:0.5});
+			} else {
+				ele.css({opacity:1});
+			}
 		});
 		container.find('.ok').on('click', function() {
 			showWeibo();
 		});
 		subscibePageNum = 0;
 	}
+}
+// main 函数结束的最后一个括号
+}
+
+//隐藏loading
+function hideLoading() {
+	$('#loading').animate({opacity:0}, 2000, function(){
+		$('#loading').hide();
+	});
 }

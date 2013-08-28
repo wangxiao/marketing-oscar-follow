@@ -207,7 +207,7 @@ body{
 #subscibe .content .videos{
 	float: left;
 	width: 100%;
-	margin-top: 20px;
+	margin-top: 90px;
 }
 #subscibe .content .videos .video-photo{
 	width: 122px;
@@ -218,9 +218,9 @@ body{
 }
 #subscibe .content .ok{
 	position: absolute;
-	top: 715px;
+	top: 618px;
 	left: 50%;
-	margin-left: -60px;
+	margin-left: -100px;
 }
 #subscibe .content button{
 	width: 150px;
