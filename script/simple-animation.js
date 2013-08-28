@@ -164,6 +164,10 @@ function simpleAnimation( options ) {
 					i += 1;
 					setImage();
 				};
+				images[ img.id ].onerror = function( event ){
+					i += 1;
+					setImage();
+				};
 			} else {
 				if ( typeof callback === 'function' ) {
 					callback.apply( this, arguments );
