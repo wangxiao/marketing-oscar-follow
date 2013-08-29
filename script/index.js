@@ -1,4 +1,4 @@
-var hostUrl = 'http://www.wandoujia.com/wandoujia/marketing-oscar-follow/';
+var hostUrl = 'http://wangxiao.github.io/marketing-oscar-follow/';
 var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
 var timeout = 3000;
 var hasAccount = false;
