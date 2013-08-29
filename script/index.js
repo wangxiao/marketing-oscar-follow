@@ -1,3 +1,27 @@
+var hostUrl = 'http://www.wandoujia.com/wandoujia/marketing-oscar-follow/';
+var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
+var timeout = 3000;
+var hasAccount = false;
+var isReady = false;
+var timer = setTimeout(function() {
+	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl ;
+}, timeout);
+$.ajax({
+	type: 'GET',
+	url: accountUrl,
+	contentType: 'application/json',
+	dataType: 'jsonp',
+	timeout: timeout
+}).done(function(data) {
+	clearTimeout(timer);
+	hasAccount = true;
+	if( isReady && hasAccount ) {
+		hideLoading();
+	}
+}).fail(function(e) {
+	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl;
+});
+
 var IMAGE_LIST=[ 
 	{
 		id : 'background',
@@ -276,11 +300,14 @@ var sa = simpleAnimation({
 	mode: 'dom',
 	imagesList: IMAGE_LIST,
 	onstart: function() {
-		console.log('loading');
+		//console.log('loading');
 	},
 	onready: function() {
-		console.log('onready');
-		hideLoading();
+		//console.log('onready');
+		isReady = true;
+		if( isReady && hasAccount ) {
+			hideLoading();
+		}
 		main();
 	}
 });
@@ -314,7 +341,7 @@ function creatCloud(x, y) {
 	var idList = ['cloud-white1', 'cloud-white2', 'cloud-blue1', 'cloud-blue2'];
 	return sa.Sprite(idList[ Math.floor( Math.random() * 4 ) ])
 			.position({x:x, y:y })
-			.do(function() {
+			.doThis(function() {
 				var me = this;
 				var w = Math.floor(Math.random()*2+1);
 				if(w === 1) {
@@ -393,7 +420,7 @@ function main() {
 	var mouse = sa.Sprite('mouse1')
 					.width(65)
 					.position({x:730, y:440})
-					.do(function(){
+					.doThis(function(){
 						intervalChangeFace( this.container, ['mouse1', 'mouse2'],300);
 					});
 
@@ -423,19 +450,19 @@ function main() {
 			.add( player )
 			.add( train );
 
-	peopleAnger.do(function(){
+	peopleAnger.doThis(function(){
 			$(this.container).css('overflow','visible');
 		});
 
-	peopleBoy3.do(function(){
+	peopleBoy3.doThis(function(){
 			$(this.container).css('overflow','visible');
 		});
 
-	peopleMan1.do(function(){
+	peopleMan1.doThis(function(){
 			$(this.container).css('overflow','visible');
 		});
 
-	peopleGirl.do(function(){
+	peopleGirl.doThis(function(){
 			$(this.container).css('overflow','visible');
 		});
 
@@ -443,33 +470,33 @@ function main() {
 	sa.speed(1)
 		.timeline({
 			1:function() {
-				player.do(function() {
+				player.doThis(function() {
 					intervalChangeFace( this.container, ['player2','player3','player1'], 100);
 				});
 			},
 			//豆子横着走
 			100: function() {
 				bgSprite.moveTo(-850, 0, 6, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 				train.moveTo(509, 523, 6);
 			},			
 			//豆子向下走
 			2384: function() {
 				player.moveTo(650, 530, 6, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 			},
 			//豆子走向火车
 			2720: function() {
 				bgSprite.moveTo(-1068, 0, 6, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 				train.moveTo(295, 523, 6);
 			},
 			3728: function() {
 				bgSprite.moveTo(-3650, 0, 18, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 						sa.pause();
 						$('#mask-all').show();
 						$('#mask1').show().animate({opacity:1},500);
@@ -480,27 +507,27 @@ function main() {
 				player.moveTo(650, 450, 5);
 				peopleOld.moveTo(4100, 450, 2, function(){
 							bgSprite.remove(peopleOld);
-							console.log(sa.time());
+							//console.log(sa.time());
 						});
 				peopleWoman.delay(1500)
 						.moveTo(4212, 488, 4, function(){
 							bgSprite.remove(peopleWoman);
-							console.log(sa.time());
+							//console.log(sa.time());
 						});
 				peopleBoy1.delay(1000)
 						.moveTo(4400, 476, 4, function(){
 							bgSprite.remove(peopleBoy1);
-							console.log(sa.time());
+							//console.log(sa.time());
 						});
 				peopleBoy2.delay(2200)
 					.moveTo(4480, 460, 4, function(){
 						bgSprite.remove(peopleBoy2);
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 			},
 			8688: function() {
 				bgSprite.moveTo(-6700, 0, 9, function(){
-					console.log(sa.time());
+					//console.log(sa.time());
 					sa.pause();
 					$('#mask-all').show();
 					$('#mask2').show().animate({opacity:1},500);
@@ -518,26 +545,26 @@ function main() {
 			//第三个场景
 			14150: function() {
 				cat1.delay(2000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container,'cat2');
 					})
 					.delay(1000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container,'cat3');
 					})
 					.moveTo(7106, 384, 8)
 					.delay(300)
 					.moveTo(7086, 445, 8, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 
 				peopleAnger.delay(2000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container,'people-anger1');
 					})
 					.add( iconFire )
 					.delay(1000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container,'people-anger2');
 					});
 				
@@ -546,7 +573,7 @@ function main() {
 
 				peopleMan1.delay(1500)
 					.add( icon3dots )
-					.do(function(){
+					.doThis(function(){
 						intervalChangeFace(this.container, ['people-man1', 'people-man2'], 500);
 					});
 
@@ -556,23 +583,23 @@ function main() {
 			// 离开
 			18344: function() {
 				bgSprite.moveTo(-7723, 0, 6, function(){
-					console.log(sa.time());
+					//console.log(sa.time());
 				});
 				boat.moveTo(8713, 408, 1);
 			},
 			21100: function() {
 				player.clearDelay()
 					.moveTo(650, 643, 5, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 				bgSprite.moveTo(-7953, 0, 6, function(){
-					console.log(sa.time());
+					//console.log(sa.time());
 				});
 			},
 			21744: function() {
 				player.clearDelay().delay(100)
 					.moveTo(650, 573, 2, function(){
-						console.log(sa.time());
+						//console.log(sa.time());
 					});
 
 				car2.moveTo(30000, 470, 10, function(){
@@ -580,12 +607,12 @@ function main() {
 				});
 
 				bgSprite.moveTo(-8200, 0, 6, function(){
-					console.log(sa.time());
+					//console.log(sa.time());
 				});
 			},
 			22432: function() {
 				bgSprite.moveTo(-11153, 0, 14, function(){
-					console.log(sa.time());
+					//console.log(sa.time());
 					sa.pause();
 					$('#mask-all').show();
 					$('#mask3').show().animate({opacity:1},500);
@@ -594,38 +621,38 @@ function main() {
 			//第四个场景
 			25824: function() {
 				peopleWoman2.delay(1500)
-					.do(function() {
+					.doThis(function() {
 						changeFace(this.container, 'people-woman2');
 					});
 				desk.delay(500)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container, 'desk2');
 					}).delay(1000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container, 'desk3');
 					}).delay(1000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container, 'desk4');
 					}).delay(1000)
-					.do(function(){
+					.doThis(function(){
 						changeFace(this.container, 'desk5');
 						cat2.clearDelay()
 							.delay(200)
 							.moveTo(11668, 518, 6, function(){
-								console.log(sa.time());
+								//console.log(sa.time());
 							});
 					});
 
 				cat2.moveTo(11868, 428, 6)
 					.delay(1000)
-					.do(function() {
+					.doThis(function() {
 						changeFace(this.container, 'cat5');
 					});
 			},
 			//主人公离开场景
 			29064: function() {
 				bgSprite.moveTo(-12943, 0, 12, function(){
-					console.log(sa.time());
+					//console.log(sa.time());
 				});
 				car3.moveTo(1000, 480, 6, function(){
 					bgSprite.remove(car3);
@@ -713,9 +740,6 @@ function main() {
 		});
 	}
 
-
-
-
 //显示结束页
 function showEndPage() {
 	$('#weibo').animate({opacity:0.5}, 300,function() {
@@ -724,7 +748,6 @@ function showEndPage() {
 		container.show().animate({opacity:1},300);
 	});
 }
-
 
 // 提交预订阅
 function subscibe( list ) {
@@ -801,3 +824,4 @@ function hideLoading() {
 		$('#loading').hide();
 	});
 }
+

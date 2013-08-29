@@ -81,7 +81,13 @@ function simpleAnimation( options ) {
 	}
 
 	function changeStyle( element, name, value ) {
-		element.style[ name ] = value;
+		if( window.jQuery ) {
+			window.jQuery(element).css( name, value );
+		} else if( window.$ ) {
+			window.$(element).css( name, value );
+		} else {
+			element.style[ name ] = value;
+		}
 	}
 
 	function createCanvas( opts ) {
@@ -213,11 +219,11 @@ function simpleAnimation( options ) {
 			G_timeNow += (interval * G_speed);
 			// TODO: 绘制一切
 			// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
-			G_animationList.forEach(function( value, index ){
-				if( !value.isPause ) {
-					value.element[ value.fun ]();
+			for( var i = 0 , l = G_animationList.length ; i < l ; i += 1 ) {
+				if( G_animationList[i].isPause ){
+					G_animationList[i].element[ value.fun ]();
 				}
-			});
+			}
 
 			for(var t = G_timeNow - (interval * G_speed), l = G_timeNow; t < l; t += 1 ) {
 				if(G_timelineList[t]) {
@@ -650,7 +656,7 @@ function simpleAnimation( options ) {
 				allDelayTime = 0;
 				return this;
 			},
-			do: function ( fun ) {
+			doThis: function( fun ) {
 				if( fun ) {
 					var me = this;
 					setTimeout(function(){
