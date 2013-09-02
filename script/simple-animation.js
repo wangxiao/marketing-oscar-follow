@@ -109,6 +109,7 @@ function simpleAnimation( options ) {
 	
 	function createDom( opts ) {
 		opts = {
+			id: opts.id,
 			width: opts.width || 0,
 			height: opts.height || 0,
 			x: opts.x || 0,
@@ -116,6 +117,9 @@ function simpleAnimation( options ) {
 			container: opts.container || null 
 		};
 		var element = document.createElement('div');
+		if( opts.id ) {
+			element.id = opts.id;
+		}
 		changeStyle( element, 'width', opts.width + 'px' );
 		changeStyle( element, 'height', opts.height + 'px' );
 		changeStyle( element, 'top', opts.y + 'px' );
@@ -220,12 +224,12 @@ function simpleAnimation( options ) {
 			// TODO: 绘制一切
 			// drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
 			for( var i = 0 , l = G_animationList.length ; i < l ; i += 1 ) {
-				if( G_animationList[i].isPause ){
-					G_animationList[i].element[ value.fun ]();
+				if( G_animationList[i] && !G_animationList[i].isPause ){
+					G_animationList[i].element[ G_animationList[i].fun ]();
 				}
 			}
 
-			for(var t = G_timeNow - (interval * G_speed), l = G_timeNow; t < l; t += 1 ) {
+			for(var t = G_timeNow - (interval * G_speed), n = G_timeNow; t < n; t += 1 ) {
 				if(G_timelineList[t]) {
 					G_timelineList[t].call(SA);
 				}
@@ -397,12 +401,25 @@ function simpleAnimation( options ) {
 		var spriteList;
 
 		G_Sprite = function ( imgId, opts ) {
-			this.id = imgId;
+			this.id = imgId || createId();
 			opts = opts || {};
+			if( typeof imgId === 'string' ) {
+				if(G_loadImagesList[imgId]) {
+					thisWidth = opts.width || G_loadImagesList[imgId].width;
+					thisHeight = opts.height || G_loadImagesList[imgId].height;
+				} else{
+					thisWidth = opts.width || G_options.width;
+					thisHeight = opts.height || G_options.height;
+				}
+			} else if( typeof imgId === 'object' ) {
+				thisWidth = imgId.width || G_options.width;
+				thisHeight = imgId.height || G_options.height;
+			} else {
+				thisWidth = G_options.width;
+				thisHeight = G_options.height;
+			}
 			thisX = opts.x || 0;
 			thisY = opts.y || 0;
-			thisWidth = opts.width || G_loadImagesList[imgId].width;
-			thisHeight = opts.height || G_loadImagesList[imgId].height;
 			thisZIndex = opts.zIndex || 0;
 			allDelayTime = 0;
 			spriteList = {};
@@ -414,6 +431,7 @@ function simpleAnimation( options ) {
 				break;
 				case 'dom':
 					this.container = createDom({
+						id: this.id,
 						width: thisWidth,
 						height: thisHeight,
 						x: thisX,
@@ -432,7 +450,9 @@ function simpleAnimation( options ) {
 						spriteList[ 'zIndex' + sprite.zIndex() ] = [];
 					}
 					if ( G_options.mode === 'dom' ) {
-						changeStyle( sprite.container, 'background', 'url(' + G_loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
+						if( G_loadImagesList[ sprite.id ] ) {
+							changeStyle( sprite.container, 'background', 'url(' + G_loadImagesList[ sprite.id ].src + ') no-repeat 0px 0px' );
+						}
 						changeStyle( sprite.container, 'position', 'absolute' );
 						changeStyle( sprite.container, 'overflow', 'hidden' );
 						changeStyle( sprite.container, '-webkit-transform', 'rotateZ(0deg)');
@@ -471,7 +491,7 @@ function simpleAnimation( options ) {
 				if( typeof width === 'undefined' ) {
 					return thisWidth;
 				}else{
-					setTimeout(function() {
+					var setWidth = function() {
 						thisWidth = width;
 						switch( G_options.mode ) {
 							case 'canvas':
@@ -480,7 +500,12 @@ function simpleAnimation( options ) {
 								changeStyle( me.container, 'width', width + 'px' );
 							break;
 						}
-					}, allDelayTime );
+					};
+					if( allDelayTime === 0) {
+						setWidth();
+					} else {
+						setTimeout( setWidth , allDelayTime );
+					}
 					return this;
 				}
 			},
@@ -489,7 +514,7 @@ function simpleAnimation( options ) {
 				if( typeof height === 'undefined' ) {
 					return thisHeight;
 				}else{
-					setTimeout(function() {
+					var setHight = function() {
 						thisHeight = height;
 						switch( G_options.mode ) {
 							case 'canvas':
@@ -498,7 +523,12 @@ function simpleAnimation( options ) {
 								changeStyle( me.container, 'height', height + 'px' );
 							break;
 						}
-					}, allDelayTime );
+					};
+					if( allDelayTime === 0) {
+						setHight();
+					} else {
+						setTimeout( setHight , allDelayTime );
+					}
 					return this;
 				}		
 			},

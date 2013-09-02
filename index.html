@@ -9,76 +9,88 @@
 </head>
 <body>
 	<div id='film'></div>
-	
-	<!-- 全局遮罩 start -->
-	<div id='mask-all'></div>
-	<!-- 全局遮罩 end -->
+
 	<!-- 开始界面 -->
-	<div id='mask0'></div>
+	<div id='mask0'>
+		<p>总有这么一些时候，是你和你的小世界相处的时间</p>
+		<p>一个人，在路上，在 ATM 机旁，在餐厅……在那些人很多的敌方</p>
+		<p>周围吵闹不安，你掏出手机，刷了 100 条微博，看了 100 次朋友圈，点亮又按掉……</p>
+		<p>否则，你的眼睛无处安放</p>
+		<br>
+		<p>豌豆荚也许无法彻底改变你的生活</p>
+		<p>但我们试图让你的小世界变得多一点快乐</p>
+		<br>
+		<button>点击开启一个全新的小世界 &gt;</button>
+	</div>
 	<!-- 第一个场景 -->
 	<div id='mask1'>
-		<div class='bg'></div>
 		<div class='content'>
-			<p class='big-word bold-word'>在路上</p>
-			<p>如果我有多啦 A 梦的<span class='big-word'>任意门</span>，那我每天可以省下<span class='big-word'>在路上</span>的</p>
+			<p>如果你的小世界里有多啦 A 梦</p>
+			<p>任意门可以让你省下那些路上的时间</p>
+			<p>可惜你没有……</p>
+			<br>
+			<p>你每天在路上会花费多长时间？</p>
 			<div class='btns'>
-				<button class='btn0-15' data-time='15'></button>
-				<button class='btn15-30' data-time='30'></button>
-				<button class='btn30-60' data-time='60'></button>
-				<button class='btn60-90' data-time='90'></button>
+				<button data-time='15'>0-15</button>
+				<button data-time='30'>15-30</button>
+				<button data-time='60'>30-60</button>
+				<button data-time='90'>60-90</button>
+				<p>分钟</p>
 			</div>
-			<p>分钟，可惜我没有……</p>
 		</div>
 	</div>
 	<!-- 第二个场景 -->
 	<div id='mask2'>
-		<div class='bg'></div>
 		<div class='content'>
-			<p class='big-word bold-word'>排队时</p>
-			<p>如果我是宇宙至尊 VIP，那我每天可以省下排队时的</p>
+			<p>如果你在小世界里是宇宙至尊 VIP</p>
+			<p>那么你可以每次都不用排队</p>
+			<p>可惜你不是……</p>
+			<br>
+			<p>你排队的时候前面会有几个人？</p>
 			<div class='btns'>
-				<button class='btn0-15' data-time='15'></button>
-				<button class='btn15-30' data-time='30'></button>
-				<button class='btn30-60' data-time='60'></button>
-				<button class='btn60-90' data-time='90'></button>
+				<button data-time='6'>2个</button>
+				<button data-time='9'>3个</button>
+				<button data-time='15'>5个</button>
+				<button data-time='24'>8个</button>
+				<button data-time='30'>10个</button>
+				<button data-time='150'>50个</button>
+				<button data-time='300'>100个</button>
 			</div>
-			<p>分钟，可惜我不是……</p>
 		</div>
 	</div>
 	<!-- 第三个场景 -->
 	<div id='mask3'>
-		<div class='bg'></div>
 		<div class='content'>
-			<p class='big-word bold-word'>等待时</p>
-			<p>如果我的小伙伴每迟到一次就要胖 10 斤，那我每天可以省下等待时的</p>
+			<p>如果你的小伙伴是会飞的超人</p>
+			<p>那么他永远不会迟到</p>
+			<p>可惜他不是……</p>
+			<br>
+			<p>你最长的一次等待有多久？</p>
 			<div class='btns'>
-				<button class='btn0-15' data-time='15'></button>
-				<button class='btn15-30' data-time='30'></button>
-				<button class='btn30-60' data-time='60'></button>
-				<button class='btn60-90' data-time='90'></button>
+				<button data-time='10'>30分钟</button>
+				<button data-time='15'>45分钟</button>
+				<button data-time='25'>60分钟</button>
+				<button data-time='40'>90分钟</button>
+				<button data-time='50'>120分钟</button>
 			</div>
-			<p>分钟，可惜并不能……</p>
 		</div>
 	</div>
 
 	<!-- 订阅剧集 -->
 	<div id='subscibe'>
-		<div class='header'>
-			<div class='left'></div>
-			<div class='right'></div>
-		</div>
 		<div class='content'>
-			<div class='word'>
-				你的碎片时间一共是<span class='userTimeLength'></span>分钟
-			</div>
-			<div class='TV'></div>
 			<div class='title'>
-				<p>不喜欢这些剧？</p>
-				<p>碎片时间，想看什么，你来选！</p>
+				你的小世界一共有 <span class='userTimeLength'>123</span> 分钟
+			</div>
+			<div class='word'>
+				<p>100 分钟可以刷 1000 条微博，也可以沉浸在一段故事当中</p>
+				<p>或搞笑，或伤感，或悬疑，或暴力；至少，让你忘掉你是一个人</p>
+				<br>
+				<p>告诉我们你想看的故事</p>
 			</div>
 			<div class='btn-left'></div>
 			<div class='btn-right'></div>
-			<button class='ok'></button>
+			<button class='ok'>确&nbsp;&nbsp;&nbsp;&nbsp;定</button>
 			<div class='videos'>
 				<!-- page start -->
 				<div class='page'>

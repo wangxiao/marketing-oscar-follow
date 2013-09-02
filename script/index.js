@@ -23,10 +23,7 @@ $.ajax({
 });
 
 var IMAGE_LIST=[ 
-	{
-		id : 'background',
-		url : 'images/background.png'
-	},
+
 	{
 		id: 'boat',
 		url: 'images/boat.png'
@@ -57,41 +54,10 @@ var IMAGE_LIST=[
 		id: 'train',
 		url: 'images/train.png'
 	},
-
 	{
-		id: 'player1',
-		url: 'images/player/player1.png'
+		id: 'station',
+		url: 'images/station.png'
 	},
-	{
-		id: 'player2',
-		url: 'images/player/player2.png'
-	},
-	{
-		id: 'player3',
-		url: 'images/player/player3.png'
-	},
-
-	{
-		id: 'brother-happy1',
-		url: 'images/brother/brother-happy1.png'
-	},
-	{
-		id: 'brother-happy2',
-		url: 'images/brother/brother-happy2.png'
-	},
-	{
-		id: 'brother-happy3',
-		url: 'images/brother/brother-happy3.png'
-	},
-	{
-		id: 'brother-kiss1',
-		url: 'images/brother/brother-kiss1.png'
-	},
-	{
-		id: 'brother-kiss2',
-		url: 'images/brother/brother-kiss2.png'
-	},
-
 	{
 		id: 'car-blue',
 		url: 'images/car/car-blue.png'
@@ -134,14 +100,6 @@ var IMAGE_LIST=[
 		id: 'cloud-blue2',
 		url: 'images/cloud/cloud-blue2.png'
 	},
-	{
-		id: 'cloud-white1',
-		url: 'images/cloud/cloud-white1.png'
-	},
-	{
-		id: 'cloud-white2',
-		url: 'images/cloud/cloud-white2.png'
-	},
 
 	{
 		id: 'icon-3dots',
@@ -170,15 +128,6 @@ var IMAGE_LIST=[
 	{
 		id: 'icon-star',
 		url: 'images/icons/icon-star.png'
-	},
-
-	{
-		id: 'mouse1',
-		url: 'images/mouse/mouse1.png'
-	},
-	{
-		id: 'mouse2',
-		url: 'images/mouse/mouse2.png'
 	},
 
 	{
@@ -249,49 +198,48 @@ var IMAGE_LIST=[
 	},
 
 	{
-		id: 'click-me',
-		url: 'images/button/click-me.png'
+		id: 'mountain1',
+		url: 'images/mountain/mou1.png'
 	},
 	{
-		id: 'mouse1',
-		url: 'images/button/mouse1.png'
+		id: 'mountain2',
+		url: 'images/mountain/mou2.png'
 	},
 	{
-		id: 'mouse2',
-		url: 'images/button/mouse2.png'
+		id: 'mountain3',
+		url: 'images/mountain/mou3.png'
 	},
 	{
-		id: 'player-big1',
-		url: 'images/weibo/player1.png'
+		id: 'mountain4',
+		url: 'images/mountain/mou4.png'
 	},
 	{
-		id: 'player-big2',
-		url: 'images/weibo/player2.png'
+		id: 'mountain5',
+		url: 'images/mountain/mou5.png'
 	},
 	{
-		id: 'player-big3',
-		url: 'images/weibo/player3.png'
+		id: 'mountain6',
+		url: 'images/mountain/mou6.png'
 	},
 	{
-		id: 'btn15',
-		url:  'images/button/0-15.png'
+		id: 'mountain7',
+		url: 'images/mountain/mou7.png'
+	},
+
+	{
+		id:'tree1',
+		url: 'images/tree/tree-1.png'
 	},
 	{
-		id: 'btn30',
-		url:  'images/button/15-30.png'
+		id:'tree2',
+		url: 'images/tree/tree-2.png'
 	},
 	{
-		id: 'btn60',
-		url:  'images/button/30-60.png'
+		id:'tree3',
+		url: 'images/tree/tree-3.png'
 	},
-	{
-		id: 'btn90',
-		url:  'images/button/60-90.png'
-	},
-	{
-		id: 'weibo-bg',
-		url: 'images/weibo/computer.png'
-	}
+
+
 ];
 
 //初始化
@@ -338,8 +286,8 @@ function intervalChangeFace( container, imagesIdList, interval) {
 }
 
 function creatCloud(x, y) {
-	var idList = ['cloud-white1', 'cloud-white2', 'cloud-blue1', 'cloud-blue2'];
-	return sa.Sprite(idList[ Math.floor( Math.random() * 4 ) ])
+	var idList = ['cloud-blue1', 'cloud-blue2'];
+	return sa.Sprite(idList[ Math.floor( Math.random() * idList.length ) ])
 			.position({x:x, y:y })
 			.doThis(function() {
 				var me = this;
@@ -357,10 +305,27 @@ function creatCloud(x, y) {
 			});
 }
 
+function creatMountain(x, y) {
+	var idList = ['mountain1','mountain2','mountain3','mountain4','mountain5','mountain6','mountain7'];
+	var id = idList[ Math.floor( Math.random() * idList.length ) ];
+	var s = sa.Sprite( id );
+	var top = {
+		mountain1:381,
+		mountain2:436,
+		mountain3:400,
+		mountain4:361,
+		mountain5:269,
+		mountain6:362,
+		mountain7:238
+	};
+	s.position({x:x, y: top[id] });
+	return s;
+}
+
 function main() {
 	var winWidth = $(document).width();
 
-	var bgSprite = sa.Sprite( 'background' );
+	var bgSprite = sa.Sprite('background-sprite').width(14788).height(800);
 
 	var stageX = 0;
 	var stageWidth = 0;
@@ -372,19 +337,27 @@ function main() {
 	}
 
 	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() );
+	var bgMoveSprite = sa.Sprite().width(1000).height(800);
 
 	var bgLayer = sa.Layer().height( bgSprite.height() );
+
 	stage.add( bgLayer );
 
-	var player = sa.Sprite( 'player1' ,{ width:68, height: 68, x:650, y:410 } );
-
+	// 生成云彩
 	for(var i = 2, l = 17; i < l ; i += 1) {
 		var x = i * 650 + Math.floor( Math.random() * 400 );
 		var y = 70 * Math.floor( Math.random() * 3 + 1 );
 		bgSprite.add( creatCloud(x, y) );
 	}
 
-	var train = sa.Sprite( 'train' ).position({x:1350,y:523});
+	// 生成山
+	for(var i = 0, l = 8; i < l ; i += 1) {
+		var x = i * 1050 + Math.floor( Math.random() * 5 ) * 200;
+		bgSprite.add( creatMountain(x, y) );
+	}
+
+	var train = sa.Sprite( 'train' ).position({x:1200,y:500});
+	var station = sa.Sprite( 'station' ).position({x:1200,y:312});
 	//地铁第二个场景元素
 	var peopleOld = sa.Sprite('people-old').position({x:4100,y:320});
 	var peopleWoman = sa.Sprite('people-woman1').position({x:4212,y:348});
@@ -416,18 +389,12 @@ function main() {
 	var car2 = sa.Sprite('car-red').position({x:8840,y:470});
 	var car3 = sa.Sprite('car-blue').position({x:12911,y:580});
 
-	var clickMe = sa.Sprite('click-me').position({x:760, y:440});
-	var mouse = sa.Sprite('mouse1')
-					.width(65)
-					.position({x:730, y:440})
-					.doThis(function(){
-						intervalChangeFace( this.container, ['mouse1', 'mouse2'],300);
-					});
-
 	bgSprite.add( peopleOld )
 			.add( peopleWoman )
 			.add( peopleBoy1 )
 			.add( peopleBoy2 )
+			.add( train )
+			.add( station )
 			.add( cat1 )
 			.add( peopleAnger )
 			.add( peopleBoy3 )
@@ -442,13 +409,9 @@ function main() {
 			.add( cat2 )
 			.add( car1 )
 			.add( car2 )
-			.add( car3 )
-			.add( clickMe )
-			.add( mouse );
+			.add( car3 );
 
-	bgLayer.add( bgSprite )
-			.add( player )
-			.add( train );
+	bgLayer.add( bgSprite );
 
 	peopleAnger.doThis(function(){
 			$(this.container).css('overflow','visible');
@@ -469,58 +432,38 @@ function main() {
 	//动画开始
 	sa.speed(1)
 		.timeline({
-			1:function() {
-				player.doThis(function() {
-					intervalChangeFace( this.container, ['player2','player3','player1'], 100);
-				});
-			},
 			//豆子横着走
 			100: function() {
-				bgSprite.moveTo(-850, 0, 6, function(){
-						//console.log(sa.time());
-					});
-				train.moveTo(509, 523, 6);
-			},			
-			//豆子向下走
-			2384: function() {
-				player.moveTo(650, 530, 6, function(){
-						//console.log(sa.time());
-					});
-			},
-			//豆子走向火车
-			2720: function() {
 				bgSprite.moveTo(-1068, 0, 6, function(){
-						//console.log(sa.time());
-					});
-				train.moveTo(295, 523, 6);
-			},
+					console.log(sa.time());
+				});
+			},			
 			3728: function() {
+				train.moveTo(3940, 500, 18);
 				bgSprite.moveTo(-3650, 0, 18, function(){
-						//console.log(sa.time());
+						console.log(sa.time());
 						sa.pause();
-						$('#mask-all').show();
 						$('#mask1').show().animate({opacity:1},500);
 					});
 			},
 			//第二个场景
 			6248: function() {
-				player.moveTo(650, 450, 5);
-				peopleOld.moveTo(4100, 450, 2, function(){
+				peopleOld.moveTo(4100, 430, 2, function(){
 							bgSprite.remove(peopleOld);
 							//console.log(sa.time());
 						});
 				peopleWoman.delay(1500)
-						.moveTo(4212, 488, 4, function(){
+						.moveTo(4212, 468, 4, function(){
 							bgSprite.remove(peopleWoman);
 							//console.log(sa.time());
 						});
 				peopleBoy1.delay(1000)
-						.moveTo(4400, 476, 4, function(){
+						.moveTo(4400, 456, 4, function(){
 							bgSprite.remove(peopleBoy1);
 							//console.log(sa.time());
 						});
 				peopleBoy2.delay(2200)
-					.moveTo(4480, 460, 4, function(){
+					.moveTo(4480, 440, 4, function(){
 						bgSprite.remove(peopleBoy2);
 						//console.log(sa.time());
 					});
@@ -532,11 +475,6 @@ function main() {
 					$('#mask-all').show();
 					$('#mask2').show().animate({opacity:1},500);
 				});
-				train.moveTo(-1000, 523, 9, function(){
-					bgLayer.remove(train);
-				});
-				player.delay(800)
-					.moveTo(650, 543, 4);
 				car1.delay(3000).
 					moveTo(0, 477, 8 ,function(){
 						bgSprite.remove(car1);
@@ -588,20 +526,11 @@ function main() {
 				boat.moveTo(8713, 408, 1);
 			},
 			21100: function() {
-				player.clearDelay()
-					.moveTo(650, 643, 5, function(){
-						//console.log(sa.time());
-					});
 				bgSprite.moveTo(-7953, 0, 6, function(){
 					//console.log(sa.time());
 				});
 			},
 			21744: function() {
-				player.clearDelay().delay(100)
-					.moveTo(650, 573, 2, function(){
-						//console.log(sa.time());
-					});
-
 				car2.moveTo(30000, 470, 10, function(){
 					bgSprite.remove(car2);
 				});
@@ -659,9 +588,6 @@ function main() {
 				});
 			},
 			31496: function() {
-				player.moveTo(2000, 573, 12, function(){
-					bgLayer.remove(player);
-				});
 				$('#film').animate({opacity:0.5},2000,function() {
 					$('#film').hide();
 					subscibePage( 0 );
@@ -677,12 +603,9 @@ function main() {
  
 	//dom操作部分
 	var mask0 = $('#mask0');
-	mask0.on('click', function(){
+	mask0.find('button').on('click', function(){
 		sa.play();
 		mask0.hide();
-		$('#mask-all').hide();
-		bgSprite.remove(clickMe);
-		bgSprite.remove(mouse);
 	});
 
 	var mask1 = $('#mask1');
@@ -822,6 +745,18 @@ function subscibePage( num ){
 function hideLoading() {
 	$('#loading').animate({opacity:0.5}, 1000, function(){
 		$('#loading').hide();
+		showMask0Word();
 	});
 }
 
+function showMask0Word() {
+	$('#mask0').find('p').each(function(i , v){
+		setTimeout(function(){
+			$(v).show().animate({opacity:1}, 1000);
+		},500*i);
+	});
+	var btn = $('#mask0').find('button');
+	setTimeout(function(){
+		btn.show().animate({opacity:1}, 500);
+	}, 3000);
+}
