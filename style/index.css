@@ -5,7 +5,11 @@
 body{
 	font: 12px/18px "Lantinghei SC","Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight: 300;
-	/*overflow: hidden;*/
+	overflow: hidden;
+}
+#film{
+	position: absolute;
+	top: -20px;
 }
 button{
 	border-radius: 4px;
@@ -36,14 +40,14 @@ button{
 	text-align: center;
 }
 #mask0{
-	font-size: 20px;
-	line-height: 30px;
+	font-size: 18px;
+	line-height: 27px;
 	width: 780px;
 	height: 350px;
 	position: absolute;
 	top: 148px;
 	left: 50%;
-	margin-left: -350px;
+	margin-left: -390px;
 	text-align: center;
 }
 #mask0 p{
@@ -129,6 +133,7 @@ button{
 	left: 13530px;
 	width: 850px;
 	height: 610px;
+	overflow: hidden;
 }
 #subscibe .content{
 	width: 666px;
@@ -209,7 +214,7 @@ button{
 	top: 0px;
 	left: 15010px;
 	width: 800px;
-	height: 800px;
+	height: 620px;
 	overflow: hidden;
 }
 #weibo .content{
@@ -307,5 +312,5 @@ button{
 	line-height: 25px;
 }
 #background-sprite{
-	background:url('../images/bg-repeat.png') 0% 78% repeat-x;
+	background:url('../images/bg-repeat.png') 0% 96% repeat-x;
 }

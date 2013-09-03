@@ -388,7 +388,7 @@ function creatTree(x, y) {
 
 function main() {
 	var winWidth = $(window).width();
-	var bgSprite = sa.Sprite('background-sprite').width(17000).height(800);
+	var bgSprite = sa.Sprite('background-sprite').width(17000).height(680);
 	var stageX = 0;
 	var stageWidth = 0;
 	if(winWidth < 1400) {
@@ -402,23 +402,32 @@ function main() {
 	bgLayer.width( stageWidth ).width(17000);
 	stage.add( bgLayer );
 
+	var cloudList = [];
 	// 生成云彩
 	for(var i = 2, l = 17; i < l ; i += 1) {
 		var x = i * 650 + Math.floor( Math.random() * 400 );
 		var y = 70 * Math.floor( Math.random() * 3 + 1 );
-		bgSprite.add( creatCloud(x, y) );
+		var s = creatCloud(x, y);
+		bgSprite.add( s );
+		cloudList.push( s );
 	}
 
+	var mountainList = [];
 	// 生成山
 	for(var i = 0, l = 18; i < l ; i += 1) {
 		var x = i * 1050 + Math.floor( Math.random() * 5 ) * 200;
-		bgSprite.add( creatMountain(x, y) );
+		var s = creatMountain(x, y);
+		bgSprite.add( s );
+		mountainList.push( s );
 	}
 
+	var treeList = [];
 	// 生成树
 	for(var i = 0, l = 18; i < l ; i += 1) {
 		var x = i * 1050 + Math.floor( Math.random() * 5 ) * 200;
-		bgSprite.add( creatTree(x, y) );
+		var s = creatTree(x, y);
+		bgSprite.add( s );
+		treeList.push( s );
 	}
 
 	var train = sa.Sprite( 'train' ).position({x:1200,y:500});
@@ -451,7 +460,7 @@ function main() {
 	var cat2 = sa.Sprite('cat4').position({x:11948, y:238});
 	var house = sa.Sprite('house').position({x:11675, y:289});
 	var car1 = sa.Sprite('car-yellow1')
-				.position({x:6446,y:477})
+				.position({x:7046,y:477})
 				.doThis(function() {
 					intervalChangeFace(this.container, ['car-yellow1', 'car-yellow2', 'car-yellow3', 'car-yellow4'], 500);
 				});
@@ -514,20 +523,21 @@ function main() {
 		.timeline({
 			//豆子横着走
 			100: function() {
-				bgSprite.moveTo(-1068, 0, 6, function(){
-					console.log(sa.time());
+				bgSprite.moveTo(-1068, 0, 12, function(){
+					//console.log(sa.time());
 				});
-			},			
-			3728: function() {
+			},
+			1824: function() {
 				train.moveTo(3940, 500, 18);
-				bgSprite.moveTo(-3650, 0, 18, function(){
-						console.log(sa.time());
+				bgSprite.moveTo(-3650, 0, 22, function(){
+						//console.log(sa.time());
 						sa.pause();
 						$('#mask1').show().animate({opacity:1},500);
+						$('#mask0').remove();
 					});
 			},
-			//第二个场景
-			6248: function() {
+			//人们坐地铁
+			4128 : function() {
 				peopleOld.moveTo(4100, 430, 2, function(){
 							bgSprite.remove(peopleOld);
 							//console.log(sa.time());
@@ -548,20 +558,34 @@ function main() {
 						//console.log(sa.time());
 					});
 			},
-			8688: function() {
-				bgSprite.moveTo(-6700, 0, 9, function(){
-					//console.log(sa.time());
+			6388: function() {
+				bgSprite.moveTo(-6700, 0, 20, function(){
+					// console.log(sa.time());
 					sa.pause();
 					$('#mask-all').show();
 					$('#mask2').show().animate({opacity:1},500);
+					bgSprite.remove( train )
+							.remove( cloudList[0] )
+							.remove( cloudList[1] )
+							.remove( cloudList[2] )
+							.remove( cloudList[3] )
+							.remove( mountainList[0] )
+							.remove( mountainList[1] )
+							.remove( mountainList[2] )
+							.remove( mountainList[3] )
+							.remove( treeList[0] )
+							.remove( treeList[1] )
+							.remove( treeList[2] )
+							.remove( treeList[3] )
+							.remove( station );
 				});
-				car1.delay(3000)
-					.moveTo(0, 477, 8 ,function(){
+				car1.moveTo(0, 477, 8 ,function(){
 						bgSprite.remove(car1);
 					});
 			},
-			//第三个场景
-			14150: function() {
+			//取款机
+			8874: function() {
+
 				cat1.delay(2000)
 					.doThis(function(){
 						changeFace(this.container,'cat2');
@@ -597,38 +621,40 @@ function main() {
 
 				peopleGirl.delay(2800)
 					.add( iconHeart );
+
+				bgSprite.remove( peopleOld )
+						.remove( peopleWoman )
+						.remove( peopleBoy1 )
+						.remove( peopleBoy2 )
+						.remove( cloudList[4] )
+						.remove( cloudList[5] )
+						.remove( cloudList[6] )
+						.remove( mountainList[4] )
+						.remove( mountainList[5] )
+						.remove( mountainList[6] )
+						.remove( treeList[4] )
+						.remove( treeList[5] )
+						.remove( treeList[6] )
+						.remove( car1 );
 			},
 			// 离开
-			18344: function() {
-				bgSprite.moveTo(-7723, 0, 6, function(){
-					//console.log(sa.time());
-				});
-				boat.moveTo(8713, 408, 1);
-			},
-			21100: function() {
-				bgSprite.moveTo(-7953, 0, 6, function(){
-					//console.log(sa.time());
-				});
-			},
-			21744: function() {
-				car2.moveTo(30000, 470, 10, function(){
-					bgSprite.remove(car2);
-				});
-
-				bgSprite.moveTo(-8200, 0, 6, function(){
-					//console.log(sa.time());
-				});
-			},
-			22432: function() {
-				bgSprite.moveTo(-11153, 0, 14, function(){
+			11112: function() {
+				bgSprite.moveTo(-11153, 0, 20, function(){
 					//console.log(sa.time());
 					sa.pause();
 					$('#mask-all').show();
 					$('#mask3').show().animate({opacity:1},500);
 				});
+				boat.moveTo(8713, 408, 1);
 			},
-			//第四个场景
-			25824: function() {
+			11472: function() {
+				car2.moveTo(30000, 470, 10, function(){
+					bgSprite.remove(car2);
+				});
+			},
+			//吃饭等人
+			14688: function() {
+
 				peopleWoman2.delay(1500)
 					.doThis(function() {
 						changeFace(this.container, 'people-woman2');
@@ -657,12 +683,43 @@ function main() {
 					.doThis(function() {
 						changeFace(this.container, 'cat5');
 					});
+
+				bgSprite.remove( cat1 )
+						.remove( boat )
+						.remove( water )
+						.remove( peopleAnger )
+						.remove( peopleBoy3 )
+						.remove( peopleMan1 )
+						.remove( peopleGirl )
+						.remove( cloudList[6] )
+						.remove( cloudList[7] )
+						.remove( cloudList[8] )
+						.remove( mountainList[6] )
+						.remove( mountainList[7] )
+						.remove( mountainList[8] )
+						.remove( treeList[6] )
+						.remove( treeList[7] )
+						.remove( treeList[8] )
+						.remove( car2 );
 			},
 			//主人公离开场景
-			29064: function() {
+			17720: function() {
 				subscibePage( 0 );
-				bgSprite.moveTo(-13243, 0, 12, function(){
+				bgSprite.moveTo(-13243, 0, 20, function(){
 					//console.log(sa.time());
+					bgSprite.remove( peopleWoman2 )
+						.remove( cloudList[9] )
+						.remove( cloudList[10] )
+						.remove( cloudList[11] )
+						.remove( mountainList[9] )
+						.remove( mountainList[10] )
+						.remove( mountainList[11] )
+						.remove( treeList[9] )
+						.remove( treeList[10] )
+						.remove( treeList[11] )
+						.remove( desk )
+						.remove( cat2 )
+						.remove( car3 );	
 				});
 				car3.moveTo(1000, 480, 6, function(){
 					bgSprite.remove(car3);
@@ -788,7 +845,8 @@ function main() {
 			container.find('.ok').on('click', function() {
 				//显示微博分享那个页面
 				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
-				bgSprite.moveTo(-14673,0,8,function() {
+				bgSprite.moveTo(-14673,0,12,function() {
+					bgSprite.remove( container[0] );
 					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；@豌豆荚 还说，TA 能让我的无聊时间变成快乐的小世界。点击链接，开启你全新的小世界。'+ hostUrl;
 					$('#weibo-share').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title='+encodeURIComponent(word)+'&pic='+ weiboSharePic );
 					weiboContainer.find('p').each(function(i , v){
