@@ -3,7 +3,7 @@
 	padding: 0px;
 }
 body{
-	font: 12px arial;
+	font: 12px/18px "Lantinghei SC","Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight: 300;
 	/*overflow: hidden;*/
 }
@@ -36,9 +36,9 @@ button{
 	text-align: center;
 }
 #mask0{
-	font-size: 18px;
-	line-height: 27px;
-	width: 700px;
+	font-size: 20px;
+	line-height: 30px;
+	width: 780px;
 	height: 350px;
 	position: absolute;
 	top: 148px;
@@ -69,8 +69,8 @@ button{
 	left: 43px;
 	width: 310px;
 	color: #666;
-	line-height: 25px;
-	font-size: 15px;
+	line-height: 30px;
+	font-size: 20px;
 }
 #mask1 .content .btns{
 	margin: 4px 0px;
@@ -93,8 +93,8 @@ button{
 	left: 43px;
 	width: 310px;
 	color: #666;
-	line-height: 25px;
-	font-size: 18px;
+	line-height: 30px;
+	font-size: 20px;
 }
 #mask2 .content .btns{
 	margin: 4px 0px;
@@ -114,8 +114,8 @@ button{
 	left: 43px;
 	width: 310px;
 	color: #666;
-	line-height: 25px;
-	font-size: 18px;
+	line-height: 30px;
+	font-size: 20px;
 }
 #mask3 .content .btns{
 	margin: 4px 0px;

@@ -820,10 +820,10 @@ function showMask0Word() {
 	$('#mask0').find('p').each(function(i , v){
 		setTimeout(function(){
 			$(v).show().animate({opacity:1}, 1000);
-		},500*i);
+		},1000*i);
 	});
 	var btn = $('#mask0').find('button');
 	setTimeout(function(){
 		btn.show().animate({opacity:1}, 500);
-	}, 3000);
+	}, 6000);
 }
