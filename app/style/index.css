@@ -170,6 +170,18 @@ button{
 	cursor: pointer;
 	position: relative;
 }
+#subscibe .content .videos .video-photo dl dt{
+	height: 177px;
+	overflow: hidden;
+}
+#subscibe .content .videos .video-photo dl dd{
+	line-height: 24px;
+	font-size: 16px;
+	overflow: hidden;
+	height: 25px;
+	width: 124px;
+	text-overflow: ellipsis;
+}
 #subscibe .content .videos .video-photo .mask-sel{
 	position: absolute;
 	top: 0px;
@@ -177,7 +189,7 @@ button{
 	opacity: 0.8;
 	width: 100%;
 	cursor: default;
-	height: 170px;
+	height: 177px;
 	display: none;
 	background:#000 url('../images/subscibe/selected.png') 50% 50% no-repeat;
 }

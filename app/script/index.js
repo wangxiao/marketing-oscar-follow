@@ -25,112 +25,268 @@ $.ajax({
 	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl;
 });
 
-var videoList = [
+var VIDEO_LIST = [
 	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	},
-	{
-		id: '22222',
-		name: 'Summer-Nude',
-		imgUrl: 'images/video-photo/Summer-Nude.png'
-	}
+        name:'海贼王',
+        id:'776',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/haizeiwang.png'
+    },
+    {
+        name:'进击的巨人',
+        id:'31266',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/jinjidejuren.png'
+    },
+    {
+        name:'十万个冷笑话',
+        id:'50253',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shiwangelengxiaohua.png'
+    },
+    {
+        name:'中国好声音',
+        id:'151946',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/zhongguohaoshengyin.png'
+    },
+    {
+        name:'快乐大本营',
+        id:'25999',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/kuailedabenying.png'
+    },
+    {
+        name:'百变大咖秀',
+        id:'26831',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/baibiandakaxiu.png'
+    },
+    {
+        name:'绝命毒师',
+        id:'1616',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/juemingdushi.png'
+    },
+    {
+        name:'终极一班',
+        id:'28715',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/zhongjiyiban.png'
+    },
+    {
+        name:'冲上云霄 2',
+        id:'42807',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/chongshangyunxiao.png'
+    },
+    {
+        name:'兰陵王',
+        id:'49194',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/lanlingwang.png'
+    },
+    {
+        name:'花非花雾非雾',
+        id:'134725',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/huafeihuawu.png'
+    },
+    {
+        name:'火影忍者',
+        id:'31280',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/huoying.png'
+    },{
+        name:'终极一班 3',
+        id:'153199',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/zhongjiyiban3.png'
+    },
+    {
+        name:'中国梦之声',
+        id:'29088',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/zhongguomengzhisheng.png'
+    },
+    {
+        name:'天天向上',
+        id:'26148',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/tiantianxiangshang.png'
+    },
+    {
+        name:'快乐男声',
+        id:'26004',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/kuailenansheng.png'
+    },
+    {
+        name:'警戒线',
+        id:'25199',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/jingjiexian.png'
+    },
+    {
+        name:'真爱黑白配',
+        id:'53568',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/zhenaiheibaipei.png'
+    },
+    {
+        name:'嗜血法医',
+        id:'134651',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shixuefayi.png'
+    },{
+        name:'清道夫',
+        id:'154227',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/qingdaofu.png'
+    },
+    {
+        name:'假如生活欺骗了你',
+        id:'29326',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/jiarushenghuo.png'
+    },
+    {
+        name:'红宝石戒指',
+        id:'165079',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/hongbaoshi.png'
+    },
+    {
+        name:'Good Doctor',
+        id:'157523',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/Good-Doctor.png'
+    },{
+        name:'丑闻',
+        id:'134278',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/chouwen.png'
+    },
+    {
+        name:'机动战士敢达00',
+        id:'38260',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/gundam00.png'
+    },
+    {
+        name:'魔法少女伊莉雅',
+        id:'153334',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/mofashaonv.png'
+    },
+    {
+        name:'机动战士敢达SEED DESTINY重制版',
+        id:'38260',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/gundamseed.png'
+    },
+    {
+        name:'剑与花',
+        id:'134869',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/jianyuhua.png'
+    },
+    {
+        name:'美少女的谎言第 4 季',
+        id:'159971',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/meishaonv.png'
+    },
+    {
+        name:'我们约会吧',
+        id:'26393',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/womenyuehuiba.png'
+    },
+    {
+        name:'壹周立波秀',
+        id:'25796',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/yizhouliboxiu.png'
+    },
+    {
+        name:'留学公寓',
+        id:'153123',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/liuxuegongyu.png'
+    },
+    {
+        name:'熊出没之丛林总动员',
+        id:'154339',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/conglingzongdongyuan.png'
+    },
+    {
+        name:'麻辣隔壁',
+        id:'25008',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/malagebi.png'
+    },
+    {
+        name:'璀璨人生',
+        id:'48005',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/cuicanrensheng.png'
+    },
+    {
+        name:'半泽直树',
+        id:'136593',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/banzezhishu.png'
+    },
+    {
+        name:'极限',
+        id:'154282',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/jixian.png'
+    },
+    {
+        name:'Summer Nude',
+        id:'133036',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/Summer-Nude.png'
+    },
+    {
+        name:'恶灵病栋',
+        id:'134677',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/elingbingdong.png'
+    },
+    {
+        name:'山田君与 7 个魔女',
+        id:'125254',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shantianjun.png'
+    },
+    {
+        name:'歌舞伎华之恋',
+        id:'134872',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/gewuji.png'
+    },
+    {
+        name:'八重之樱',
+        id:'28988',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/bachongzhiying.png'
+    },
+    {
+        name:'庶务二课 2013',
+        id:'134886',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shuwuerke.png'
+    },
+    {
+        name:'追鱼传奇',
+        id:'153661',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/zhuiyuchuanqi.png'
+    }
 ];
 
 var IMAGE_LIST=[ 
@@ -643,7 +799,7 @@ function main() {
 			//取款机
 			8874: function() {
 
-				cat1.delay(2000)
+				cat1.delay(1000)
 					.doThis(function(){
 						changeFace(this.container,'cat2');
 					})
@@ -657,7 +813,7 @@ function main() {
 						//console.log(sa.time());
 					});
 
-				peopleAnger.delay(2000)
+				peopleAnger.delay(1000)
 					.doThis(function(){
 						changeFace(this.container,'people-anger1');
 					})
@@ -667,31 +823,25 @@ function main() {
 						changeFace(this.container,'people-anger2');
 					});
 				
-				peopleBoy3.delay(2500)
+				peopleBoy3.delay(1500)
 					.add( iconRound );
 
-				peopleMan1.delay(1500)
+				peopleMan1.delay(500)
 					.add( icon3dots )
 					.doThis(function(){
 						intervalChangeFace(this.container, ['people-man1', 'people-man2'], 500);
 					});
 
-				peopleGirl.delay(2800)
+				peopleGirl.delay(1800)
 					.add( iconHeart );
 
-				bgSprite.remove( peopleOld )
-						.remove( peopleWoman )
-						.remove( peopleBoy1 )
-						.remove( peopleBoy2 )
-						.remove( cloudList[4] )
+				bgSprite.remove( cloudList[4] )
 						.remove( cloudList[5] )
 						.remove( cloudList[6] )
 						.remove( mountainList[4] )
 						.remove( mountainList[5] )
 						.remove( treeList[4] )
-						.remove( treeList[5] )
-						.remove( treeList[6] )
-						.remove( car1 );
+						.remove( treeList[5] );
 			},
 			// 离开
 			11112: function() {
@@ -705,7 +855,6 @@ function main() {
 			},
 			11472: function() {
 				car2.moveTo(30000, 470, 10, function(){
-					bgSprite.remove(car2);
 				});
 			},
 			//吃饭等人
@@ -753,6 +902,7 @@ function main() {
 						.remove( mountainList[6] )
 						.remove( mountainList[7] )
 						.remove( mountainList[8] )
+						.remove( treeList[6] )
 						.remove( treeList[7] )
 						.remove( treeList[8] )
 						.remove( treeList[9] )
@@ -764,21 +914,17 @@ function main() {
 				bgSprite.moveTo(-13243, 0, 20, function(){
 					//console.log(sa.time());
 					bgSprite.remove( peopleWoman2 )
-						.remove( cloudList[9] )
 						.remove( cloudList[10] )
 						.remove( cloudList[11] )
 						.remove( mountainList[9] )
 						.remove( mountainList[10] )
 						.remove( mountainList[11] )
-						.remove( treeList[9] )
 						.remove( treeList[10] )
-						.remove( treeList[11] )
 						.remove( desk )
 						.remove( cat2 )
-						.remove( car3 );	
+						.remove( car3 );
 				});
 				car3.moveTo(1000, 480, 6, function(){
-					bgSprite.remove(car3);
 				});
 			}
 		});
@@ -818,36 +964,14 @@ function main() {
 		sa.play();
 	});
 
-	var subscibeEle = $('#subscibe');
-	var videosList = [];
-	subscibeEle.find('.videos button').on('click',function(){
-		var id = $(this).attr('data-id');
-		var value = 'video/http://oscar.wandoujia.com/api/v1/feeds/' + id;
-		for( var i = 0 , l = videosList.length; i < l ; i += 1 ) {
-			if( videosList[i] !== value ) {
-				videosList.push( value );
-			}
-		}
-	});
-
-	//显示结束页
-	function showEndPage() {
-		$('#weibo').animate({opacity:0.5}, 300,function() {
-			$('#weibo').hide();
-			var container = $('#end');
-			container.show().animate({opacity:1},300);
-		});
-	}
-
 	// 提交预订阅
 	function subscibe( list ) {
 		for(var i = 0 , l = list.length ; i < l ; i ++ ) {
 			list[i] = "video/http://oscar.wandoujia.com/api/v1/feeds/" + list;
 		}
-		
 		var data = {
 			data: JSON.stringify(list),
-			type: 'test'
+			type: 'zhuizhuikan'
 		};
 		$.ajax({
 			type: 'post',
@@ -874,11 +998,13 @@ function main() {
 							.css({opacity:0});
 		var eles = page.find('.video-photo');
 		for( var i = num * 6 , l = num * 6 + 6 ; i < l ; i ++ ) {
-			eles.eq(i - num * 6)
-				.find('img')
-				.attr('src',videosList[i].imgUrl );
+			var e = eles.eq(i - num * 6);
+			e.attr('data-index',i);
+			e.find('img').attr('src',VIDEO_LIST[i].imgUrl );
+			e.find('.name').text(VIDEO_LIST[i].name);
 		}
-		page.show().animate({opacity:1},300);
+		page.show().animate({opacity:1},500);
+		showVideoMask();
 		if( subscibePageNum === -1 ) {
 			container.appendTo(bgSprite.container);
 			var left = container.find('.btn-left');
@@ -893,7 +1019,7 @@ function main() {
 				}
 			});
 			right.on('click', function() {
-				if( subscibePageNum !== ( Math.floor( videosList.length/6 ) - 1) ) {
+				if( subscibePageNum !== ( Math.floor( VIDEO_LIST.length/6 ) - 1) ) {
 					left.show();
 					subscibePage(subscibePageNum += 1);
 				} else {
@@ -903,15 +1029,22 @@ function main() {
 			container.find('.video-photo').on('click',function() {
 				var ele = $(this);
 				var mask = ele.find('.mask-sel');
-				if( ele.attr('data-selected') === 'false' ){
+				if( VIDEO_LIST[ele.attr('data-index')].selected === false ){
 					mask.show();
-					ele.attr('data-selected','true');
+					VIDEO_LIST[ele.attr('data-index')].selected = true;
 				} else {
-					mask.hide();	
-					ele.attr('data-selected','false');
+					mask.hide();
+					VIDEO_LIST[ele.attr('data-index')].selected = false;
 				}
 			});
 			container.find('.ok').on('click', function() {
+				var videoList = [];
+				for( var i = 0, l = VIDEO_LIST.length; i < l ; i ++ ) {
+					if( VIDEO_LIST[i].selected ) {
+						videoList.push( VIDEO_LIST[i].id );
+					}
+				}
+				subscibe( videoList );
 				//显示微博分享那个页面
 				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
 				bgSprite.moveTo(-14673,0,12,function() {
@@ -930,8 +1063,19 @@ function main() {
 			});
 			subscibePageNum = 0;
 		}
-}
+	}
 
+	function showVideoMask() {
+		var eles = $('#subscibe').find('.video-photo').each(function(i, v){
+			var ele = $(v);
+			var mask = ele.find('.mask-sel');
+			if( VIDEO_LIST[ele.attr('data-index')].selected === true ){
+				mask.show();
+			} else {
+				mask.hide();
+			}
+		});		
+	}
 // main 函数结束的最后一个括号
 }
 
