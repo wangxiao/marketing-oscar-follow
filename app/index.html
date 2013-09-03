@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="wangxiao">
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" href="style/index.css">
+<title>marketing</title>
+</head>
+<body>
+	<div id='film'></div>
+
+	<!-- 开始界面 -->
+	<div id='mask0'>
+		<p>总有那么一些时候，是你和你的小世界相处的时间</p>
+		<p>一个人，在路上，在 ATM 机旁，在餐厅……在那些人很多的地方</p>
+		<p>周围吵闹不安。你掏出手机，刷了 168 条微博，看了 85 次朋友圈，然后把屏幕点亮又摁灭</p>
+		<p>你需要一个小世界。否则，你总会觉得自己无所适从</p>
+		<br>
+		<p>豌豆荚也许无法彻底改变你的生活</p>
+		<p>但我们正努力让你的小世界变得多一点快乐</p>
+		<br>
+		<button>点击开启一个全新的小世界 &gt;</button>
+	</div>
+	<!-- 第一个场景 -->
+	<div id='mask1'>
+		<div class='content'>
+			<p>如果你的小世界里有多啦 A 梦</p>
+			<p>任意门可以让你省下那些路上的时间</p>
+			<p>可惜你没有……</p>
+			<br>
+			<p>你每天在路上会花费多长时间？</p>
+			<div class='btns'>
+				<button data-time='15'>15 分钟</button>
+				<button data-time='30'>30 分钟</button>
+				<button data-time='45'>45 分钟</button>
+				<button data-time='60'>60 分钟</button>
+				<button data-time='90'>90 分钟</button>
+			</div>
+		</div>
+	</div>
+	<!-- 第二个场景 -->
+	<div id='mask2'>
+		<div class='content'>
+			<p>如果你在小世界里是宇宙至尊 VIP</p>
+			<p>那么你可以每次都不用排队</p>
+			<p>可惜你不是……</p>
+			<br>
+			<p>你排队的时候前面会有几个人？</p>
+			<div class='btns'>
+				<button data-time='6'>2 个</button>
+				<button data-time='9'>3 个</button>
+				<button data-time='15'>5 个</button>
+				<button data-time='24'>8 个</button>
+				<button data-time='30'>10 个</button>
+				<button data-time='150'>50 个</button>
+				<button data-time='300'>100 个 (+﹏+)</button>
+			</div>
+		</div>
+	</div>
+	<!-- 第三个场景 -->
+	<div id='mask3'>
+		<div class='content'>
+			<p>如果你的小伙伴是会飞的超人</p>
+			<p>那么他永远不会迟到</p>
+			<p>可惜他不是……</p>
+			<br>
+			<p>你最长的一次等待有多久？</p>
+			<div class='btns'>
+				<button data-time='30'>30 分钟</button>
+				<button data-time='45'>45 分钟</button>
+				<button data-time='60'>60 分钟</button>
+				<button data-time='90'>90 分钟</button>
+				<button data-time='120'>120 分钟</button>
+				<button data-time='300'>掀桌!!!</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 订阅剧集 -->
+	<div id='subscibe'>
+		<div class='content'>
+			<div class='title'>
+				你的小世界一共有 <span class='userTimeLength'></span> 分钟
+			</div>
+			<div class='word'>
+				<p>100 分钟可以刷 1000 次微博，也可以沉浸在一段故事当中</p>
+				<p>或搞笑，或伤感，或悬疑，或暴力；至少，让你忘掉你是一个人</p>
+				<br>
+				<p>告诉我们你想看的故事</p>
+			</div>
+			<div class='btn-left'></div>
+			<div class='btn-right'></div>
+			<button class='ok'>选 好 了</button>
+			<div class='videos'>
+				<!-- page start -->
+				<div class='page'>
+					<div class='video-photo' data-selected='false'>
+						<img src="">
+						<div class='mask-sel'></div>
+					</div>
+					<div class='video-photo' data-selected='false'>
+						<img src="">
+						<div class='mask-sel'></div>
+					</div>
+					<div class='video-photo' data-selected='false'>
+						<img src="">
+						<div class='mask-sel'></div>
+					</div>
+					<div class='video-photo' data-selected='false'>
+						<img src="">
+						<div class='mask-sel'></div>
+					</div>
+					<div class='video-photo' data-selected='false'>
+						<img src="">
+						<div class='mask-sel'></div>
+					</div>
+				</div>
+				<!-- page end -->
+			</div>
+		</div>
+	</div>
+	<!-- 微博分享 -->
+	<div id='weibo'>
+		<div class='content'>
+			<p>9 月 11 日，当你一个人的时候</p>
+			<p>请记得打开豌豆荚</p>
+			<p>我们为你准备了一个全新的小世界</p>
+			<div class='btns'>
+				<a id='weibo-share' target="_blank" href="">
+					<button>分享给朋友</button>
+				</a>
+				<a href="http://www.wandoujia.com">
+					<button>回到豌豆荚首页</button>
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div id='loading'></div>
+<script src="script/simple-animation.js"></script>
+<script src="script/jquery-1.8.3.min.js"></script>
+<script src="script/index.js"></script>
+</body>
+</html>
