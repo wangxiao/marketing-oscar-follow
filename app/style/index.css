@@ -6,6 +6,7 @@ body{
 	font: 12px/18px "Lantinghei SC","Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight: 300;
 	overflow: hidden;
+	color: #555;
 }
 #film{
 	position: absolute;
@@ -14,12 +15,12 @@ body{
 button{
 	border-radius: 4px;
 	cursor: pointer;
-	box-shadow: 2px 3px 5px #666;
-	border: 1px solid #333;
-	background-color: #FFF;
 	font-size: 15px;
 	padding: 6px;
 	margin: 3px;
+	background: rgb(141, 186, 40);
+	box-shadow: 2px 2px 1px #2f7c2f;
+	color: #fff;
 }
 .bg{
 	background-color: #eee;
@@ -62,7 +63,7 @@ button{
 	width: 360px;
 	height: 210px;
 	position: absolute;
-	top: 100px;
+	top: 30px;
 	left: 100px;
 	opacity: 0;
 	display: none;
@@ -74,7 +75,7 @@ button{
 	width: 330px;
 	color: #666;
 	line-height: 30px;
-	font-size: 20px;
+	font-size: 18px;
 }
 #mask1 .content .btns{
 	margin: 4px 0px;
@@ -86,7 +87,7 @@ button{
 	width: 360px;
 	height: 210px;
 	position: absolute;
-	top: 100px;
+	top: 30px;
 	left: 100px;
 	opacity: 0;
 	display: none;
@@ -98,7 +99,7 @@ button{
 	width: 330px;
 	color: #666;
 	line-height: 30px;
-	font-size: 20px;
+	font-size: 18px;
 }
 #mask2 .content .btns{
 	margin: 4px 0px;
@@ -107,7 +108,7 @@ button{
 	width: 360px;
 	height: 210px;
 	position: absolute;
-	top: 100px;
+	top: 30px;
 	left: 100px;
 	opacity: 0;
 	display: none;
@@ -119,7 +120,7 @@ button{
 	width: 330px;
 	color: #666;
 	line-height: 30px;
-	font-size: 20px;
+	font-size: 18px;
 }
 #mask3 .content .btns{
 	margin: 4px 0px;
@@ -152,6 +153,9 @@ button{
 	font-size: 20px;
 	line-height: 25px;
 	color: #666;
+}
+#subscibe .content .word .userTimeLength{
+	color: #000;
 }
 #subscibe .content .videos{
 	float: left;

@@ -1,6 +1,6 @@
-var hostUrl = 'http://wangxiao.github.io/marketing-oscar-follow/';
+var hostUrl = 'http://www.wandoujia.com/campaign/videolaunch';
 var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
-var weiboSharePic = 'http://wangxiao.github.io/marketing-oscar-follow/weibo-share.png';
+var weiboSharePic = 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/weibo-share.png';
 
 var timeout = 3000;
 var hasAccount = false;
@@ -957,8 +957,9 @@ function main() {
 
 	var mask3 = $('#mask3');
 	mask3.find('button').on('click', function(){
-		userTimeLength += Number($(this).attr('data-time'));
+		userTimeLength += Number( $(this).attr('data-time') );
 		$('.userTimeLength').text(userTimeLength);
+		$('.weiboTimes').text( userTimeLength * 10 );
 		mask3.hide();
 		$('#mask-all').hide();
 		sa.play();
@@ -1048,8 +1049,8 @@ function main() {
 				//显示微博分享那个页面
 				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
 				bgSprite.moveTo(-14673,0,12,function() {
-					bgSprite.remove( container[0] );
-					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；@豌豆荚 还说，TA 能让我的无聊时间变成快乐的小世界。点击链接，开启你全新的小世界。'+ hostUrl;
+					$(bgSprite.container).remove( container[0] );
+					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；豌豆荚还说，TA 能让我的无聊时间变成快乐的小世界。9 月 11 日，当你一个人的时候，或者在路上，或者在等谁……请记得打开@豌豆荚 。点击链接，开启你全新的小世界：'+ hostUrl;
 					$('#weibo-share').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title='+encodeURIComponent(word)+'&pic='+ weiboSharePic );
 					weiboContainer.find('p').each(function(i , v){
 						setTimeout(function(){
