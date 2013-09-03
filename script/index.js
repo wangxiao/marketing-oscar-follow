@@ -1,8 +1,11 @@
 var hostUrl = 'http://wangxiao.github.io/marketing-oscar-follow/';
 var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
+var weiboSharePic = 'http://wangxiao.github.io/marketing-oscar-follow/landingpage.gif';
+
 var timeout = 3000;
 var hasAccount = false;
 var isReady = false;
+
 var timer = setTimeout(function() {
 	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl ;
 }, timeout);
@@ -21,6 +24,7 @@ $.ajax({
 }).fail(function(e) {
 	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl;
 });
+
 
 var IMAGE_LIST=[ 
 
@@ -239,6 +243,14 @@ var IMAGE_LIST=[
 		url: 'images/tree/tree-3.png'
 	},
 
+	{
+		id: 'ATM',
+		url: 'images/ATM.png'
+	},
+	{
+		id: 'house',
+		url: 'images/house.png'
+	}
 
 ];
 
@@ -322,11 +334,22 @@ function creatMountain(x, y) {
 	return s;
 }
 
+function creatTree(x, y) {
+	var idList = ['tree1', 'tree2', 'tree3'];
+	var id = idList[ Math.floor( Math.random() * idList.length ) ];
+	var s = sa.Sprite( id );
+	var top = {
+		tree1:443,
+		tree2:352,
+		tree3:416,
+	};
+	s.position({x:x, y: top[id] });
+	return s;
+}
+
 function main() {
-	var winWidth = $(document).width();
-
-	var bgSprite = sa.Sprite('background-sprite').width(14788).height(800);
-
+	var winWidth = $(window).width();
+	var bgSprite = sa.Sprite('background-sprite').width(17000).height(800);
 	var stageX = 0;
 	var stageWidth = 0;
 	if(winWidth < 1400) {
@@ -335,12 +358,9 @@ function main() {
 	} else {
 		stageWidth = winWidth;
 	}
-
 	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() );
-	var bgMoveSprite = sa.Sprite().width(1000).height(800);
-
 	var bgLayer = sa.Layer().height( bgSprite.height() );
-
+	bgLayer.width( stageWidth );
 	stage.add( bgLayer );
 
 	// 生成云彩
@@ -351,9 +371,15 @@ function main() {
 	}
 
 	// 生成山
-	for(var i = 0, l = 8; i < l ; i += 1) {
+	for(var i = 0, l = 18; i < l ; i += 1) {
 		var x = i * 1050 + Math.floor( Math.random() * 5 ) * 200;
 		bgSprite.add( creatMountain(x, y) );
+	}
+
+	// 生成树
+	for(var i = 0, l = 18; i < l ; i += 1) {
+		var x = i * 1050 + Math.floor( Math.random() * 5 ) * 200;
+		bgSprite.add( creatTree(x, y) );
 	}
 
 	var train = sa.Sprite( 'train' ).position({x:1200,y:500});
@@ -370,7 +396,7 @@ function main() {
 	var peopleMan1 = sa.Sprite('people-man1').position({x:7350,y:335});
 	var peopleGirl = sa.Sprite('people-girl').position({x:7435,y:364});
 	var peopleMan3 = sa.Sprite('people-man3').position({x:7606,y:320});
-
+	var atm = sa.Sprite('ATM').position({x:7683,y:269});
 	var iconFire = sa.Sprite('icon-fire').position({x:-20,y:-20});
 	var iconRound = sa.Sprite('icon-round').position({x:-25,y:-20});
 	var icon3dots = sa.Sprite('icon-3dots').position({x:50,y:-20});
@@ -384,7 +410,7 @@ function main() {
 	var peopleWoman2 = sa.Sprite('people-woman3').position({x:11787,y:377});
 	var desk = sa.Sprite('desk1').position({x:11754, y:448});
 	var cat2 = sa.Sprite('cat4').position({x:11948, y:238});
-
+	var house = sa.Sprite('house').position({x:11675, y:289});
 	var car1 = sa.Sprite('car-yellow').position({x:6446,y:477});
 	var car2 = sa.Sprite('car-red').position({x:8840,y:470});
 	var car3 = sa.Sprite('car-blue').position({x:12911,y:580});
@@ -396,12 +422,14 @@ function main() {
 			.add( train )
 			.add( station )
 			.add( cat1 )
+			.add( atm )
 			.add( peopleAnger )
 			.add( peopleBoy3 )
 			.add( peopleMan1 )
 			.add( peopleGirl)
 			.add( peopleMan3 )
 			.add( boat )
+			.add( house )
 			.add( peopleMan5 )
 			.add( peopleMan4 )
 			.add( peopleWoman2 )
@@ -580,20 +608,12 @@ function main() {
 			},
 			//主人公离开场景
 			29064: function() {
-				bgSprite.moveTo(-12943, 0, 12, function(){
+				subscibePage( 0 );
+				bgSprite.moveTo(-13243, 0, 12, function(){
 					//console.log(sa.time());
 				});
 				car3.moveTo(1000, 480, 6, function(){
 					bgSprite.remove(car3);
-				});
-			},
-			31496: function() {
-				$('#film').animate({opacity:0.5},2000,function() {
-					$('#film').hide();
-					subscibePage( 0 );
-					$('#subscibe').show().animate({opacity:1},1000,function(){
-						sa.destory();
-					});
 				});
 			}
 		});
@@ -645,99 +665,94 @@ function main() {
 		}
 	});
 
-	//显示微博分享那个页面
-	function showWeibo() {
-		$('#weibo-content').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=我每天的碎片时间居然有 '+ userTimeLength +' 分钟！但@豌豆荚 说，绳命不能这样白白流失，这是我每天与谢耳朵（需根据用户选择的不同剧去替换）独处的好机会！萌戳链接，＃预测你与偶像的独处时光＃看看唯一的独处时间，是谁与你一起挽救流逝……下载豌豆荚，还有 100% 的惊喜在等你！&url=http://www.wandoujia.com&pic=http://wangxiao.github.io/marketing-oscar-follow/landingpage.gif');
-		$('#subscibe').animate({opacity:0.5}, 300, function() {
-			$('#subscibe').hide();
-			var container = $('#weibo');
+	//显示结束页
+	function showEndPage() {
+		$('#weibo').animate({opacity:0.5}, 300,function() {
+			$('#weibo').hide();
+			var container = $('#end');
 			container.show().animate({opacity:1},300);
-			var ele = container.find('.player');
-			var timer = intervalChangeFace( ele, ['player-big1','player-big2','player-big3'],100 );
-			ele.animate({left:'-15%'},3500);
+		});
+	}
 
-			container.find('.btn').on('click',function() {
-				showEndPage();
+	// 提交预订阅
+	function subscibe( list ) {
+		var data = {
+			data: JSON.stringify(list),
+			type: 'test'
+		};
+		$.ajax({
+			type: 'post',
+			url: 'http://feed.wandoujia.com/api/v1/deposit/add',
+			async: false,
+			contentType: 'application/json',
+			dataType: 'jsonp',
+			data: data,
+			timeout: 10000
+		}).done(function( data ) {
+			alert('订阅成功');
+		}).fail(function( xhr ) {
+			// xhr.status
+			alert('订阅失败');
+		});
+	}
+
+	//显示订阅分页
+	var subscibePageNum = -1;
+	function subscibePage( num ){
+		var container = $('#subscibe').appendTo(bgSprite.container);
+		var pages = container.find('.page').hide().css({opacity:0});
+		pages.eq(num).show().animate({opacity:1},300);
+		if( subscibePageNum === -1 ) {
+			var left = container.find('.btn-left');
+			var right = container.find('.btn-right');
+
+			left.on('click', function() {
+				if( subscibePageNum !== 0 ) {
+					right.show();
+					subscibePage(subscibePageNum -= 1);
+				} else {
+					left.hide();
+				}
 			});
-
-		});
-	}
-
-//显示结束页
-function showEndPage() {
-	$('#weibo').animate({opacity:0.5}, 300,function() {
-		$('#weibo').hide();
-		var container = $('#end');
-		container.show().animate({opacity:1},300);
-	});
+			right.on('click', function() {
+				if( subscibePageNum !== (pages.length - 1) ) {
+					left.show();
+					subscibePage(subscibePageNum += 1);
+				} else {
+					right.hide();
+				}
+			});
+			container.find('.video-photo').on('click',function() {
+				var ele = $(this);
+				var mask = ele.find('.mask-sel');
+				if( ele.attr('data-selected') === 'false' ){
+					mask.show();
+					ele.attr('data-selected','true');
+				} else {
+					mask.hide();	
+					ele.attr('data-selected','false');
+				}
+			});
+			container.find('.ok').on('click', function() {
+				//显示微博分享那个页面
+				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
+				bgSprite.moveTo(-14673,0,8,function() {
+					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；@豌豆荚 还说，TA 能让我的无聊时间变成快乐的小世界。点击链接，开启你全新的小世界。'+ hostUrl;
+					$('#weibo-share').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title='+encodeURIComponent(word)+'&pic='+ weiboSharePic );
+					weiboContainer.find('p').each(function(i , v){
+						setTimeout(function(){
+							$(v).show().animate({opacity:1}, 1000);
+						},500*i);
+					});
+					setTimeout(function(){
+						weiboContainer.find('.btns').show().animate({opacity:1}, 500);
+					}, 2000);
+				});
+			});
+			subscibePageNum = 0;
+		}
 }
 
-// 提交预订阅
-function subscibe( list ) {
-	var data = {
-		data: JSON.stringify(list),
-		type: 'test'
-	};
-	$.ajax({
-		type: 'post',
-		url: 'http://feed.wandoujia.com/api/v1/deposit/add',
-		async: false,
-		contentType: 'application/json',
-		dataType: 'jsonp',
-		data: data,
-		timeout: 10000
-	}).done(function( data ) {
-		alert('订阅成功');
-	}).fail(function( xhr ) {
-		// xhr.status
-		alert('订阅失败');
-	});
-}
-
-//显示订阅分页
-var subscibePageNum = -1;
-function subscibePage( num ){
-	var container = $('#subscibe');
-	var pages = container.find('.page').hide().css({opacity:0});
-	pages.eq(num).show().animate({opacity:1},300);
-	if( subscibePageNum === -1 ) {
-		var left = container.find('.btn-left');
-		var right = container.find('.btn-right');
-
-		left.on('click', function() {
-			if( subscibePageNum !== 0 ) {
-				right.show();
-				subscibePage(subscibePageNum -= 1);
-			} else {
-				left.hide();
-			}
-		});
-		right.on('click', function() {
-			if( subscibePageNum !== (pages.length - 1) ) {
-				left.show();
-				subscibePage(subscibePageNum += 1);
-			} else {
-				right.hide();
-			}
-		});
-		container.find('.video-photo').on('click',function() {
-			var ele = $(this);
-			var mask = ele.find('.mask-sel');
-			if( ele.attr('data-selected') === 'false' ){
-				mask.show();
-				ele.attr('data-selected','true');
-			} else {
-				mask.hide();	
-				ele.attr('data-selected','false');
-			}
-			
-		});
-		container.find('.ok').on('click', function() {
-			showWeibo();
-		});
-		subscibePageNum = 0;
-	}
-}
 // main 函数结束的最后一个括号
 }
 

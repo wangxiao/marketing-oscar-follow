@@ -401,6 +401,8 @@ function simpleAnimation( options ) {
 		var spriteList;
 
 		G_Sprite = function ( imgId, opts ) {
+			
+			//TODO: 支持传入 dom
 			this.id = imgId || createId();
 			opts = opts || {};
 			if( typeof imgId === 'string' ) {
