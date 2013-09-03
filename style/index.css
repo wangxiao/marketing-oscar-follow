@@ -5,7 +5,7 @@
 body{
 	font: 12px arial;
 	font-weight: 300;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 button{
 	border-radius: 4px;
@@ -141,6 +141,7 @@ button{
 	font-size: 35px;
 	font-weight: 600;
 	margin: 5px;
+	margin-bottom: 20px;
 }
 #subscibe .content .word{
 	font-size: 20px;

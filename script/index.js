@@ -1,6 +1,6 @@
 var hostUrl = 'http://wangxiao.github.io/marketing-oscar-follow/';
 var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
-var weiboSharePic = 'http://wangxiao.github.io/marketing-oscar-follow/landingpage.gif';
+var weiboSharePic = 'http://wangxiao.github.io/marketing-oscar-follow/weibo-share.png';
 
 var timeout = 3000;
 var hasAccount = false;
@@ -63,18 +63,53 @@ var IMAGE_LIST=[
 		url: 'images/station.png'
 	},
 	{
-		id: 'car-blue',
-		url: 'images/car/car-blue.png'
+		id: 'car-blue1',
+		url: 'images/car/blue1.png'
 	},
 	{
-		id: 'car-red',
-		url: 'images/car/car-red.png'
+		id: 'car-blue2',
+		url: 'images/car/blue2.png'
 	},
 	{
-		id: 'car-yellow',
-		url: 'images/car/car-yellow.png'
+		id: 'car-blue3',
+		url: 'images/car/blue3.png'
 	},
-
+	{
+		id: 'car-blue4',
+		url: 'images/car/blue4.png'
+	},
+	{
+		id: 'car-red1',
+		url: 'images/car/red1.png'
+	},
+	{
+		id: 'car-red2',
+		url: 'images/car/red2.png'
+	},
+	{
+		id: 'car-red3',
+		url: 'images/car/red3.png'
+	},
+	{
+		id: 'car-red4',
+		url: 'images/car/red4.png'
+	},
+	{
+		id: 'car-yellow1',
+		url: 'images/car/yellow1.png'
+	},
+	{
+		id: 'car-yellow2',
+		url: 'images/car/yellow2.png'
+	},
+	{
+		id: 'car-yellow3',
+		url: 'images/car/yellow3.png'
+	},
+	{
+		id: 'car-yellow4',
+		url: 'images/car/yellow4.png'
+	},
 	{
 		id: 'cat1',
 		url: 'images/cat/cat1.png'
@@ -250,6 +285,10 @@ var IMAGE_LIST=[
 	{
 		id: 'house',
 		url: 'images/house.png'
+	},
+	{
+		id: 'water',
+		url: 'images/water.png'
 	}
 
 ];
@@ -358,9 +397,9 @@ function main() {
 	} else {
 		stageWidth = winWidth;
 	}
-	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() );
+	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() ).width(17000);
 	var bgLayer = sa.Layer().height( bgSprite.height() );
-	bgLayer.width( stageWidth );
+	bgLayer.width( stageWidth ).width(17000);
 	stage.add( bgLayer );
 
 	// 生成云彩
@@ -403,7 +442,7 @@ function main() {
 	var iconHeart = sa.Sprite('icon-heart').position({x:50,y:-30});
 
 	var boat = sa.Sprite('boat').position({x:8442,y:408});
-
+	var water = sa.Sprite('water').position({x:8442,y:522});
 	//地铁第四个场景元素
 	var peopleMan5 = sa.Sprite('people-man5').position({x:11446,y:313});
 	var peopleMan4 = sa.Sprite('people-man4').position({x:11546,y:324});
@@ -411,9 +450,21 @@ function main() {
 	var desk = sa.Sprite('desk1').position({x:11754, y:448});
 	var cat2 = sa.Sprite('cat4').position({x:11948, y:238});
 	var house = sa.Sprite('house').position({x:11675, y:289});
-	var car1 = sa.Sprite('car-yellow').position({x:6446,y:477});
-	var car2 = sa.Sprite('car-red').position({x:8840,y:470});
-	var car3 = sa.Sprite('car-blue').position({x:12911,y:580});
+	var car1 = sa.Sprite('car-yellow1')
+				.position({x:6446,y:477})
+				.doThis(function() {
+					intervalChangeFace(this.container, ['car-yellow1', 'car-yellow2', 'car-yellow3', 'car-yellow4'], 500);
+				});
+	var car2 = sa.Sprite('car-red1')
+				.position({x:8840,y:470})
+				.doThis(function() {
+					intervalChangeFace(this.container, ['car-red1', 'car-red2', 'car-red3', 'car-red4'], 500);
+				});
+	var car3 = sa.Sprite('car-blue1')
+				.position({x:12911,y:580})
+				.doThis(function() {
+					intervalChangeFace(this.container, ['car-blue1', 'car-blue2', 'car-blue3', 'car-blue4'], 500);
+				});
 
 	bgSprite.add( peopleOld )
 			.add( peopleWoman )
@@ -428,6 +479,7 @@ function main() {
 			.add( peopleMan1 )
 			.add( peopleGirl)
 			.add( peopleMan3 )
+			.add( water )
 			.add( boat )
 			.add( house )
 			.add( peopleMan5 )
@@ -503,8 +555,8 @@ function main() {
 					$('#mask-all').show();
 					$('#mask2').show().animate({opacity:1},500);
 				});
-				car1.delay(3000).
-					moveTo(0, 477, 8 ,function(){
+				car1.delay(3000)
+					.moveTo(0, 477, 8 ,function(){
 						bgSprite.remove(car1);
 					});
 			},
