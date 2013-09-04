@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>你和你的小世界</title>
+	<meta charset="UTF-8">
+	<title>你和你的小世界 - 豌豆荚</title>
+	<meta name="keywords" content="豌豆荚,视频搜索,视频订阅">
+	<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
 </head>
 	<body>
 		<h1>跳转中...</h1>
 		<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-15790641-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
 		var ua = window.navigator.userAgent;
 		if( ua.match(/AppleWebKit.*Mobile.*/) ) {
 			window.location.href='http://www.wandoujia.com/campaign/videolaunch/mobile.html';
 		} else {
 			window.location.href='http://www.wandoujia.com/campaign/videolaunch/pc.html';
 		}
-		var udid = location.search.match(/udid=(.*)/,'g')[1];
-		function setCookie(c_name,value,expiredays){
-			var exdate=new Date()
-			exdate.setDate(exdate.getDate()+expiredays)
-			document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
-		}
-		setCookie('udid',udid,30);
 		</script>
 	</body>
 </html>

@@ -503,6 +503,23 @@ var IMAGE_LIST=[
 	}
 ];
 
+(function(){
+	var match = location.search.match(/udid=(.*)/,'g');
+	var udid = '';
+	if( match ){
+		udid = match[1];
+	}
+	function setCookie(c_name,value,expiredays){
+		var exdate=new Date()
+		exdate.setDate(exdate.getDate()+expiredays)
+		document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+	}
+	if(!!udid && (udid != 'undefined') ) {
+		setCookie('udid',udid,30);
+	}
+})();
+
+
 //初始化
 var sa = simpleAnimation({
 	container:'film',
@@ -605,9 +622,9 @@ function main() {
 	} else {
 		stageWidth = winWidth;
 	}
-	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() );
+	var stage = sa.Stage({x:stageX}).height( bgSprite.height() ).width( bgSprite.width() );
 	var bgLayer = sa.Layer().height( bgSprite.height() );
-	bgLayer.width( stageWidth );
+	bgLayer.width( bgSprite.width() );
 	stage.add( bgLayer );
 
 	var cloudList = [];
@@ -953,7 +970,7 @@ function main() {
 	function subscibe( list ) {
 		var udid = getCookie('udid');
 		for(var i = 0 , l = list.length ; i < l ; i ++ ) {
-			list[i] = "video/http://oscar.wandoujia.com/api/v1/feeds/" + list;
+			list[i] = "video/http://oscar.wandoujia.com/api/v1/feeds/" + list[i];
 		}
 		var data = {
 			data: JSON.stringify(list),
