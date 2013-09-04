@@ -37,7 +37,7 @@ button{
 	width: 100%;
 	height: 100%;
 	background-color: ;
-	background:#FFF url('../images/loading.gif') 50% 50% no-repeat;
+	background:#FFF url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/loading.gif') 50% 50% no-repeat;
 	text-align: center;
 }
 #mask0{
@@ -138,7 +138,7 @@ button{
 }
 #subscibe .content{
 	width: 666px;
-	margin: 100px auto 0px auto;
+	margin: 90px auto 0px auto;
 	height: 100%;
 	text-align: center;
 	position: relative;
@@ -147,15 +147,15 @@ button{
 	font-size: 35px;
 	font-weight: 600;
 	margin: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 #subscibe .content .word{
-	font-size: 20px;
+	font-size: 18px;
 	line-height: 25px;
 	color: #666;
 }
 #subscibe .content .word .userTimeLength{
-	color: #000;
+	color: #555;
 }
 #subscibe .content .videos{
 	float: left;
@@ -195,7 +195,7 @@ button{
 	cursor: default;
 	height: 177px;
 	display: none;
-	background:#000 url('../images/subscibe/selected.png') 50% 50% no-repeat;
+	background:#000 url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/subscibe/selected.png') 50% 50% no-repeat;
 }
 #subscibe .content .userTimeLength{
 	color: #92c238;
@@ -208,7 +208,7 @@ button{
 	margin-left: -80px;
 }
 #subscibe .btn-left{
-	background-image: url('../images/subscibe/left.png');
+	background-image: url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/subscibe/left.png');
 	width:39px;
 	height: 45px;
 	position: absolute;
@@ -217,7 +217,7 @@ button{
 	cursor: pointer;
 }
 #subscibe .btn-right{
-	background-image: url('../images/subscibe/right.png');
+	background-image: url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/subscibe/right.png');
 	width: 39px;
 	height: 45px;
 	position: absolute;
@@ -277,7 +277,7 @@ button{
 	position: relative;	
 }
 #end .content .books{
-	background-image: url('../images/end/book.png');
+	background-image: url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/end/book.png');
 	position: absolute;
 	width: 402px;
 	height: 249px;
@@ -285,7 +285,7 @@ button{
 	left: 320px;
 }
 #end .content .TV{
-	background-image: url('../images/end/TV.png');
+	background-image: url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/end/TV.png');
 	position: absolute;
 	width: 174px;
 	height: 187px;
@@ -293,7 +293,7 @@ button{
 	left: 420px;
 }
 #end .content .tip{
-	background-image: url('../images/end/tip.png');
+	background-image: url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/end/tip.png');
 	position: absolute;
 	right: -140px;
 	top: 70px;
@@ -306,7 +306,7 @@ button{
 	left: 190px;
 }
 #end .content .btn-back button{
-	background-image: url('../images/end/btn-back.png');
+	background-image: url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/end/btn-back.png');
 	cursor: pointer;
 	width: 380px;
 	height: 93px;
@@ -328,5 +328,5 @@ button{
 	line-height: 25px;
 }
 #background-sprite{
-	background:url('../images/bg-repeat.png') 0% 96% repeat-x;
+	background:url('http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/bg-repeat.png') 0% 96% repeat-x;
 }

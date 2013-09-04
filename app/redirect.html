@@ -1,13 +1,25 @@
+<!DOCTYPE html>
 <html>
+<head>
+<meta charset="utf-8">
+<title>你和你的小世界</title>
+</head>
 	<body>
-		<p>跳转中...</p>
+		<h1>跳转中...</h1>
+		<script type="text/javascript">
+		var ua = window.navigator.userAgent;
+		if( ua.match(/AppleWebKit.*Mobile.*/) ) {
+			window.location.href='http://www.wandoujia.com/campaign/videolaunch/mobile.html';
+		} else {
+			window.location.href='http://www.wandoujia.com/campaign/videolaunch/pc.html';
+		}
+		var udid = location.search.match(/udid=(.*)/,'g')[1];
+		function setCookie(c_name,value,expiredays){
+			var exdate=new Date()
+			exdate.setDate(exdate.getDate()+expiredays)
+			document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+		}
+		setCookie('udid',udid,30);
+		</script>
 	</body>
-	<script type="text/javascript">
-	var ua = window.navigator.userAgent;
-	if( ua.match(/AppleWebKit.*Mobile.*/) ) {
-		window.location.href='http://www.wandoujia.com/campaign/videolaunch/mobile/index.html';
-	} else {
-		window.location.href='http://www.wandoujia.com/campaign/videolaunch/pc/index.html';
-	}
-	</script>
 </html>

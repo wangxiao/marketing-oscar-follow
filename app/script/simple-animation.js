@@ -457,7 +457,6 @@ function simpleAnimation( options ) {
 						}
 						changeStyle( sprite.container, 'position', 'absolute' );
 						changeStyle( sprite.container, 'overflow', 'hidden' );
-						changeStyle( sprite.container, '-webkit-transform', 'rotateZ(0deg)');
 						me.container.appendChild( sprite.container );
 					}
 					spriteList[ 'zIndex' + sprite.zIndex() ].push( sprite );

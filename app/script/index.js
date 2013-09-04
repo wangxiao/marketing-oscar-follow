@@ -2,29 +2,6 @@ var hostUrl = 'http://www.wandoujia.com/campaign/videolaunch';
 var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
 var weiboSharePic = 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/weibo-share.png';
 
-var timeout = 3000;
-var hasAccount = false;
-var isReady = false;
-
-var timer = setTimeout(function() {
-	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl ;
-}, timeout);
-$.ajax({
-	type: 'GET',
-	url: accountUrl,
-	contentType: 'application/json',
-	dataType: 'jsonp',
-	timeout: timeout
-}).done(function(data) {
-	clearTimeout(timer);
-	hasAccount = true;
-	if( isReady && hasAccount ) {
-		hideLoading();
-	}
-}).fail(function(e) {
-	window.location.href = 'https://account.wandoujia.com/v1/user/?do=login&callback=' + hostUrl;
-});
-
 var VIDEO_LIST = [
 	{
         name:'海贼王',
@@ -81,23 +58,12 @@ var VIDEO_LIST = [
         imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/chongshangyunxiao.png'
     },
     {
-        name:'兰陵王',
-        id:'49194',
-        selected: false,
-        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/lanlingwang.png'
-    },
-    {
-        name:'花非花雾非雾',
-        id:'134725',
-        selected: false,
-        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/huafeihuawu.png'
-    },
-    {
         name:'火影忍者',
         id:'31280',
         selected: false,
         imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/huoying.png'
-    },{
+    },
+    {
         name:'终极一班 3',
         id:'153199',
         selected: false,
@@ -264,6 +230,12 @@ var VIDEO_LIST = [
         imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shantianjun.png'
     },
     {
+        name:'快乐大本营',
+        id:'25999',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/kuailedabenying.png'
+    },
+    {
         name:'歌舞伎华之恋',
         id:'134872',
         selected: false,
@@ -282,6 +254,18 @@ var VIDEO_LIST = [
         imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shuwuerke.png'
     },
     {
+        name:'十万个冷笑话',
+        id:'50253',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/shiwangelengxiaohua.png'
+    },
+    {
+        name:'火影忍者',
+        id:'31280',
+        selected: false,
+        imgUrl: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/huoying.png'
+    },
+    {
         name:'追鱼传奇',
         id:'153661',
         selected: false,
@@ -293,231 +277,230 @@ var IMAGE_LIST=[
 
 	{
 		id: 'boat',
-		url: 'images/boat.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/boat.png'
 	},
 
 	{
 		id: 'desk1',
-		url: 'images/desk/desk1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/desk/desk1.png'
 	},
 	{
 		id: 'desk2',
-		url: 'images/desk/desk2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/desk/desk2.png'
 	},
 	{
 		id: 'desk3',
-		url: 'images/desk/desk3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/desk/desk3.png'
 	},
 	{
 		id: 'desk4',
-		url: 'images/desk/desk4.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/desk/desk4.png'
 	},
 	{
 		id: 'desk5',
-		url: 'images/desk/desk5.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/desk/desk5.png'
 	},
 
 	{
 		id: 'train',
-		url: 'images/train.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/train.png'
 	},
 	{
 		id: 'station',
-		url: 'images/station.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/station.png'
 	},
 	{
 		id: 'car-blue',
-		url: 'images/car/blue.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/car/blue.png'
 	},
 	{
 		id: 'car-red',
-		url: 'images/car/red.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/car/red.png'
 	},
 	{
 		id: 'car-yellow',
-		url: 'images/car/yellow.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/car/yellow.png'
 	},
 	{
 		id: 'cat1',
-		url: 'images/cat/cat1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cat/cat1.png'
 	},
 	{
 		id: 'cat2',
-		url: 'images/cat/cat2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cat/cat2.png'
 	},
 	{
 		id: 'cat3',
-		url: 'images/cat/cat3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cat/cat3.png'
 	},
 	{
 		id: 'cat4',
-		url: 'images/cat/cat4.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cat/cat4.png'
 	},
 	{
 		id: 'cat5',
-		url: 'images/cat/cat5.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cat/cat5.png'
 	},
 
 	{
 		id: 'cloud-blue1',
-		url: 'images/cloud/cloud-blue1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cloud/cloud-blue1.png'
 	},
 	{
 		id: 'cloud-blue2',
-		url: 'images/cloud/cloud-blue2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/cloud/cloud-blue2.png'
 	},
 
 	{
 		id: 'icon-3dots',
-		url: 'images/icons/icon-3dots.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-3dots.png'
 	},
 	{
 		id: 'icon-fire',
-		url: 'images/icons/icon-fire.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-fire.png'
 	},
 	{
 		id: 'icon-heart',
-		url: 'images/icons/icon-heart.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-heart.png'
 	},
 	{
 		id: 'icon-music',
-		url: 'images/icons/icon-music.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-music.png'
 	},
 	{
 		id: 'icon-plane',
-		url: 'images/icons/icon-plane.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-plane.png'
 	},
 	{
 		id: 'icon-round',
-		url: 'images/icons/icon-round.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-round.png'
 	},
 	{
 		id: 'icon-star',
-		url: 'images/icons/icon-star.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/icons/icon-star.png'
 	},
 
 	{
 		id: 'people-anger1',
-		url: 'images/people/people-anger1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-anger1.png'
 	},
 	{
 		id: 'people-anger2',
-		url: 'images/people/people-anger2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-anger2.png'
 	},
 	{
 		id: 'people-anger3',
-		url: 'images/people/people-anger3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-anger3.png'
 	},
 
 	{
 		id: 'people-boy1',
-		url: 'images/people/people-boy1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-boy1.png'
 	},
 	{
 		id: 'people-boy2',
-		url: 'images/people/people-boy2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-boy2.png'
 	},
 	{
 		id: 'people-boy3',
-		url: 'images/people/people-boy3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-boy3.png'
 	},
 	{
 		id: 'people-man1',
-		url: 'images/people/people-man1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-man1.png'
 	},
 	{
 		id: 'people-man2',
-		url: 'images/people/people-man2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-man2.png'
 	},	
 	{
 		id: 'people-man3',
-		url: 'images/people/people-man3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-man3.png'
 	},	
 	{
 		id: 'people-man4',
-		url: 'images/people/people-man4.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-man4.png'
 	},	
 	{
 		id: 'people-man5',
-		url: 'images/people/people-man5.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-man5.png'
 	},	
 	{
 		id: 'people-old',
-		url: 'images/people/people-old.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-old.png'
 	},
 
 	{
 		id: 'people-woman1',
-		url: 'images/people/people-woman1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-woman1.png'
 	},
 	{
 		id: 'people-woman2',
-		url: 'images/people/people-woman2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-woman2.png'
 	},
 	{
 		id: 'people-woman3',
-		url: 'images/people/people-woman3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-woman3.png'
 	},
 	{
 		id: 'people-girl',
-		url: 'images/people/people-girl.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/people/people-girl.png'
 	},
 
 	{
 		id: 'mountain1',
-		url: 'images/mountain/mou1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou1.png'
 	},
 	{
 		id: 'mountain2',
-		url: 'images/mountain/mou2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou2.png'
 	},
 	{
 		id: 'mountain3',
-		url: 'images/mountain/mou3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou3.png'
 	},
 	{
 		id: 'mountain4',
-		url: 'images/mountain/mou4.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou4.png'
 	},
 	{
 		id: 'mountain5',
-		url: 'images/mountain/mou5.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou5.png'
 	},
 	{
 		id: 'mountain6',
-		url: 'images/mountain/mou6.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou6.png'
 	},
 	{
 		id: 'mountain7',
-		url: 'images/mountain/mou7.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/mountain/mou7.png'
 	},
 
 	{
 		id:'tree1',
-		url: 'images/tree/tree-1.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/tree/tree-1.png'
 	},
 	{
 		id:'tree2',
-		url: 'images/tree/tree-2.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/tree/tree-2.png'
 	},
 	{
 		id:'tree3',
-		url: 'images/tree/tree-3.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/tree/tree-3.png'
 	},
 
 	{
 		id: 'ATM',
-		url: 'images/ATM.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/ATM.png'
 	},
 	{
 		id: 'house',
-		url: 'images/house.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/house.png'
 	},
 	{
 		id: 'water',
-		url: 'images/water.png'
+		url: 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/water.png'
 	}
-
 ];
 
 //初始化
@@ -531,10 +514,7 @@ var sa = simpleAnimation({
 	},
 	onready: function() {
 		//console.log('onready');
-		isReady = true;
-		if( isReady && hasAccount ) {
-			hideLoading();
-		}
+		hideLoading();
 		main();
 	}
 });
@@ -625,9 +605,9 @@ function main() {
 	} else {
 		stageWidth = winWidth;
 	}
-	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() ).width(17000);
+	var stage = sa.Stage({width: stageWidth,x:stageX}).height( bgSprite.height() );
 	var bgLayer = sa.Layer().height( bgSprite.height() );
-	bgLayer.width( stageWidth ).width(17000);
+	bgLayer.width( stageWidth );
 	stage.add( bgLayer );
 
 	var cloudList = [];
@@ -750,7 +730,7 @@ function main() {
 					});
 			},
 			//人们坐地铁
-			4128 : function() {
+			3728 : function() {
 				peopleOld.moveTo(4100, 430, 2, function(){
 							bgSprite.remove(peopleOld);
 							//console.log(sa.time());
@@ -854,11 +834,11 @@ function main() {
 				boat.moveTo(8713, 408, 1);
 			},
 			11472: function() {
-				car2.moveTo(30000, 470, 10, function(){
+				car2.moveTo(30000, 470, 8, function(){
 				});
 			},
 			//吃饭等人
-			14688: function() {
+			14988: function() {
 
 				peopleWoman2.delay(1500)
 					.doThis(function() {
@@ -936,6 +916,7 @@ function main() {
 	var mask0 = $('#mask0');
 	mask0.find('button').on('click', function(){
 		sa.play();
+		(_gaq||[]).push(['点击动画开始', 'click', 'success']);
 		mask0.hide();
 	});
 
@@ -943,6 +924,7 @@ function main() {
 	mask1.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
 		mask1.hide();
+		(_gaq||[]).push(['选择了等地铁的时间', 'click', 'success']);
 		$('#mask-all').hide();
 		sa.play();
 	});
@@ -951,6 +933,7 @@ function main() {
 	mask2.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
 		mask2.hide();
+		(_gaq||[]).push(['选择了取款机时间', 'click', 'success']);
 		$('#mask-all').hide();
 		sa.play();
 	});
@@ -959,21 +942,25 @@ function main() {
 	mask3.find('button').on('click', function(){
 		userTimeLength += Number( $(this).attr('data-time') );
 		$('.userTimeLength').text(userTimeLength);
-		$('.weiboTimes').text( userTimeLength * 10 );
+		$('.weibo-times').text( userTimeLength * 10 );
 		mask3.hide();
+		(_gaq||[]).push(['选择了吃饭等人时间', 'click', 'success']);
 		$('#mask-all').hide();
 		sa.play();
 	});
 
 	// 提交预订阅
 	function subscibe( list ) {
+		var udid = getCookie('udid');
 		for(var i = 0 , l = list.length ; i < l ; i ++ ) {
 			list[i] = "video/http://oscar.wandoujia.com/api/v1/feeds/" + list;
 		}
 		var data = {
 			data: JSON.stringify(list),
-			type: 'zhuizhuikan'
+			type: 'zhuizhuikan',
+			wdj_udid: udid
 		};
+		(_gaq||[]).push(['点击订阅了剧', 'click', 'success']);
 		$.ajax({
 			type: 'post',
 			url: 'http://feed.wandoujia.com/api/v1/deposit/add',
@@ -982,12 +969,13 @@ function main() {
 			dataType: 'jsonp',
 			data: data,
 			timeout: 10000
-		}).done(function( data ) {
-			alert('订阅成功');
-		}).fail(function( xhr ) {
-			// xhr.status
-			alert('订阅失败');
 		});
+		// .done(function( data ) {
+		// 	alert('订阅成功');
+		// }).fail(function( xhr ) {
+		// 	// xhr.status
+		// 	alert('订阅失败');
+		// });
 	}
 
 	//显示订阅分页
@@ -1049,9 +1037,12 @@ function main() {
 				//显示微博分享那个页面
 				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
 				bgSprite.moveTo(-14673,0,12,function() {
-					$(bgSprite.container).remove( container[0] );
+					// $(bgSprite.container).remove( container );
 					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；豌豆荚还说，TA 能让我的无聊时间变成快乐的小世界。9 月 11 日，当你一个人的时候，或者在路上，或者在等谁……请记得打开@豌豆荚 。点击链接，开启你全新的小世界：'+ hostUrl;
 					$('#weibo-share').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title='+encodeURIComponent(word)+'&pic='+ weiboSharePic );
+					$('#weibo-share').on('click', function() {
+						(_gaq||[]).push(['点击分享到微博', 'click', 'success']);
+					});	
 					weiboContainer.find('p').each(function(i , v){
 						setTimeout(function(){
 							$(v).show().animate({opacity:1}, 1000);
@@ -1098,4 +1089,19 @@ function showMask0Word() {
 	setTimeout(function(){
 		btn.show().animate({opacity:1}, 500);
 	}, 6000);
+}
+
+function getCookie(c_name){
+	if (document.cookie.length>0){
+		c_start=document.cookie.indexOf(c_name + "=");
+		if (c_start!=-1){ 
+			c_start=c_start + c_name.length+1; 
+			c_end=document.cookie.indexOf(";",c_start)
+			if (c_end==-1) {
+				c_end=document.cookie.length;
+			}
+			return unescape(document.cookie.substring(c_start,c_end))
+		} 
+	}
+	return "";
 }
