@@ -933,7 +933,7 @@ function main() {
 	var mask0 = $('#mask0');
 	mask0.find('button').on('click', function(){
 		sa.play();
-		(_gaq||[]).push(['点击动画开始', 'click', 'success']);
+		(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击开始']);
 		mask0.hide();
 	});
 
@@ -941,7 +941,7 @@ function main() {
 	mask1.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
 		mask1.hide();
-		(_gaq||[]).push(['选择了等地铁的时间', 'click', 'success']);
+		(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击等地铁时间']);
 		$('#mask-all').hide();
 		sa.play();
 	});
@@ -950,7 +950,7 @@ function main() {
 	mask2.find('button').on('click', function(){
 		userTimeLength += Number($(this).attr('data-time'));
 		mask2.hide();
-		(_gaq||[]).push(['选择了取款机时间', 'click', 'success']);
+		(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击等 ATM 时间']);
 		$('#mask-all').hide();
 		sa.play();
 	});
@@ -961,7 +961,7 @@ function main() {
 		$('.userTimeLength').text(userTimeLength);
 		$('.weibo-times').text( userTimeLength * 10 );
 		mask3.hide();
-		(_gaq||[]).push(['选择了吃饭等人时间', 'click', 'success']);
+		(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击吃饭等人时间']);
 		$('#mask-all').hide();
 		sa.play();
 	});
@@ -977,7 +977,7 @@ function main() {
 			type: 'zhuizhuikan',
 			wdj_udid: udid
 		};
-		(_gaq||[]).push(['点击订阅了剧', 'click', 'success']);
+		(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击了订阅']);
 		$.ajax({
 			type: 'post',
 			url: 'http://feed.wandoujia.com/api/v1/deposit/add',
@@ -1058,8 +1058,8 @@ function main() {
 					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；豌豆荚还说，TA 能让我的无聊时间变成快乐的小世界。9 月 11 日，当你一个人的时候，或者在路上，或者在等谁……请记得打开@豌豆荚 。点击链接，开启你全新的小世界：'+ hostUrl;
 					$('#weibo-share').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title='+encodeURIComponent(word)+'&pic='+ weiboSharePic );
 					$('#weibo-share').on('click', function() {
-						(_gaq||[]).push(['点击分享到微博', 'click', 'success']);
-					});	
+						(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击了分享到微博']);
+					});
 					weiboContainer.find('p').each(function(i , v){
 						setTimeout(function(){
 							$(v).show().animate({opacity:1}, 1000);
