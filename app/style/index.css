@@ -13,6 +13,9 @@ body{
 	top: -20px;
 	overflow: hidden;
 }
+input{
+	padding: 3px 10px;
+}
 button{
 	border-radius: 4px;
 	cursor: pointer;
@@ -239,9 +242,26 @@ button{
 	width: 330px;
 	height: 140px;
 	font-size: 18px;
-	margin: 260px auto 0px auto;
+	margin: 220px auto 0px auto;
 	line-height: 30px;
 }
+#weibo .content .input-email{
+	display: none;
+	opacity: 0;
+}
+#weibo .content .input-email input{
+	display: none;
+	width: 230px;
+	padding: 3px 10px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 15px;
+}
+#weibo .content .input-email button{
+	display: none;
+	opacity: 0;
+}
+
 #weibo .content .btns{
 	margin-top: 30px;
 	display: none;

@@ -1,7 +1,7 @@
 var hostUrl = 'http://www.wandoujia.com/campaign/videolaunch';
 var accountUrl = 'https://account.wandoujia.com/v4/api/profile';
 var weiboSharePic = 'http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/images/weibo-share.png';
-
+var udid = '';
 var VIDEO_LIST = [
 	{
         name:'海贼王',
@@ -968,7 +968,7 @@ function main() {
 
 	// 提交预订阅
 	function subscibe( list ) {
-		var udid = getCookie('udid');
+	   udid = getCookie('udid');
 		for(var i = 0 , l = list.length ; i < l ; i ++ ) {
 			list[i] = "video/http://oscar.wandoujia.com/api/v1/feeds/" + list[i];
 		}
@@ -994,6 +994,24 @@ function main() {
 		// 	alert('订阅失败');
 		// });
 	}
+
+    // 提交预订阅邮箱
+    function subscibeEmail( email ) {
+        var data = {
+            data: String(email),
+            type: 'zhuizhuikan',
+        };        
+        (_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '填写了邮箱']);
+        $.ajax({
+            type: 'post',
+            url: 'http://feed.wandoujia.com/api/v1/deposit/append',
+            async: false,
+            contentType: 'application/json',
+            dataType: 'jsonp',
+            data: data,
+            timeout: 10000
+        });
+    }
 
 	//显示订阅分页
 	var subscibePageNum = -1;
@@ -1055,6 +1073,19 @@ function main() {
 				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
 				bgSprite.moveTo(-14673,0,12,function() {
 					// $(bgSprite.container).remove( container );
+                    var email = '';
+                    if( !udid ) {
+                        var ele = weiboContainer.find('.input-email').show().animate({opacity:1}, 1000);
+                        setTimeout(function() {
+                            email = ele.find('input').show(500).val();
+                        }, 1800);
+                        setTimeout(function(){
+                            ele.find('button').show().animate({opacity:1}, 500).on('click', function() {
+                                ele.hide();
+                                subscibeEmail( email );
+                            });
+                        }, 2400);
+                    }
 					var word = '#我和我的小世界# 豌豆荚说，我每天无聊的时间一共有 '+ userTimeLength +' 分钟；豌豆荚还说，TA 能让我的无聊时间变成快乐的小世界。9 月 11 日，当你一个人的时候，或者在路上，或者在等谁……请记得打开@豌豆荚 。点击链接，开启你全新的小世界：'+ hostUrl;
 					$('#weibo-share').attr('href','http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title='+encodeURIComponent(word)+'&pic='+ weiboSharePic );
 					$('#weibo-share').on('click', function() {

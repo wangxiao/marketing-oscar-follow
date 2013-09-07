@@ -1,10 +1,12 @@
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
 	<title>你和你的小世界 - 豌豆荚</title>
 	<meta name="keywords" content="豌豆荚,视频搜索,视频订阅">
 	<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
-	<link rel="stylesheet" href="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/style/index.css?v=2012">
+	<!-- <link rel="stylesheet" href="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/style/index.css?v=99999"> -->
+	<link rel="stylesheet" href="style/index.css?v=99999">
 </head>
 <body>
 	<div id='film'></div>
@@ -86,7 +88,7 @@
 				<p><span class='userTimeLength'></span> 分钟可以刷 <span class='weibo-times'></span> 次微博，也可以沉浸在一段故事当中</p>
 				<p>或搞笑，或伤感，或悬疑，或暴力；至少，让你忘掉你是一个人</p>
 				<br>
-				<p>告诉我们你想看的故事</p>
+				<p>请选择你想看的故事</p>
 			</div>
 			<div class='btn-left'></div>
 			<div class='btn-right'></div>
@@ -145,12 +147,18 @@
 			<p>9 月 11 日，当你一个人的时候</p>
 			<p>请记得打开豌豆荚</p>
 			<p>我们为你准备了一个全新的小世界</p>
+			<br>
+			<div class="input-email">
+				<p>填写你的邮箱，等待惊喜</p>
+				<input id="user-email" type="text" placeholder="请填写邮箱">
+				<button id="input-email">邮箱已填完</button>
+			</div>
 			<div class='btns'>
 				<a id='weibo-share' target="_blank" href="">
 					<button>分享给朋友</button>
 				</a>
-				<a href="http://www.wandoujia.com">
-					<button>回到豌豆荚首页</button>
+				<a href="http://oscar.wandoujia.com">
+					<button>回到视频首页</button>
 				</a>
 			</div>
 		</div>
@@ -159,19 +167,21 @@
 
 	<div id='loading'></div>
 <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-15790641-27']);
-        _gaq.push(['_trackPageview']);
 
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-<script src="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/script/simple-animation.js?v=2012"></script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15790641-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script src="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/script/simple-animation.js?v=99999"></script>
 <script src="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/script/jquery-1.8.3.min.js"></script>
-<script src="script/index.js?v=2012"></script>
-<!-- <script src="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/script/index.js?v=2012"></script> -->
+<!-- <script src="http://img.wdjimg.com/campaign/oscar/oscar-zuizuikan/pc-resource/script/index.js?v=99999"></script> -->
+<script src="script/index.js?v=99999"></script>
 </body>
 </html>
