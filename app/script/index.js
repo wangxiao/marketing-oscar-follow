@@ -979,7 +979,7 @@ function main() {
 		};
 		(_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '点击了订阅']);
 		$.ajax({
-			type: 'post',
+			type: 'get',
 			url: 'http://feed.wandoujia.com/api/v1/deposit/add',
 			async: false,
 			contentType: 'application/json',
@@ -999,11 +999,11 @@ function main() {
     function subscibeEmail( email ) {
         var data = {
             data: String(email),
-            type: 'zhuizhuikan',
+            type: 'zhuizhuikan'
         };        
         (_gaq||[]).push(['_trackEvent', 'campaign', 'zhuizhuikan-pc', '填写了邮箱']);
         $.ajax({
-            type: 'post',
+            type: 'get',
             url: 'http://feed.wandoujia.com/api/v1/deposit/append',
             async: false,
             contentType: 'application/json',
@@ -1073,15 +1073,15 @@ function main() {
 				var weiboContainer = $('#weibo').appendTo( bgSprite.container );
 				bgSprite.moveTo(-14673,0,12,function() {
 					// $(bgSprite.container).remove( container );
-                    var email = '';
                     if( !udid ) {
                         var ele = weiboContainer.find('.input-email').show().animate({opacity:1}, 1000);
                         setTimeout(function() {
-                            email = ele.find('input').show(500).val();
+                            ele.find('input').show(500);
                         }, 1800);
                         setTimeout(function(){
                             ele.find('button').show().animate({opacity:1}, 500).on('click', function() {
                                 ele.hide();
+                                email = ele.find('input').val();
                                 subscibeEmail( email );
                             });
                         }, 2400);
